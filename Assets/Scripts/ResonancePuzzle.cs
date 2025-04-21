@@ -54,7 +54,6 @@ public class ResonancePuzzle : MonoBehaviour
         currentActivations++;
         Debug.Log("Resonator activated for puzzle " + gameObject.name + ". Total activated: " + currentActivations + "/" + requiredActivations);
 
-
         // Provjeri jesu li svi rezonatori aktivirani
         if (currentActivations >= requiredActivations)
         {
@@ -72,5 +71,14 @@ public class ResonancePuzzle : MonoBehaviour
         // aktiviraj sljedeću fazu igre, itd.
         // GameObject doorToOpen = GameObject.Find("PuzzleDoor");
         // if (doorToOpen != null) doorToOpen.SetActive(false); // Primjer otvaranja vrata
+
+        // Prevent further activation of resonators
+        foreach (var res in resonatorsInPuzzle)
+        {
+            if (res != null)
+            {
+                res.enabled = false;
+            }
+        }
     }
 }

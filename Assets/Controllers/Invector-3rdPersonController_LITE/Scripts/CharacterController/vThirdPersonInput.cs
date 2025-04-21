@@ -83,8 +83,19 @@ namespace Invector.vCharacterController
 
         public virtual void MoveInput()
         {
-            cc.input.x = Input.GetAxis(horizontalInput);
-            cc.input.z = Input.GetAxis(verticallInput);
+            // Check if the controller and its animator exist, and if the "IsListening" bool parameter is true
+            if (cc != null && cc.animator != null && cc.animator.GetBool("IsListening")) // Corrected parameter name
+            {
+                // If listening, set movement input to zero
+                cc.input.x = 0;
+                cc.input.z = 0;
+            }
+            else
+            {
+                // Otherwise, get input as usual
+                cc.input.x = Input.GetAxis(horizontalInput);
+                cc.input.z = Input.GetAxis(verticallInput);
+            }
         }
 
         protected virtual void CameraInput()

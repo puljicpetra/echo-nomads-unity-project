@@ -1180,15 +1180,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1711911875340355092, guid: 3455af850b4461942a4c54d5f9122f68, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 892.54333
+      value: 311.84076
       objectReference: {fileID: 0}
     - target: {fileID: 1711911875340355092, guid: 3455af850b4461942a4c54d5f9122f68, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1258.74
+      value: 824.104
       objectReference: {fileID: 0}
     - target: {fileID: 1711911875340355092, guid: 3455af850b4461942a4c54d5f9122f68, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2918.0295
+      value: 430.3611
       objectReference: {fileID: 0}
     - target: {fileID: 1711911875340355092, guid: 3455af850b4461942a4c54d5f9122f68, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1337,11 +1337,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1298090355419885560, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1298090355419885560, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.0006
       objectReference: {fileID: 0}
     - target: {fileID: 1298090355419885560, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2780,7 +2780,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: desertWind
     clip: {fileID: 8300000, guid: 7956cfc94ae6a7242b070dd017b17b61, type: 3}
-    volume: 1
+    volume: 0.13
     pitch: 1
     loop: 1
     playOnStart: 1
@@ -2848,7 +2848,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.7574463
+      value: -0.65
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2935,7 +2935,7 @@ Transform:
   m_GameObject: {fileID: 1395918895}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 923.7188, y: 1229.659, z: 3086.2852}
+  m_LocalPosition: {x: 307.8626, y: 828.224, z: 389.91217}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4591,15 +4591,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.930298
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.98
+      value: 8.88
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -59.48
+      value: -15.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4818,7 +4818,7 @@ Transform:
   m_GameObject: {fileID: 2083996803}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 916.0718, y: 1229.215, z: 3084.8032}
+  m_LocalPosition: {x: 343.15546, y: 857.921, z: 301.24054}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4905,7 +4905,10 @@ MonoBehaviour:
   powerSound1Name: PowerSound1
   powerSound2Name: PowerSound2
   powerSound3Name: PowerSound3
-  resonatorNotifyRadius: 50
+  focusActionName: Focus
+  hushCheckRadius: 20
+  hushTag: Hush
+  resonatorNotifyRadius: 20
   resonatorLayer:
     serializedVersion: 2
     m_Bits: 128

@@ -12,21 +12,23 @@ public class PowerSound : MonoBehaviour
     private InputAction powerSound1Action;
     private InputAction powerSound2Action;
     private InputAction powerSound3Action;
+    private InputAction focusAction;
 
     [Header("Sound Action Names (for AudioManager)")]
     [SerializeField] private string powerSound1Name = "PowerSound1";
     [SerializeField] private string powerSound2Name = "PowerSound2";
     [SerializeField] private string powerSound3Name = "PowerSound3";
 
-    // --- New variables for Resonator Interaction ---
+    [Header("Focus Settings")]
+    [SerializeField] private string focusActionName = "Focus";
+    [SerializeField] private float hushCheckRadius = 5f;
+    [SerializeField] private string hushTag = "Hush";
+
     [Header("Resonator Interaction")]
     [Tooltip("Radius around the player within which Resonators will be notified.")]
     [SerializeField] private float resonatorNotifyRadius = 6f;
     [Tooltip("Optional: Assign a LayerMask to only check for Resonators on specific layers for optimization.")]
     [SerializeField] private LayerMask resonatorLayer; // Assign in Inspector! Make sure Resonator prefabs are on this layer.
-
-    // --- Removed attackRadius as it seemed unused in the original TriggerPowerAttack logic ---
-    // [SerializeField] private float attackRadius = 50f; // Keep if needed for other attack logic
 
     [Header("Animation Settings")]
     [SerializeField] private float additionalDelay = 1f; // Keep if used elsewhere, otherwise remove if only for attack logic
@@ -55,6 +57,11 @@ public class PowerSound : MonoBehaviour
         powerSound1Action = playerMap.FindAction("PowerSound1", throwIfNotFound: true);
         powerSound2Action = playerMap.FindAction("PowerSound2", throwIfNotFound: true);
         powerSound3Action = playerMap.FindAction("PowerSound3", throwIfNotFound: true);
+        focusAction = playerInput.actions.FindAction(focusActionName, false);
+        if (focusAction == null)
+        {
+            Debug.LogError($"Focus action '{focusActionName}' not found in Player action map.");
+        }
 
         if (powerSound1Action == null || powerSound2Action == null || powerSound3Action == null)
         {
@@ -67,6 +74,12 @@ public class PowerSound : MonoBehaviour
         powerSound1Action.performed += OnPowerSound1Performed;
         powerSound2Action.performed += OnPowerSound2Performed;
         powerSound3Action.performed += OnPowerSound3Performed;
+        // Subscribe to the focus action's started and canceled events
+        if (focusAction != null)
+        {
+            focusAction.started += OnFocusStarted;
+            focusAction.canceled += OnFocusCanceled;
+        }
     }
 
     void OnEnable()
@@ -75,6 +88,7 @@ public class PowerSound : MonoBehaviour
         powerSound1Action?.Enable();
         powerSound2Action?.Enable();
         powerSound3Action?.Enable();
+        focusAction?.Enable();
     }
 
     void OnDisable()
@@ -95,6 +109,13 @@ public class PowerSound : MonoBehaviour
             powerSound3Action.performed -= OnPowerSound3Performed;
             powerSound3Action.Disable();
         }
+        if (focusAction != null)
+        {
+            // Unsubscribe from the focus action events
+            focusAction.started -= OnFocusStarted;
+            focusAction.canceled -= OnFocusCanceled;
+            focusAction.Disable();
+        }
     }
 
     // --- Input Action Callbacks ---
@@ -113,6 +134,31 @@ public class PowerSound : MonoBehaviour
     private void OnPowerSound3Performed(InputAction.CallbackContext context)
     {
         EmitAndNotifyResonators(SoundType.PowerSound3, powerSound3Name);
+    }
+
+    // Called when the Focus action starts (button pressed)
+    private void OnFocusStarted(InputAction.CallbackContext context)
+    {
+        if (animator != null)
+        {
+            animator.SetBool("IsListening", true);
+            Debug.Log("Focus started, IsListening set to true.");
+        }
+        else
+        {
+            Debug.LogWarning("Animator component not found, cannot set IsListening.");
+        }
+    }
+
+    // Called when the Focus action is canceled (button released)
+    private void OnFocusCanceled(InputAction.CallbackContext context)
+    {
+        if (animator != null)
+        {
+            animator.SetBool("IsListening", false);
+            Debug.Log("Focus canceled, IsListening set to false.");
+        }
+        // No warning needed here if animator is null, as the state should reset anyway
     }
 
     /// <summary>
@@ -162,15 +208,31 @@ public class PowerSound : MonoBehaviour
             Resonator resonator = hitCollider.GetComponent<Resonator>();
             if (resonator != null)
             {
-                // If found, call the method to pass the player's input
-                resonator.ReceivePlayerInput(emittedSoundType);
-                notifiedCount++;
+                // Check for Hush objects near the resonator
+                Collider[] hushNearby = Physics.OverlapSphere(resonator.transform.position, hushCheckRadius);
+                bool hushFound = false;
+                foreach (var hushCol in hushNearby)
+                {
+                    if (hushCol.CompareTag(hushTag) && hushCol.gameObject.activeInHierarchy)
+                    {
+                        hushFound = true;
+                        break;
+                    }
+                }
+                if (!hushFound)
+                {
+                    resonator.ReceivePlayerInput(emittedSoundType);
+                    notifiedCount++;
+                }
             }
         }
 
-        if(notifiedCount > 0) {
-             Debug.Log($"Notified {notifiedCount} resonators within radius {resonatorNotifyRadius} with sound {emittedSoundType}");
-        } else {
+        if (notifiedCount > 0)
+        {
+            Debug.Log($"Notified {notifiedCount} resonators within radius {resonatorNotifyRadius} with sound {emittedSoundType}");
+        }
+        else
+        {
             // Optional: Log if no resonators were found nearby
             // Debug.Log($"No resonators found nearby for sound {emittedSoundType}");
         }

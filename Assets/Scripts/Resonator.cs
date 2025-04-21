@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic; // Potrebno za List<>
 using System.Linq; // Za korištenje Linq metoda poput Count
+using UnityEngine.InputSystem; // For PlayerInput and InputAction
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(SphereCollider))]
@@ -28,6 +29,14 @@ public class Resonator : MonoBehaviour
     [Tooltip("Radijus unutar kojeg igrač može aktivirati rezonator.")]
     public float activationRadius = 5f;
 
+    [Tooltip("Radijus unutar kojeg se provjerava prisutnost Hush objekata.")]
+    [SerializeField] private float hushCheckRadius = 5f;
+    [Tooltip("Tag koji označava Hush objekte.")]
+    [SerializeField] private string hushTag = "Hush";
+
+    [Tooltip("Ime akcije za Focus.")]
+    [SerializeField] private string focusActionName = "Focus";
+
     // Internal State
     private AudioSource audioSource;
     private List<SoundType> playerInputSequence = new List<SoundType>();
@@ -35,6 +44,8 @@ public class Resonator : MonoBehaviour
     private bool playerIsInRange = false;
     private Coroutine sequencePlaybackCoroutine;
     private int actualSequenceLength; // Pohranjujemo stvarnu dužinu sekvence (bez None na kraju)
+    private PlayerInput playerInput; // For Focus
+    private InputAction focusAction;
 
     void Awake()
     {
@@ -45,6 +56,17 @@ public class Resonator : MonoBehaviour
 
         // Validacija i određivanje stvarne dužine sekvence
         ValidateAndSetSequenceLength();
+
+        // Pronađi PlayerInput i akciju za Focus
+        playerInput = Object.FindFirstObjectByType<PlayerInput>(); // Updated to use the recommended method
+        if (playerInput != null)
+        {
+            focusAction = playerInput.actions.FindAction(focusActionName, false);
+        }
+        else
+        {
+            Debug.LogWarning("No PlayerInput found in scene for Resonator focus check.");
+        }
     }
 
     void ValidateAndSetSequenceLength()
@@ -133,26 +155,42 @@ public class Resonator : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
         while (!isActivated)
         {
-            // Sviraj sekvencu do stvarne dužine
-            for(int i = 0; i < actualSequenceLength; i++)
+            // Only play sequence if Focus is held and no Hush is near
+            if (focusAction != null && focusAction.IsPressed() && !IsHushNearby())
             {
-                if(isActivated) yield break;
+                for(int i = 0; i < actualSequenceLength; i++)
+                {
+                    if(isActivated) yield break;
 
-                SoundType sound = requiredSequence[i]; // Uzmi zvuk iz validirane liste
-                AudioClip clipToPlay = GetClipForSoundType(sound);
-                if (clipToPlay != null) // Ne bi trebalo biti null zbog validacije, ali za sigurnost
-                {
-                    audioSource.PlayOneShot(clipToPlay);
-                    yield return new WaitForSeconds(sequencePlaybackDelay);
-                }
-                 else
-                {
-                     Debug.LogWarning("Unexpected null clip for sound type " + sound + " in " + gameObject.name, this);
-                    yield return new WaitForSeconds(sequencePlaybackDelay);
+                    SoundType sound = requiredSequence[i]; // Uzmi zvuk iz validirane liste
+                    AudioClip clipToPlay = GetClipForSoundType(sound);
+                    if (clipToPlay != null) // Ne bi trebalo biti null zbog validacije, ali za sigurnost
+                    {
+                        audioSource.PlayOneShot(clipToPlay);
+                        yield return new WaitForSeconds(sequencePlaybackDelay);
+                    }
+                     else
+                    {
+                         Debug.LogWarning("Unexpected null clip for sound type " + sound + " in " + gameObject.name, this);
+                        yield return new WaitForSeconds(sequencePlaybackDelay);
+                    }
                 }
             }
             yield return new WaitForSeconds(sequenceRepeatDelay);
         }
+    }
+
+    private bool IsHushNearby()
+    {
+        Collider[] hushNearby = Physics.OverlapSphere(transform.position, hushCheckRadius);
+        foreach (var hushCol in hushNearby)
+        {
+            if (hushCol.CompareTag(hushTag) && hushCol.gameObject.activeInHierarchy)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     AudioClip GetClipForSoundType(SoundType sound)
@@ -228,7 +266,7 @@ public class Resonator : MonoBehaviour
             if (sequencePlaybackCoroutine != null) StopCoroutine(sequencePlaybackCoroutine);
             audioSource.Stop();
             Debug.Log("Resonator " + gameObject.name + " ACTIVATED!");
-
+            // --- Resonator stops transmitting any sound here ---
             if (puzzleManager != null)
             {
                 puzzleManager.NotifyResonatorActivated(this);
