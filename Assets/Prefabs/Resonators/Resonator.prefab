@@ -57,9 +57,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -92,7 +92,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -170,9 +170,13 @@ MonoBehaviour:
   sound1Clip: {fileID: 8300000, guid: 8ba596da5f6d3d041b9bc5fd74c672aa, type: 3}
   sound2Clip: {fileID: 8300000, guid: b266e68d5f6d1ed4292ddabc7ff2ed85, type: 3}
   sound3Clip: {fileID: 8300000, guid: 44a018133bfb8764da9f6a509f5127be, type: 3}
-  sequencePlaybackDelay: 0.8
+  incorrectSequenceClip: {fileID: 8300000, guid: 22e497d0e2dde5745b2db4645b77bf9b, type: 3}
+  sequencePlaybackDelay: 1
   sequenceRepeatDelay: 2
-  activationRadius: 50
+  activationRadius: 20
+  hushCheckRadius: 5
+  hushTag: Hush
+  focusActionName: Focus
 --- !u!54 &-8830331822050536856
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -20,6 +20,8 @@ public class Resonator : MonoBehaviour
     public AudioClip sound1Clip;
     public AudioClip sound2Clip;
     public AudioClip sound3Clip;
+    [Tooltip("Zvuk koji se reproducira kada igrač unese pogrešnu sekvencu.")]
+    public AudioClip incorrectSequenceClip; // Added field for incorrect sequence sound
     [Tooltip("Stanka između zvukova u sekvenci koju rezonator svira.")]
     public float sequencePlaybackDelay = 0.8f;
     [Tooltip("Stanka prije ponavljanja sekvence.")]
@@ -36,6 +38,10 @@ public class Resonator : MonoBehaviour
 
     [Tooltip("Ime akcije za Focus.")]
     [SerializeField] private string focusActionName = "Focus";
+
+    [Header("Visuals")] // Added header for visual elements
+    [Tooltip("Referenca na Light komponentu na dječjem objektu 'ResonatorLight'.")]
+    [SerializeField] private Light resonatorLight; // Added field for the light
 
     // Internal State
     private AudioSource audioSource;
@@ -66,6 +72,30 @@ public class Resonator : MonoBehaviour
         else
         {
             Debug.LogWarning("No PlayerInput found in scene for Resonator focus check.");
+        }
+
+        // Pronađi svjetlo ako nije postavljeno u inspektoru
+        if (resonatorLight == null)
+        {
+            Transform lightTransform = transform.Find("ResonatorLight");
+            if (lightTransform != null)
+            {
+                resonatorLight = lightTransform.GetComponent<Light>();
+                if (resonatorLight == null)
+                {
+                    Debug.LogWarning("Child object 'ResonatorLight' found, but it doesn't have a Light component.", this);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Could not find child object named 'ResonatorLight'. Please create it and assign its Light component in the inspector.", this);
+            }
+        }
+
+        // Osiguraj da je svjetlo isključeno na početku
+        if (resonatorLight != null)
+        {
+            resonatorLight.enabled = false;
         }
     }
 
@@ -249,6 +279,11 @@ public class Resonator : MonoBehaviour
         else
         {
             Debug.Log("Incorrect sequence for " + gameObject.name + ". Resetting input.");
+            // Play the incorrect sequence sound if assigned
+            if (incorrectSequenceClip != null)
+            {
+                audioSource.PlayOneShot(incorrectSequenceClip);
+            }
             // Kada igrač pogriješi, ne mora nužno resetirati cijeli unos.
             // Možda je bolje samo čekati da unese sljedeći zvuk, pa će se
             // najstariji unos automatski ukloniti ako prekorači dužinu.
@@ -266,6 +301,14 @@ public class Resonator : MonoBehaviour
             if (sequencePlaybackCoroutine != null) StopCoroutine(sequencePlaybackCoroutine);
             audioSource.Stop();
             Debug.Log("Resonator " + gameObject.name + " ACTIVATED!");
+
+            // Aktiviraj svjetlo ako postoji
+            if (resonatorLight != null)
+            {
+                resonatorLight.enabled = true;
+                Debug.Log("ResonatorLight activated for " + gameObject.name);
+            }
+
             // --- Resonator stops transmitting any sound here ---
             if (puzzleManager != null)
             {
