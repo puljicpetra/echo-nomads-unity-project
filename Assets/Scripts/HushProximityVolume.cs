@@ -22,6 +22,18 @@ public class HushProximityVolume : MonoBehaviour
 
     void Update()
     {
+        // If focusing via PowerSound, let it control the volume
+        if (PowerSound.IsFocusing)
+        {
+            // If we were resetting volume, stop it
+            if (volumeResetCoroutine != null)
+            {
+                StopCoroutine(volumeResetCoroutine);
+                volumeResetCoroutine = null;
+            }
+            return; // Do nothing else this frame
+        }
+
         if (audioMixer == null) return;
 
         // Find the *closest* active Hush object within checkRadius
@@ -50,32 +62,47 @@ public class HushProximityVolume : MonoBehaviour
                 StopCoroutine(volumeResetCoroutine);
                 volumeResetCoroutine = null;
             }
+            // Set the volume directly based on proximity
+            audioMixer.SetFloat(volumeParameterName, targetVolumeDB);
         }
         else
         {
-            // If no Hush is found, start gradually increasing the volume
+            // If no Hush is found, and not focusing, start gradually increasing the volume
             if (volumeResetCoroutine == null)
             {
-                volumeResetCoroutine = StartCoroutine(GraduallyIncreaseVolume());
+                // Get current volume to start the transition smoothly
+                audioMixer.GetFloat(volumeParameterName, out float currentVolumeDB);
+                // Only start if volume is actually below max
+                if (currentVolumeDB < maxVolumeDB)
+                {
+                    volumeResetCoroutine = StartCoroutine(GraduallyIncreaseVolume(currentVolumeDB));
+                }
             }
+            // Note: The coroutine now handles setting the volume while it runs.
+            // We don't set it directly here anymore when no hush is found.
         }
-
-        // Set the exposed parameter on the Audio Mixer
-        audioMixer.SetFloat(volumeParameterName, targetVolumeDB);
     }
 
-    private IEnumerator GraduallyIncreaseVolume()
+    private IEnumerator GraduallyIncreaseVolume(float startVolumeDB)
     {
-        float currentVolumeDB;
-        audioMixer.GetFloat(volumeParameterName, out currentVolumeDB);
+        float currentVolumeDB = startVolumeDB;
 
         while (currentVolumeDB < maxVolumeDB)
         {
+            // Check if focus started *during* this coroutine
+            if (PowerSound.IsFocusing)
+            {
+                volumeResetCoroutine = null; // Mark as stopped
+                yield break; // Exit the coroutine immediately
+            }
+
             currentVolumeDB = Mathf.MoveTowards(currentVolumeDB, maxVolumeDB, Time.deltaTime * 10f); // Adjust speed as needed
             audioMixer.SetFloat(volumeParameterName, currentVolumeDB);
             yield return null;
         }
 
+        // Ensure final value is set exactly if not interrupted
+        audioMixer.SetFloat(volumeParameterName, maxVolumeDB);
         volumeResetCoroutine = null; // Reset the coroutine reference when done
     }
 

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic; // Needed if you want to use LayerMask more efficiently, though not strictly required for GetComponent
+using UnityEngine.Audio; // Needed for AudioMixer
+using System.Collections; // Needed for Coroutine
 
 // Make sure the SoundType enum is accessible, either in this file or another
 // public enum SoundType { None, Sound1, Sound2, Sound3 }
@@ -33,6 +35,19 @@ public class PowerSound : MonoBehaviour
     [Header("Animation Settings")]
     [SerializeField] private float additionalDelay = 1f; // Keep if used elsewhere, otherwise remove if only for attack logic
 
+    [Header("Focus Audio Settings")]
+    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private string volumeParameterName = "BackgroundVolume"; // Match the exposed parameter name in your Audio Mixer
+    [SerializeField] private float focusVolumeDB = -20f; // Target volume in dB when focusing
+    [SerializeField] private float defaultVolumeDB = 0f; // Default volume in dB (used if no other script controls it)
+    [SerializeField] private float volumeTransitionSpeed = 10f; // Speed to change volume (dB per second)
+
+    private float volumeBeforeFocus; // Stores the volume level before focus started
+    private Coroutine volumeChangeCoroutine; // Reference to the active volume changing coroutine
+
+    // Public static property to indicate focus state
+    public static bool IsFocusing { get; private set; } = false;
+
     void Awake()
     {
         animator = GetComponent<Animator>();
@@ -61,6 +76,12 @@ public class PowerSound : MonoBehaviour
         if (focusAction == null)
         {
             Debug.LogError($"Focus action '{focusActionName}' not found in Player action map.");
+            // Don't disable the whole script, maybe only focus audio is broken
+        }
+
+        if (audioMixer == null)
+        {
+            Debug.LogWarning("AudioMixer is not assigned in the Inspector. Focus audio effect will not work.");
         }
 
         if (powerSound1Action == null || powerSound2Action == null || powerSound3Action == null)
@@ -89,6 +110,14 @@ public class PowerSound : MonoBehaviour
         powerSound2Action?.Enable();
         powerSound3Action?.Enable();
         focusAction?.Enable();
+
+        // Subscribe to the focus action's started and canceled events only if the action exists
+        if (focusAction != null)
+        {
+            focusAction.started += OnFocusStarted;
+            focusAction.canceled += OnFocusCanceled;
+            focusAction.Enable(); // Enable the action here
+        }
     }
 
     void OnDisable()
@@ -115,6 +144,22 @@ public class PowerSound : MonoBehaviour
             focusAction.started -= OnFocusStarted;
             focusAction.canceled -= OnFocusCanceled;
             focusAction.Disable();
+
+            // Ensure focus state is reset if disabled while focusing
+            IsFocusing = false;
+
+            // If disabled while focusing, attempt to restore volume
+            if (volumeChangeCoroutine != null)
+            {
+                StopCoroutine(volumeChangeCoroutine);
+                volumeChangeCoroutine = null;
+                if (audioMixer != null)
+                {
+                    // Instantly restore the volume it had before focusing
+                    audioMixer.SetFloat(volumeParameterName, volumeBeforeFocus);
+                    Debug.Log($"PowerSound disabled during focus, restoring volume to {volumeBeforeFocus} dB.");
+                }
+            }
         }
     }
 
@@ -139,6 +184,8 @@ public class PowerSound : MonoBehaviour
     // Called when the Focus action starts (button pressed)
     private void OnFocusStarted(InputAction.CallbackContext context)
     {
+        IsFocusing = true; // Set focus state
+
         if (animator != null)
         {
             animator.SetBool("IsListening", true);
@@ -148,17 +195,82 @@ public class PowerSound : MonoBehaviour
         {
             Debug.LogWarning("Animator component not found, cannot set IsListening.");
         }
+
+        // --- Audio Mixer Volume Change ---
+        if (audioMixer != null)
+        {
+            // Stop any previous volume change
+            if (volumeChangeCoroutine != null)
+            {
+                StopCoroutine(volumeChangeCoroutine);
+            }
+            // Store the current volume before changing it
+            if (!audioMixer.GetFloat(volumeParameterName, out volumeBeforeFocus))
+            {
+                // Fallback if parameter doesn't exist or isn't set
+                volumeBeforeFocus = defaultVolumeDB;
+                Debug.LogWarning($"Could not get current value for '{volumeParameterName}'. Using default {defaultVolumeDB} dB.");
+            }
+            Debug.Log($"Focus started. Stored volume: {volumeBeforeFocus} dB. Transitioning to {focusVolumeDB} dB.");
+            // Start transitioning to the focus volume
+            volumeChangeCoroutine = StartCoroutine(ChangeVolumeCoroutine(focusVolumeDB));
+        }
     }
 
     // Called when the Focus action is canceled (button released)
     private void OnFocusCanceled(InputAction.CallbackContext context)
     {
+        IsFocusing = false; // Reset focus state
+
         if (animator != null)
         {
             animator.SetBool("IsListening", false);
             Debug.Log("Focus canceled, IsListening set to false.");
         }
         // No warning needed here if animator is null, as the state should reset anyway
+
+        // --- Audio Mixer Volume Change ---
+        if (audioMixer != null)
+        {
+            // Stop any previous volume change (e.g., if focus started again quickly)
+            if (volumeChangeCoroutine != null)
+            {
+                StopCoroutine(volumeChangeCoroutine);
+            }
+            Debug.Log($"Focus canceled. Transitioning back to {volumeBeforeFocus} dB.");
+            // Start transitioning back to the volume level before focus started
+            volumeChangeCoroutine = StartCoroutine(ChangeVolumeCoroutine(volumeBeforeFocus));
+        }
+    }
+
+    /// <summary>
+    /// Coroutine to gradually change the audio mixer volume parameter.
+    /// </summary>
+    /// <param name="targetVolumeDB">The target volume in decibels.</param>
+    private IEnumerator ChangeVolumeCoroutine(float targetVolumeDB)
+    {
+        if (audioMixer == null) yield break; // Safety check
+
+        float currentVolumeDB;
+        if (!audioMixer.GetFloat(volumeParameterName, out currentVolumeDB))
+        {
+            Debug.LogError($"AudioMixer parameter '{volumeParameterName}' not found during coroutine start.");
+            volumeChangeCoroutine = null;
+            yield break; // Exit if parameter is invalid
+        }
+
+        // Continue looping as long as the current volume is not approximately equal to the target
+        while (!Mathf.Approximately(currentVolumeDB, targetVolumeDB))
+        {
+            currentVolumeDB = Mathf.MoveTowards(currentVolumeDB, targetVolumeDB, volumeTransitionSpeed * Time.deltaTime);
+            audioMixer.SetFloat(volumeParameterName, currentVolumeDB);
+            yield return null; // Wait for the next frame
+        }
+
+        // Ensure the final value is set exactly
+        audioMixer.SetFloat(volumeParameterName, targetVolumeDB);
+        volumeChangeCoroutine = null; // Mark coroutine as finished
+        Debug.Log($"Volume transition finished. Current volume: {targetVolumeDB} dB.");
     }
 
     /// <summary>
@@ -242,7 +354,6 @@ public class PowerSound : MonoBehaviour
         // of resonators, add it here.
         // Example: DealAreaDamage(transform.position, attackRadius, additionalDelay);
     }
-
 
     // --- Gizmo for visualizing the notification radius in the Editor ---
     void OnDrawGizmosSelected()
