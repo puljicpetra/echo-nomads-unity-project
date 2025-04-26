@@ -5,7 +5,7 @@ using UnityEngine.Audio; // Needed for AudioMixer
 using System.Collections; // Needed for Coroutine
 
 // Make sure the SoundType enum is accessible, either in this file or another
-// public enum SoundType { None, Sound1, Sound2, Sound3 }
+// public enum SoundType { None, Sound1, Sound2, Sound3, Sound4 }
 
 public class PowerSound : MonoBehaviour
 {
@@ -14,12 +14,14 @@ public class PowerSound : MonoBehaviour
     private InputAction powerSound1Action;
     private InputAction powerSound2Action;
     private InputAction powerSound3Action;
+    private InputAction powerSound4Action; // Added for PowerSound4
     private InputAction focusAction;
 
     [Header("Sound Action Names (for AudioManager)")]
     [SerializeField] private string powerSound1Name = "PowerSound1";
     [SerializeField] private string powerSound2Name = "PowerSound2";
     [SerializeField] private string powerSound3Name = "PowerSound3";
+    [SerializeField] private string powerSound4Name = "PowerSound4"; // Added for PowerSound4
 
     [Header("Focus Settings")]
     [SerializeField] private string focusActionName = "Focus";
@@ -32,8 +34,7 @@ public class PowerSound : MonoBehaviour
     [Tooltip("Optional: Assign a LayerMask to only check for Resonators on specific layers for optimization.")]
     [SerializeField] private LayerMask resonatorLayer; // Assign in Inspector! Make sure Resonator prefabs are on this layer.
 
-    [Header("Animation Settings")]
-    [SerializeField] private float additionalDelay = 1f; // Keep if used elsewhere, otherwise remove if only for attack logic
+    
 
     [Header("Focus Audio Settings")]
     [SerializeField] private AudioMixer audioMixer;
@@ -44,6 +45,8 @@ public class PowerSound : MonoBehaviour
 
     private float volumeBeforeFocus; // Stores the volume level before focus started
     private Coroutine volumeChangeCoroutine; // Reference to the active volume changing coroutine
+
+    private bool isPowerSoundPlaying = false; // Track if a PowerSound is playing
 
     // Public static property to indicate focus state
     public static bool IsFocusing { get; private set; } = false;
@@ -72,6 +75,7 @@ public class PowerSound : MonoBehaviour
         powerSound1Action = playerMap.FindAction("PowerSound1", throwIfNotFound: true);
         powerSound2Action = playerMap.FindAction("PowerSound2", throwIfNotFound: true);
         powerSound3Action = playerMap.FindAction("PowerSound3", throwIfNotFound: true);
+        powerSound4Action = playerMap.FindAction("PowerSound4", throwIfNotFound: true); // Added for PowerSound4
         focusAction = playerInput.actions.FindAction(focusActionName, false);
         if (focusAction == null)
         {
@@ -84,7 +88,7 @@ public class PowerSound : MonoBehaviour
             Debug.LogWarning("AudioMixer is not assigned in the Inspector. Focus audio effect will not work.");
         }
 
-        if (powerSound1Action == null || powerSound2Action == null || powerSound3Action == null)
+        if (powerSound1Action == null || powerSound2Action == null || powerSound3Action == null || powerSound4Action == null)
         {
             Debug.LogError("One or more PowerSound actions not found in Player action map.");
             enabled = false;
@@ -95,6 +99,7 @@ public class PowerSound : MonoBehaviour
         powerSound1Action.performed += OnPowerSound1Performed;
         powerSound2Action.performed += OnPowerSound2Performed;
         powerSound3Action.performed += OnPowerSound3Performed;
+        powerSound4Action.performed += OnPowerSound4Performed; // Added for PowerSound4
         // Subscribe to the focus action's started and canceled events
         if (focusAction != null)
         {
@@ -109,6 +114,7 @@ public class PowerSound : MonoBehaviour
         powerSound1Action?.Enable();
         powerSound2Action?.Enable();
         powerSound3Action?.Enable();
+        powerSound4Action?.Enable(); // Added for PowerSound4
         focusAction?.Enable();
 
         // Subscribe to the focus action's started and canceled events only if the action exists
@@ -137,6 +143,11 @@ public class PowerSound : MonoBehaviour
         {
             powerSound3Action.performed -= OnPowerSound3Performed;
             powerSound3Action.Disable();
+        }
+        if (powerSound4Action != null)
+        {
+            powerSound4Action.performed -= OnPowerSound4Performed; // Added for PowerSound4
+            powerSound4Action.Disable();
         }
         if (focusAction != null)
         {
@@ -167,18 +178,54 @@ public class PowerSound : MonoBehaviour
 
     private void OnPowerSound1Performed(InputAction.CallbackContext context)
     {
-        // Pass the SoundType and the AudioManager sound name
-        EmitAndNotifyResonators(SoundType.PowerSound1, powerSound1Name);
+        TryEmitPowerSound(SoundType.PowerSound1, powerSound1Name);
     }
 
     private void OnPowerSound2Performed(InputAction.CallbackContext context)
     {
-        EmitAndNotifyResonators(SoundType.PowerSound2, powerSound2Name);
+        TryEmitPowerSound(SoundType.PowerSound2, powerSound2Name);
     }
 
     private void OnPowerSound3Performed(InputAction.CallbackContext context)
     {
-        EmitAndNotifyResonators(SoundType.PowerSound3, powerSound3Name);
+        TryEmitPowerSound(SoundType.PowerSound3, powerSound3Name);
+    }
+
+    private void OnPowerSound4Performed(InputAction.CallbackContext context) // Added for PowerSound4
+    {
+        TryEmitPowerSound(SoundType.PowerSound4, powerSound4Name);
+    }
+
+    // Helper method to check and emit sound if not already playing
+    private void TryEmitPowerSound(SoundType soundType, string soundName)
+    {
+        if (isPowerSoundPlaying)
+        {
+            Debug.Log($"PowerSound input ignored: {soundType} is requested but another PowerSound is still playing.");
+            return;
+        }
+        isPowerSoundPlaying = true;
+        EmitAndNotifyResonators(soundType, soundName);
+        StartCoroutine(PowerSoundPlayingCoroutine(soundName));
+    }
+
+    // Coroutine to reset isPowerSoundPlaying when the sound finishes
+    private IEnumerator PowerSoundPlayingCoroutine(string soundName)
+    {
+        // Wait until the AudioManager reports the sound is no longer playing
+        if (AudioManager.Instance != null)
+        {
+            while (AudioManager.Instance.IsPlaying(soundName))
+            {
+                yield return null;
+            }
+        }
+        else
+        {
+            // Fallback: wait a short time if AudioManager is missing
+            yield return new WaitForSeconds(0.5f);
+        }
+        isPowerSoundPlaying = false;
     }
 
     // Called when the Focus action starts (button pressed)

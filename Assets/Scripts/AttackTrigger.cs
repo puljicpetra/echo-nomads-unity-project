@@ -7,6 +7,7 @@ public class AttackTrigger : MonoBehaviour
     private Animator animator;
     private PlayerInput playerInput;
     private InputAction attackAction;
+    private bool isAttacking = false; // Track if attack animation is in progress
 
     [SerializeField]
     private string attackSoundName = "PlayerAttack"; // Name of the attack sound in AudioManager
@@ -70,6 +71,13 @@ public class AttackTrigger : MonoBehaviour
 
     private void OnAttackPerformed(InputAction.CallbackContext context)
     {
+        // Ignore input if attack animation is in progress or attack sound is playing
+        if (isAttacking || (AudioManager.Instance != null && AudioManager.Instance.IsPlaying(attackSoundName)))
+        {
+            Debug.Log("Attack input ignored: attack animation or attack sound is still in progress.");
+            return;
+        }
+
         // Check InputMagnitude parameter before proceeding
         if (animator != null)
         {
@@ -83,6 +91,11 @@ public class AttackTrigger : MonoBehaviour
             Debug.Log("Attack triggered!");
         }
 
+        isAttacking = true;
+        // Option 1: Use animation event to call EndAttackAnimation() at the end of the animation
+        // Option 2: Use a coroutine with a fixed duration (fallback if no animation event)
+        StartCoroutine(ResetAttackFlagCoroutine());
+
         // Play the attack sound using AudioManager
         if (AudioManager.Instance != null)
         {
@@ -91,6 +104,31 @@ public class AttackTrigger : MonoBehaviour
 
         // Start the coroutine to handle delayed deactivation
         StartCoroutine(DeactivateHushObjectsWithDelay());
+    }
+
+    // Call this from an animation event at the end of the attack animation if possible
+    public void EndAttackAnimation()
+    {
+        isAttacking = false;
+        Debug.Log("Attack animation ended, ready for next attack.");
+    }
+
+    private IEnumerator ResetAttackFlagCoroutine()
+    {
+        // Fallback: Wait for the length of the attack animation (adjust as needed)
+        float attackAnimLength = 1.0f;
+        if (animator != null)
+        {
+            // Try to get the length of the current attack animation state
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName("Attack")) // Replace "Attack" with your actual attack state name
+            {
+                attackAnimLength = stateInfo.length;
+            }
+        }
+        yield return new WaitForSeconds(attackAnimLength);
+        isAttacking = false;
+        Debug.Log("Attack animation ended (coroutine), ready for next attack.");
     }
 
     private IEnumerator DeactivateHushObjectsWithDelay()

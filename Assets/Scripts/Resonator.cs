@@ -9,17 +9,15 @@ using UnityEngine.InputSystem; // For PlayerInput and InputAction
 public class Resonator : MonoBehaviour
 {
     [Header("Puzzle Settings")]
-    [Tooltip("Redoslijed zvukova (Sound1, Sound2, Sound3) koji aktivira ovaj rezonator. Minimalno 1, maksimalno 4 zvuka. Koristi 'None' za kraće sekvence (npr., Sound1, Sound2, None, None).")]
-    public List<SoundType> requiredSequence = new List<SoundType>(4) { SoundType.PowerSound1, SoundType.None, SoundType.None, SoundType.None }; // Promijenjen default i veličina
+    [Tooltip("Redoslijed zvukova (Sound1, Sound2, Sound3, Sound4, ...) koji aktivira ovaj rezonator. Minimalno 1 zvuk. Koristi 'None' za kraće sekvence (npr., Sound1, Sound2, None, None).")]
+    public List<SoundType> requiredSequence = new List<SoundType>() { SoundType.PowerSound1 }; // Uklonjena ograničenja na veličinu
 
     [Tooltip("Referenca na Puzzle Manager koji prati ovu zagonetku.")]
     public ResonancePuzzle puzzleManager;
 
     [Header("Audio Playback")]
-    [Tooltip("Zvukovi koje rezonator reproducira za svoju sekvencu.")]
-    public AudioClip sound1Clip;
-    public AudioClip sound2Clip;
-    public AudioClip sound3Clip;
+    [Tooltip("Zvukovi koje rezonator reproducira za svoju sekvencu. Redoslijed mora odgovarati SoundType enumu (PowerSound1, PowerSound2, ...)")]
+    public List<AudioClip> soundClips = new List<AudioClip>(); // Zamijenjeno s listom za podršku više zvukova
     [Tooltip("Zvuk koji se reproducira kada igrač unese pogrešnu sekvencu.")]
     public AudioClip incorrectSequenceClip; // Added field for incorrect sequence sound
     [Tooltip("Stanka između zvukova u sekvenci koju rezonator svira.")]
@@ -110,31 +108,31 @@ public class Resonator : MonoBehaviour
         // Osiguraj da imamo barem jedan element ako je lista ispražnjena
         if (requiredSequence.Count == 0) {
             requiredSequence.Add(SoundType.PowerSound1); // Dodaj default ako je prazna
-             Debug.LogWarning("Required sequence for " + gameObject.name + " was empty or only None. Setting to default [Sound1].", this);
+            Debug.LogWarning("Required sequence for " + gameObject.name + " was empty or only None. Setting to default [Sound1].", this);
         }
 
-        // Osiguraj da nije duža od 4 (iako je inicijalizirana s 4, ali za svaki slučaj)
-        if (requiredSequence.Count > 4)
-        {
-             requiredSequence = requiredSequence.GetRange(0, 4); // Uzmi samo prva 4
-             Debug.LogWarning("Required sequence for " + gameObject.name + " was longer than 4. Truncating.", this);
-        }
+        // Uklonjena provjera maksimalne duljine (više nema ograničenja na 4)
 
-         // Osiguraj da nema 'None' usred sekvence (nije podržano u ovoj logici)
-         for (int i = 0; i < requiredSequence.Count; i++) {
-             if (requiredSequence[i] == SoundType.None) {
-                 Debug.LogError("SoundType.None found in the middle of the sequence for " + gameObject.name + ". This is not supported. Replace it with Sound1, Sound2, or Sound3.", this);
-                 // Ovdje možeš ili zaustaviti ili zamijeniti s defaultom, npr.:
-                 // requiredSequence[i] = SoundType.PowerSound1;
-                 enabled = false; // Najsigurnije je onemogućiti dok se ne popravi
-                 return;
-             }
-         }
+        // Osiguraj da nema 'None' usred sekvence (nije podržano u ovoj logici)
+        for (int i = 0; i < requiredSequence.Count; i++) {
+            if (requiredSequence[i] == SoundType.None) {
+                Debug.LogError("SoundType.None found in the middle of the sequence for " + gameObject.name + ". This is not supported. Replace it with Sound1, Sound2, Sound3, ...", this);
+                enabled = false; // Najsigurnije je onemogućiti dok se ne popravi
+                return;
+            }
+            // Validate that only allowed SoundTypes are used
+            if ((int)requiredSequence[i] < (int)SoundType.PowerSound1 ||
+                (int)requiredSequence[i] > (int)SoundType.PowerSound1 + soundClips.Count - 1)
+            {
+                Debug.LogError("Invalid SoundType in sequence for " + gameObject.name + ". Only PowerSound1 and up to the number of soundClips are allowed.", this);
+                enabled = false;
+                return;
+            }
+        }
 
         actualSequenceLength = requiredSequence.Count;
-         Debug.Log("Validated sequence for " + gameObject.name + ". Actual length: " + actualSequenceLength);
+        Debug.Log("Validated sequence for " + gameObject.name + ". Actual length: " + actualSequenceLength);
     }
-
 
     void Start()
     {
@@ -151,6 +149,38 @@ public class Resonator : MonoBehaviour
         if (!isActivated)
         {
            StartPlayingSequenceLoop();
+        }
+    }
+
+    void Update()
+    {
+        // Stop playback if Focus is not held or Hush is nearby
+        if (!isActivated && sequencePlaybackCoroutine != null)
+        {
+            bool shouldPlay = (focusAction != null && focusAction.IsPressed() && !IsHushNearby());
+            if (!shouldPlay)
+            {
+                StopSequencePlayback();
+            }
+            else if (sequencePlaybackCoroutine == null)
+            {
+                StartPlayingSequenceLoop();
+            }
+        }
+        // Optionally, restart playback if focus is pressed again and coroutine is null
+        if (!isActivated && sequencePlaybackCoroutine == null && focusAction != null && focusAction.IsPressed() && !IsHushNearby())
+        {
+            StartPlayingSequenceLoop();
+        }
+    }
+
+    void StopSequencePlayback()
+    {
+        if (sequencePlaybackCoroutine != null)
+        {
+            StopCoroutine(sequencePlaybackCoroutine);
+            sequencePlaybackCoroutine = null;
+            audioSource.Stop();
         }
     }
 
@@ -192,19 +222,33 @@ public class Resonator : MonoBehaviour
                 {
                     if(isActivated) yield break;
 
+                    // Check again before each sound in case focus/hush changed
+                    if (!(focusAction != null && focusAction.IsPressed() && !IsHushNearby()))
+                    {
+                        yield break;
+                    }
+
                     SoundType sound = requiredSequence[i]; // Uzmi zvuk iz validirane liste
                     AudioClip clipToPlay = GetClipForSoundType(sound);
                     if (clipToPlay != null) // Ne bi trebalo biti null zbog validacije, ali za sigurnost
                     {
+                        Debug.Log($"Playing sequence sound: {sound} (clip: {clipToPlay.name}) on {gameObject.name}");
                         audioSource.PlayOneShot(clipToPlay);
+                        // Wait until the clip finishes playing
+                        yield return new WaitUntil(() => !audioSource.isPlaying);
                         yield return new WaitForSeconds(sequencePlaybackDelay);
                     }
-                     else
+                    else
                     {
-                         Debug.LogWarning("Unexpected null clip for sound type " + sound + " in " + gameObject.name, this);
+                        Debug.LogWarning("Unexpected null clip for sound type " + sound + " in " + gameObject.name, this);
                         yield return new WaitForSeconds(sequencePlaybackDelay);
                     }
                 }
+            }
+            else
+            {
+                // If focus is lost or hush appears, stop playback
+                yield break;
             }
             yield return new WaitForSeconds(sequenceRepeatDelay);
         }
@@ -225,13 +269,10 @@ public class Resonator : MonoBehaviour
 
     AudioClip GetClipForSoundType(SoundType sound)
     {
-        switch (sound)
-        {
-            case SoundType.PowerSound1: return sound1Clip;
-            case SoundType.PowerSound2: return sound2Clip;
-            case SoundType.PowerSound3: return sound3Clip;
-            default: return null; // Ne bi se smjelo dogoditi nakon validacije
-        }
+        int index = (int)sound - (int)SoundType.PowerSound1;
+        if (index >= 0 && index < soundClips.Count)
+            return soundClips[index];
+        return null;
     }
 
     public void ReceivePlayerInput(SoundType playedSound)

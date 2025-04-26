@@ -115,6 +115,20 @@ public class AudioManager : MonoBehaviour
             sound.source.volume = sound.volume;
         }
     }
+
+    // Returns true if the sound is currently playing
+    public bool IsPlaying(string soundName)
+    {
+        if (soundDictionary.TryGetValue(soundName, out Sound sound))
+        {
+            return sound.source.isPlaying;
+        }
+        else
+        {
+            Debug.LogWarning($"Sound {soundName} not found!");
+            return false;
+        }
+    }
 }
 
 // Serializable class to hold sound data

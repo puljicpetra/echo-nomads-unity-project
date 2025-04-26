@@ -114,6 +114,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "PowerSound4",
+                    "type": "Button",
+                    "id": "bd07e8e1-397c-4025-a325-5eb993fc6cee",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Focus",
                     "type": "Button",
                     "id": "4cd6f180-157b-4202-ba05-656660afb695",
@@ -572,6 +581,28 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "PowerSound3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "905fad03-83c5-45b4-80c0-7ae1aa68eaaf",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "PowerSound4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cbdbe471-94fd-401f-ae61-7bd5d7db4939",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "PowerSound4",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -8,5 +8,7 @@ public enum SoundType
     None,
     PowerSound1, // Zvuk povezan s tipkom 1
     PowerSound2, // Zvuk povezan s tipkom 2
-    PowerSound3  // Zvuk povezan s tipkom 3
+    PowerSound3,  // Zvuk povezan s tipkom 3
+
+    PowerSound4 // Zvuk povezan s tipkom 4
 }
