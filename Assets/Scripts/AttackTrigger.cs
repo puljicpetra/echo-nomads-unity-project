@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class AttackTrigger : MonoBehaviour
 {
@@ -17,6 +19,14 @@ public class AttackTrigger : MonoBehaviour
 
     [SerializeField]
     private float additionalDelay = 1f; // Additional delay before deactivating Hush objects
+
+    private GameObject focusVolume; // Reference to the FocusVolume GameObject
+    private InputAction focusAction; // Reference to the Focus input action
+    private Volume focusVolumeComponent;
+    private Vignette vignette;
+    private Coroutine vignetteRoutine;
+    [SerializeField] private float vignetteTargetIntensity = 0.45f;
+    [SerializeField] private float vignetteTransitionDuration = 0.3f;
 
     void Awake()
     {
@@ -51,12 +61,44 @@ public class AttackTrigger : MonoBehaviour
         {
             Debug.LogError("AudioManager instance not found in the scene!");
         }
+
+        // Get the FocusVolume GameObject in the scene
+        focusVolume = GameObject.Find("FocusVolume");
+        if (focusVolume == null)
+        {
+            Debug.LogWarning("FocusVolume GameObject not found in the scene.");
+        }
+        else
+        {
+            focusVolumeComponent = focusVolume.GetComponent<Volume>();
+            if (focusVolumeComponent != null)
+            {
+                focusVolumeComponent.profile.TryGet(out vignette);
+                if (vignette != null)
+                {
+                    vignette.intensity.value = 0f;
+                }
+            }
+        }
+
+        // Get the focus action from the Player action map
+        focusAction = playerInput.actions.FindActionMap("Player").FindAction("Focus");
+        if (focusAction == null)
+        {
+            Debug.LogWarning("Focus action not found in Player action map.");
+        }
+        else
+        {
+            focusAction.performed += OnFocusPerformed;
+            focusAction.canceled += OnFocusCanceled;
+        }
     }
 
     void OnEnable()
     {
         // Enable the attack action when this component is enabled
         attackAction?.Enable();
+        focusAction?.Enable();
     }
 
     void OnDisable()
@@ -66,6 +108,13 @@ public class AttackTrigger : MonoBehaviour
         {
             attackAction.performed -= OnAttackPerformed;
             attackAction.Disable();
+        }
+
+        if (focusAction != null)
+        {
+            focusAction.performed -= OnFocusPerformed;
+            focusAction.canceled -= OnFocusCanceled;
+            focusAction.Disable();
         }
     }
 
@@ -104,6 +153,49 @@ public class AttackTrigger : MonoBehaviour
 
         // Start the coroutine to handle delayed deactivation
         StartCoroutine(DeactivateHushObjectsWithDelay());
+    }
+
+    private void OnFocusPerformed(InputAction.CallbackContext context)
+    {
+        if (focusVolume != null)
+        {
+            focusVolume.SetActive(true);
+            if (vignette != null)
+            {
+                if (vignetteRoutine != null) StopCoroutine(vignetteRoutine);
+                vignetteRoutine = StartCoroutine(AnimateVignetteIntensity(vignette.intensity.value, vignetteTargetIntensity));
+            }
+        }
+    }
+
+    private void OnFocusCanceled(InputAction.CallbackContext context)
+    {
+        if (focusVolume != null)
+        {
+            if (vignette != null)
+            {
+                if (vignetteRoutine != null) StopCoroutine(vignetteRoutine);
+                vignetteRoutine = StartCoroutine(AnimateVignetteIntensity(vignette.intensity.value, 0f, onComplete: () => focusVolume.SetActive(false)));
+            }
+            else
+            {
+                focusVolume.SetActive(false);
+            }
+        }
+    }
+
+    private IEnumerator AnimateVignetteIntensity(float from, float to, System.Action onComplete = null)
+    {
+        float elapsed = 0f;
+        while (elapsed < vignetteTransitionDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / vignetteTransitionDuration);
+            vignette.intensity.value = Mathf.Lerp(from, to, t);
+            yield return null;
+        }
+        vignette.intensity.value = to;
+        onComplete?.Invoke();
     }
 
     // Call this from an animation event at the end of the attack animation if possible
