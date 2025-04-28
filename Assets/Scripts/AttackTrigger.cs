@@ -28,6 +28,13 @@ public class AttackTrigger : MonoBehaviour
     [SerializeField] private float vignetteTargetIntensity = 0.45f;
     [SerializeField] private float vignetteTransitionDuration = 0.3f;
 
+    private ChromaticAberration chromaticAberration;
+    private ChannelMixer channelMixer;
+    [SerializeField] private float chromaticTargetIntensity = 0.6f;
+    [SerializeField] private float chromaticTransitionDuration = 0.3f;
+    [SerializeField] private Vector3 channelMixerBlueActive = new Vector3(-66, 200f, 200f);
+    [SerializeField] private Vector3 channelMixerBlueInactive = new Vector3(0f, 0f, 100f);
+
     void Awake()
     {
         // Get the animator component
@@ -77,6 +84,18 @@ public class AttackTrigger : MonoBehaviour
                 if (vignette != null)
                 {
                     vignette.intensity.value = 0f;
+                }
+                focusVolumeComponent.profile.TryGet(out chromaticAberration);
+                if (chromaticAberration != null)
+                {
+                    chromaticAberration.intensity.value = 0f;
+                }
+                focusVolumeComponent.profile.TryGet(out channelMixer);
+                if (channelMixer != null)
+                {
+                    channelMixer.blueOutRedIn.value = channelMixerBlueInactive.x;
+                    channelMixer.blueOutGreenIn.value = channelMixerBlueInactive.y;
+                    channelMixer.blueOutBlueIn.value = channelMixerBlueInactive.z;
                 }
             }
         }
@@ -165,6 +184,17 @@ public class AttackTrigger : MonoBehaviour
                 if (vignetteRoutine != null) StopCoroutine(vignetteRoutine);
                 vignetteRoutine = StartCoroutine(AnimateVignetteIntensity(vignette.intensity.value, vignetteTargetIntensity));
             }
+            if (chromaticAberration != null)
+            {
+                StartCoroutine(AnimateChromaticAberration(chromaticAberration.intensity.value, chromaticTargetIntensity));
+            }
+            if (channelMixer != null)
+            {
+                StartCoroutine(AnimateChannelMixerBlue(
+                    new Vector3(channelMixer.blueOutRedIn.value, channelMixer.blueOutGreenIn.value, channelMixer.blueOutBlueIn.value),
+                    channelMixerBlueActive
+                ));
+            }
         }
     }
 
@@ -181,6 +211,17 @@ public class AttackTrigger : MonoBehaviour
             {
                 focusVolume.SetActive(false);
             }
+            if (chromaticAberration != null)
+            {
+                StartCoroutine(AnimateChromaticAberration(chromaticAberration.intensity.value, 0f));
+            }
+            if (channelMixer != null)
+            {
+                StartCoroutine(AnimateChannelMixerBlue(
+                    new Vector3(channelMixer.blueOutRedIn.value, channelMixer.blueOutGreenIn.value, channelMixer.blueOutBlueIn.value),
+                    channelMixerBlueInactive
+                ));
+            }
         }
     }
 
@@ -196,6 +237,37 @@ public class AttackTrigger : MonoBehaviour
         }
         vignette.intensity.value = to;
         onComplete?.Invoke();
+    }
+
+    private IEnumerator AnimateChromaticAberration(float from, float to)
+    {
+        float elapsed = 0f;
+        while (elapsed < chromaticTransitionDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / chromaticTransitionDuration);
+            chromaticAberration.intensity.value = Mathf.Lerp(from, to, t);
+            yield return null;
+        }
+        chromaticAberration.intensity.value = to;
+    }
+
+    private IEnumerator AnimateChannelMixerBlue(Vector3 from, Vector3 to)
+    {
+        float elapsed = 0f;
+        float duration = vignetteTransitionDuration; // Use same duration as vignette for consistency
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            channelMixer.blueOutRedIn.value = Mathf.Lerp(from.x, to.x, t);
+            channelMixer.blueOutGreenIn.value = Mathf.Lerp(from.y, to.y, t);
+            channelMixer.blueOutBlueIn.value = Mathf.Lerp(from.z, to.z, t);
+            yield return null;
+        }
+        channelMixer.blueOutRedIn.value = to.x;
+        channelMixer.blueOutGreenIn.value = to.y;
+        channelMixer.blueOutBlueIn.value = to.z;
     }
 
     // Call this from an animation event at the end of the attack animation if possible

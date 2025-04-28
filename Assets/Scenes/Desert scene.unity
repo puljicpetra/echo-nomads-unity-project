@@ -2963,7 +2963,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: PowerSound1
     clip: {fileID: 8300000, guid: 8ba596da5f6d3d041b9bc5fd74c672aa, type: 3}
-    volume: 0.5
+    volume: 0.763
     pitch: 1
     loop: 0
     playOnStart: 0
@@ -2971,7 +2971,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: PowerSound2
     clip: {fileID: 8300000, guid: b266e68d5f6d1ed4292ddabc7ff2ed85, type: 3}
-    volume: 0.5
+    volume: 0.737
     pitch: 1
     loop: 0
     playOnStart: 0
@@ -2979,7 +2979,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: PowerSound3
     clip: {fileID: 8300000, guid: 44a018133bfb8764da9f6a509f5127be, type: 3}
-    volume: 0.5
+    volume: 0.729
     pitch: 1
     loop: 0
     playOnStart: 0
@@ -2987,7 +2987,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: PowerSound4
     clip: {fileID: 8300000, guid: 809ba2295d29ce04e964878636ecd25f, type: 3}
-    volume: 0.5
+    volume: 0.712
     pitch: 1
     loop: 0
     playOnStart: 0
@@ -3069,6 +3069,55 @@ PrefabInstance:
       addedObject: {fileID: 1955898240}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
+--- !u!1 &1379351608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1379351610}
+  - component: {fileID: 1379351609}
+  m_Layer: 0
+  m_Name: FocusVolume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1379351609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379351608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 1
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: f24024c1b418fa24ba07ba15caace694, type: 2}
+--- !u!4 &1379351610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379351608}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 314.7993, y: 841.3236, z: 345.44177}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1395918895
 GameObject:
   m_ObjectHideFlags: 0
@@ -4995,7 +5044,7 @@ Transform:
   m_GameObject: {fileID: 2083996803}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 506.21948, y: 793.6, z: 17.76}
+  m_LocalPosition: {x: 301.80963, y: 845.83, z: 334.70886}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5018,6 +5067,12 @@ MonoBehaviour:
   attackSoundName: attack1
   attackRadius: 50
   additionalDelay: 1
+  vignetteTargetIntensity: 0.45
+  vignetteTransitionDuration: 0.3
+  chromaticTargetIntensity: 0.6
+  chromaticTransitionDuration: 0.3
+  channelMixerBlueActive: {x: -66, y: 200, z: 200}
+  channelMixerBlueInactive: {x: 0, y: 0, z: 200}
 --- !u!114 &2083996811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5270,3 +5325,4 @@ SceneRoots:
   - {fileID: 1732560362}
   - {fileID: 444001597}
   - {fileID: 1395918897}
+  - {fileID: 1379351610}
