@@ -237,9 +237,6 @@ PrefabInstance:
       addedObject: {fileID: 776707295}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 56df5d5428bfbcf44b9fac9be2db32c3, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 776707302}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 56df5d5428bfbcf44b9fac9be2db32c3, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 776707303}
   m_SourcePrefab: {fileID: 100100000, guid: 56df5d5428bfbcf44b9fac9be2db32c3, type: 3}
 --- !u!1 &4421102 stripped
@@ -9337,11 +9334,11 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 5461320835613783329, guid: 56df5d5428bfbcf44b9fac9be2db32c3, type: 3}
 --- !u!4 &776707298 stripped
@@ -9349,27 +9346,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 56df5d5428bfbcf44b9fac9be2db32c3, type: 3}
   m_PrefabInstance: {fileID: 3607906}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &776707302
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 776707291}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.040000595, y: 0.03678883, z: 0.038040668}
-  m_Center: {x: -0.000052040436, y: 0.000058450747, z: -0.000059276834}
 --- !u!114 &776707303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16111,9 +16087,6 @@ PrefabInstance:
       addedObject: {fileID: 1457473876}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1457473878}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1457473877}
   m_SourcePrefab: {fileID: 100100000, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
 --- !u!1001 &1302633340
@@ -18798,34 +18771,13 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 5461320835613783329, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
---- !u!65 &1457473878
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457473870}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.018475719, y: 0.018492863, z: 0.03998119}
-  m_Center: {x: 0.00002171984, y: 0.00002047001, z: -0.000032275922}
 --- !u!1001 &1460856747
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19706,7 +19658,7 @@ Transform:
   m_GameObject: {fileID: 1559502788}
   serializedVersion: 2
   m_LocalRotation: {x: 0.0000000074505815, y: -9.313225e-10, z: 0.000000003958121, w: 1}
-  m_LocalPosition: {x: 116.02, y: 31.068, z: -432.672}
+  m_LocalPosition: {x: 96.01999, y: -191.932, z: 168.328}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26706,7 +26658,7 @@ Transform:
   m_GameObject: {fileID: 2083996803}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 301.80963, y: 845.83, z: 334.70886}
+  m_LocalPosition: {x: 351.80963, y: 815.83, z: 115.70886}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
