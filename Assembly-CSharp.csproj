@@ -69,7 +69,6 @@
     <Compile Include="Assets\Controllers\Invector-3rdPersonController_LITE\Scripts\Generic\Utils\vExtensions.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Controllers\Invector-3rdPersonController_LITE\Scripts\Generic\Utils\vPickupItem.cs" />
-    <Compile Include="Assets\Scripts\RezonatorController.cs" />
     <Compile Include="Assets\Effects\UnityTechnologies\ParticlePack\Shared\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\Effects\UnityTechnologies\ParticlePack\Shared\Scripts\SimpleCharacterMotor.cs" />
     <Compile Include="Assets\Controllers\Invector-3rdPersonController_LITE\Scripts\CharacterController\vThirdPersonInput.cs" />
@@ -77,6 +76,7 @@
     <Compile Include="Assets\Controllers\Invector-3rdPersonController_LITE\Scripts\Generic\Utils\vComment.cs" />
     <Compile Include="Assets\WaterProximitySound.cs" />
     <Compile Include="Assets\Effects\UnityTechnologies\ParticlePack\Shared\Ramps\Runtime\RampAsset.cs" />
+    <Compile Include="Assets\Scripts\CheatCodeManager.cs" />
     <Compile Include="Assets\Scripts\TekstRez.cs" />
     <Compile Include="Assets\Scripts\GlowEffect.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />

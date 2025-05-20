@@ -4333,8 +4333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9c29c0426d28f34a93bb27968950268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 315589991}
-  maxVolume: 1.5
 --- !u!82 &315589991
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4943,7 +4941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_Name
-      value: A_towering_ancient_pi_0417210512 (2)
+      value: vanjski model
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8539,8 +8537,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9c29c0426d28f34a93bb27968950268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 677105361}
-  maxVolume: 1.5
 --- !u!82 &677105361
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11828,6 +11824,7 @@ Transform:
   m_Children:
   - {fileID: 1364338475}
   - {fileID: 1296320918}
+  - {fileID: 1638656116}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &943414653 stripped
@@ -18153,7 +18150,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_Name
-      value: A_towering_ancient_pi_0417210512 (1)
+      value: vanjski model
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21660,6 +21657,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3414463147842802935, guid: 4dfd50a1f648e984f8188be70774f281, type: 3}
   m_PrefabInstance: {fileID: 895110162}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1638656115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1638656116}
+  - component: {fileID: 1638656117}
+  m_Layer: 0
+  m_Name: CheatManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1638656116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638656115}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -15.165344, y: -10.792725, z: 1.0055847}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 932958169}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1638656117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638656115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f92c6615a4e7940b2236c7b2dcfbb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1639008875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23903,8 +23944,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9c29c0426d28f34a93bb27968950268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 1798928450}
-  maxVolume: 1.5
 --- !u!82 &1798928450
 AudioSource:
   m_ObjectHideFlags: 0
@@ -27859,7 +27898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_Name
-      value: A_towering_ancient_pi_0417210512
+      value: vanjski model
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
