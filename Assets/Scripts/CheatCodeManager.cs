@@ -14,6 +14,9 @@ public class CheatCodeManager : MonoBehaviour
     private float cheatSprintSpeed = 60f;
     private bool superSpeedActive = false;
 
+    // Add a reference to the AudioManager
+    private AudioManager audioManager;
+
     void Start()
     {
         // Find the player controller in the scene
@@ -24,6 +27,9 @@ public class CheatCodeManager : MonoBehaviour
             // Assign normal sprint speed
             normalSprintSpeed = playerController.freeSpeed.sprintSpeed;
         }
+
+        // Find the AudioManager in the scene
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     void Update()
@@ -63,6 +69,12 @@ public class CheatCodeManager : MonoBehaviour
             playerController.freeSpeed = speed;
             superSpeedActive = true;
             Debug.Log("Super Speed Cheat Activated!");
+
+            // Play cheat activated sound
+            if (audioManager != null)
+            {
+                audioManager.Play("CheatActivated");
+            }
         }
     }
 
@@ -76,6 +88,12 @@ public class CheatCodeManager : MonoBehaviour
             playerController.freeSpeed = speed;
             superSpeedActive = false;
             Debug.Log("Normal Speed Cheat Activated!");
+
+            // Play cheat activated sound
+            if (audioManager != null)
+            {
+                audioManager.Play("CheatActivated");
+            }
         }
     }
 }

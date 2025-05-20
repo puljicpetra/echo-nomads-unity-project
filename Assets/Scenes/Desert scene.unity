@@ -17970,6 +17970,14 @@ MonoBehaviour:
     playOnStart: 0
     mixerGroup: {fileID: 6619906624191966263, guid: a4caca720abdf9f488e5043510660a3e, type: 2}
     source: {fileID: 0}
+  - name: CheatActivated
+    clip: {fileID: 8300000, guid: 3dabbb6cf17e33845b9e84f08e0d4f2f, type: 3}
+    volume: 0.945
+    pitch: 1
+    loop: 0
+    playOnStart: 0
+    mixerGroup: {fileID: 6619906624191966263, guid: a4caca720abdf9f488e5043510660a3e, type: 2}
+    source: {fileID: 0}
   backgroundSoundsMixerGroup: {fileID: 8444465260743735844, guid: 59b8381d85b5506458dcda1d1510b7d1, type: 2}
 --- !u!4 &1364338475
 Transform:
@@ -19475,8 +19483,8 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 6
   m_TerrainData: {fileID: 15600000, guid: 8d99ea2a6c4fee8498b0623ea3053876, type: 2}
-  m_TreeDistance: 5000
-  m_TreeBillboardDistance: 50
+  m_TreeDistance: 100
+  m_TreeBillboardDistance: 300
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
   m_DetailObjectDistance: 80
@@ -27075,15 +27083,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a0be5e7b1c3a77041859a0ae9593c139, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 523.94836
+      value: 523.95
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a0be5e7b1c3a77041859a0ae9593c139, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 526.6859
+      value: 525.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a0be5e7b1c3a77041859a0ae9593c139, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1434.5288
+      value: -1434.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a0be5e7b1c3a77041859a0ae9593c139, type: 3}
       propertyPath: m_LocalRotation.w
@@ -28192,7 +28200,7 @@ Transform:
   m_GameObject: {fileID: 2083996803}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70643646, y: 0.030781869, z: 0.030781869, w: 0.70643646}
-  m_LocalPosition: {x: 32.959045, y: 6.23, z: -15.993561}
+  m_LocalPosition: {x: 32.959045, y: 10.3, z: -15.993561}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
