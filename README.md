@@ -13,8 +13,8 @@ Prije nego što započnete, provjerite imate li instalirane sljedeće alate:
     *   Nakon instalacije, otvorite terminal (Git Bash, Command Prompt ili PowerShell) i pokrenite `git lfs install` kako biste inicijalizirali Git LFS na svom sustavu.
 3.  **Unity Hub:** Alat za upravljanje Unity instalacijama i projektima.
     *   Preuzmite i instalirajte s: [https://unity.com/download](https://unity.com/download)
-4.  **Unity Editor (Verzija 6000.0.4f1 LTS):** Specifična verzija Unity editora potrebna za ovaj projekt.
-    *   Instalirajte ovu verziju putem Unity Huba. U Unity Hubu idite na karticu "Installs", kliknite "Install Editor" i odaberite verziju `6000.0.4f1 (LTS)`. Ako je ne vidite odmah, možda ćete morati potražiti u arhivi verzija unutar Unity Huba.
+4.  **Unity Editor (Verzija 6000.0.40f1 LTS):** Specifična verzija Unity editora potrebna za ovaj projekt.
+    *   Instalirajte ovu verziju putem Unity Huba. U Unity Hubu idite na karticu "Installs", kliknite "Install Editor" i odaberite verziju `6000.0.40f1 (LTS)`. Ako je ne vidite odmah, možda ćete morati potražiti u arhivi verzija unutar Unity Huba.
 
 ## Postavljanje projekta
 
