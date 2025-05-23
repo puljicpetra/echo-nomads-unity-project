@@ -24,6 +24,15 @@ public class Resonator : MonoBehaviour
     public float sequencePlaybackDelay = 0.8f;
     [Tooltip("Stanka prije ponavljanja sekvence.")]
     public float sequenceRepeatDelay = 2.0f;
+    [Tooltip("Zvuk koji se koristi za lociranje rezonatora iz daljine (3D zvuk).")]
+    public AudioClip locatorClip; // New: locator sound
+    [Tooltip("Glasnoća locator zvuka.")]
+    [Range(0f, 1f)]
+    public float locatorVolume = 0.7f;
+    [Tooltip("Minimalna udaljenost za puni volumen locator zvuka.")]
+    public float locatorMinDistance = 10f;
+    [Tooltip("Maksimalna udaljenost na kojoj se locator zvuk čuje.")]
+    public float locatorMaxDistance = 100f;
 
     [Header("Interaction")]
     [Tooltip("Radijus unutar kojeg igrač može aktivirati rezonator.")]
@@ -43,6 +52,7 @@ public class Resonator : MonoBehaviour
 
     // Internal State
     private AudioSource audioSource;
+    private AudioSource locatorAudioSource; // New: for locator sound
     private List<SoundType> playerInputSequence = new List<SoundType>();
     private bool isActivated = false;
     private bool playerIsInRange = false;
@@ -94,6 +104,20 @@ public class Resonator : MonoBehaviour
         if (resonatorLight != null)
         {
             resonatorLight.enabled = false;
+        }
+
+        // Setup locator audio source if locatorClip is assigned
+        if (locatorClip != null)
+        {
+            locatorAudioSource = gameObject.AddComponent<AudioSource>();
+            locatorAudioSource.clip = locatorClip;
+            locatorAudioSource.loop = true;
+            locatorAudioSource.playOnAwake = false;
+            locatorAudioSource.spatialBlend = 1f; // 3D sound
+            locatorAudioSource.volume = locatorVolume;
+            locatorAudioSource.minDistance = locatorMinDistance;
+            locatorAudioSource.maxDistance = locatorMaxDistance;
+            locatorAudioSource.dopplerLevel = 0f;
         }
     }
 
@@ -172,6 +196,39 @@ public class Resonator : MonoBehaviour
         {
             StartPlayingSequenceLoop();
         }
+
+        // Locator sound logic (independent of sequence)
+        if (!isActivated && locatorAudioSource != null)
+        {
+            bool shouldPlayLocator = false;
+            if (focusAction != null && focusAction.IsPressed() && !IsHushNearby())
+            {
+                // Find player GameObject by tag
+                GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+                if (playerObj != null)
+                {
+                    float dist = Vector3.Distance(transform.position, playerObj.transform.position);
+                    if (dist > locatorMinDistance)
+                    {
+                        shouldPlayLocator = true;
+                    }
+                }
+            }
+            if (shouldPlayLocator)
+            {
+                if (!locatorAudioSource.isPlaying)
+                    locatorAudioSource.Play();
+            }
+            else
+            {
+                if (locatorAudioSource.isPlaying)
+                    locatorAudioSource.Stop();
+            }
+        }
+        else if (locatorAudioSource != null && locatorAudioSource.isPlaying)
+        {
+            locatorAudioSource.Stop();
+        }
     }
 
     void StopSequencePlayback()
@@ -206,6 +263,7 @@ public class Resonator : MonoBehaviour
 
     void StartPlayingSequenceLoop()
     {
+        // No longer stop locator sound here (independent)
         if (sequencePlaybackCoroutine != null) StopCoroutine(sequencePlaybackCoroutine);
         sequencePlaybackCoroutine = StartCoroutine(PlaySequenceLoopRoutine());
     }
@@ -358,6 +416,10 @@ public class Resonator : MonoBehaviour
                  Debug.LogWarning("Activated resonator " + gameObject.name + " has no Puzzle Manager assigned!");
             }
              GetComponent<SphereCollider>().enabled = false;
+
+            // Stop locator sound on activation
+            if (locatorAudioSource != null && locatorAudioSource.isPlaying)
+                locatorAudioSource.Stop();
         }
     }
 }
