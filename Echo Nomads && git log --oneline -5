@@ -1,0 +1,750 @@
+[33mcommit f97e1db776cef04c874c5b2e344cffc7d938ca99[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: moira56 <mcekada1@student.unipu.hr>
+Date:   Thu Jun 5 17:37:07 2025 +0200
+
+    scena 2
+    
+    scena 2
+
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp.csproj
+Assets/Desert Buildings.meta
+Assets/Desert Buildings/Materials.meta
+Assets/Desert Buildings/Materials/Desert_Building_V1.mat
+Assets/Desert Buildings/Materials/Desert_Building_V1.mat.meta
+Assets/Desert Buildings/Materials/Desert_Building_V1_AlbedoTransparency.mat
+Assets/Desert Buildings/Materials/Desert_Building_V1_AlbedoTransparency.mat.meta
+Assets/Desert Buildings/Materials/Desert_Building_V1_MetallicSmoothness.mat
+Assets/Desert Buildings/Materials/Desert_Building_V1_MetallicSmoothness.mat.meta
+Assets/Desert Buildings/Materials/Desert_Building_V1_Normal.mat
+Assets/Desert Buildings/Materials/Desert_Building_V1_Normal.mat.meta
+Assets/Desert Buildings/Materials/Desert_Building_V2.mat
+Assets/Desert Buildings/Materials/Desert_Building_V2.mat.meta
+Assets/Desert Buildings/Materials/Desert_Building_V3.mat
+Assets/Desert Buildings/Materials/Desert_Building_V3.mat.meta
+Assets/Desert Buildings/Materials/Desert_Building_V3_Normal.mat
+Assets/Desert Buildings/Materials/Desert_Building_V3_Normal.mat.meta
+Assets/Desert Buildings/Materials/Desert_Building_V4.mat
+Assets/Desert Buildings/Materials/Desert_Building_V4.mat.meta
+Assets/Desert Buildings/Materials/Desert_Building_V5.mat
+Assets/Desert Buildings/Materials/Desert_Building_V5.mat.meta
+Assets/Desert Buildings/Materials/Desert_Building_V5_AlbedoTransparency.mat
+Assets/Desert Buildings/Materials/Desert_Building_V5_AlbedoTransparency.mat.meta
+Assets/Desert Buildings/Materials/Desert_Building_V5_MetallicSmoothness.mat
+Assets/Desert Buildings/Materials/Desert_Building_V5_MetallicSmoothness.mat.meta
+Assets/Desert Buildings/Models.meta
+Assets/Desert Buildings/Models/Desert_Building_V1.fbx
+Assets/Desert Buildings/Models/Desert_Building_V1.fbx.meta
+Assets/Desert Buildings/Models/Desert_Building_V2.fbx
+Assets/Desert Buildings/Models/Desert_Building_V2.fbx.meta
+Assets/Desert Buildings/Models/Desert_Building_V3.fbx
+Assets/Desert Buildings/Models/Desert_Building_V3.fbx.meta
+Assets/Desert Buildings/Models/Desert_Building_V4.fbx
+Assets/Desert Buildings/Models/Desert_Building_V4.fbx.meta
+Assets/Desert Buildings/Models/Desert_Building_V5.fbx
+Assets/Desert Buildings/Models/Desert_Building_V5.fbx.meta
+Assets/Desert Buildings/Models/Materials.meta
+Assets/Desert Buildings/Models/Materials/No Name.mat
+Assets/Desert Buildings/Models/Materials/No Name.mat.meta
+Assets/Desert Buildings/Prefabs.meta
+Assets/Desert Buildings/Prefabs/Desert_Building_V1.prefab
+Assets/Desert Buildings/Prefabs/Desert_Building_V1.prefab.meta
+Assets/Desert Buildings/Prefabs/Desert_Building_V2.prefab
+Assets/Desert Buildings/Prefabs/Desert_Building_V2.prefab.meta
+Assets/Desert Buildings/Prefabs/Desert_Building_V3.prefab
+Assets/Desert Buildings/Prefabs/Desert_Building_V3.prefab.meta
+Assets/Desert Buildings/Prefabs/Desert_Building_V4.prefab
+Assets/Desert Buildings/Prefabs/Desert_Building_V4.prefab.meta
+Assets/Desert Buildings/Prefabs/Desert_Building_V5.prefab
+Assets/Desert Buildings/Prefabs/Desert_Building_V5.prefab.meta
+Assets/Desert Buildings/Read me.txt
+Assets/Desert Buildings/Read me.txt.meta
+Assets/Desert Buildings/Show.unity
+Assets/Desert Buildings/Show.unity.meta
+Assets/Desert Buildings/ShowSettings.lighting
+Assets/Desert Buildings/ShowSettings.lighting.meta
+Assets/Desert Buildings/Textures.meta
+Assets/Desert Buildings/Textures/Desert_Building_V1_AlbedoTransparency.png
+Assets/Desert Buildings/Textures/Desert_Building_V1_AlbedoTransparency.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V1_MetallicSmoothness.png
+Assets/Desert Buildings/Textures/Desert_Building_V1_MetallicSmoothness.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V1_Normal.png
+Assets/Desert Buildings/Textures/Desert_Building_V1_Normal.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V2_AlbedoTransparency.png
+Assets/Desert Buildings/Textures/Desert_Building_V2_AlbedoTransparency.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V2_MetallicSmoothness.png
+Assets/Desert Buildings/Textures/Desert_Building_V2_MetallicSmoothness.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V2_Normal.png
+Assets/Desert Buildings/Textures/Desert_Building_V2_Normal.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V3_AlbedoTransparency.png
+Assets/Desert Buildings/Textures/Desert_Building_V3_AlbedoTransparency.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V3_MetallicSmoothness.png
+Assets/Desert Buildings/Textures/Desert_Building_V3_MetallicSmoothness.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V3_Normal.png
+Assets/Desert Buildings/Textures/Desert_Building_V3_Normal.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V4_AlbedoTransparency.png
+Assets/Desert Buildings/Textures/Desert_Building_V4_AlbedoTransparency.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V4_MetallicSmoothness.png
+Assets/Desert Buildings/Textures/Desert_Building_V4_MetallicSmoothness.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V4_Normal.png
+Assets/Desert Buildings/Textures/Desert_Building_V4_Normal.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V5_AlbedoTransparency.png
+Assets/Desert Buildings/Textures/Desert_Building_V5_AlbedoTransparency.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V5_MetallicSmoothness.png
+Assets/Desert Buildings/Textures/Desert_Building_V5_MetallicSmoothness.png.meta
+Assets/Desert Buildings/Textures/Desert_Building_V5_Normal.png
+Assets/Desert Buildings/Textures/Desert_Building_V5_Normal.png.meta
+Assets/EmaceArt - raft on the desert.meta
+Assets/EmaceArt - raft on the desert/Info.meta
+Assets/EmaceArt - raft on the desert/Info/ReadMe.pdf
+Assets/EmaceArt - raft on the desert/Info/ReadMe.pdf.meta
+Assets/EmaceArt - raft on the desert/Materials.meta
+Assets/EmaceArt - raft on the desert/Materials/Material_decal.mat
+Assets/EmaceArt - raft on the desert/Materials/Material_decal.mat.meta
+Assets/EmaceArt - raft on the desert/Materials/Material_metal.mat
+Assets/EmaceArt - raft on the desert/Materials/Material_metal.mat.meta
+Assets/EmaceArt - raft on the desert/Materials/Material_organic.mat
+Assets/EmaceArt - raft on the desert/Materials/Material_organic.mat.meta
+Assets/EmaceArt - raft on the desert/Materials/Material_standard.mat
+Assets/EmaceArt - raft on the desert/Materials/Material_standard.mat.meta
+Assets/EmaceArt - raft on the desert/Materials/Material_syntetic.mat
+Assets/EmaceArt - raft on the desert/Materials/Material_syntetic.mat.meta
+Assets/EmaceArt - raft on the desert/Materials/Material_wood.mat
+Assets/EmaceArt - raft on the desert/Materials/Material_wood.mat.meta
+Assets/EmaceArt - raft on the desert/Materials/decals.mat
+Assets/EmaceArt - raft on the desert/Materials/decals.mat.meta
+Assets/EmaceArt - raft on the desert/Materials/texture.mat
+Assets/EmaceArt - raft on the desert/Materials/texture.mat.meta
+Assets/EmaceArt - raft on the desert/Meshes.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Animal_Bird_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Animal_Bird_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Cloud_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Cloud_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Cloud_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Cloud_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Cloud_Ring_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Cloud_Ring_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Cactus_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Cactus_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Cactus_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Cactus_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Cactus_01c.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Cactus_01c.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Grass_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Grass_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Grass_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Grass_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Grass_Dry_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Grass_Dry_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Grass_Dry_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Plants_Grass_Dry_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Gray_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Gray_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Gray_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Gray_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Gray_01c.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Gray_01c.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Gray_01d.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Gray_01d.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Sand_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Sand_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Sand_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Sand_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Sand_01c.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Sand_01c.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Sand_01d.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Rocks_Sand_01d.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Stone_Gray_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Stone_Gray_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Stone_Gray_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Stone_Gray_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Stone_Sand_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Stone_Sand_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Stone_Sand_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Stone_Sand_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Terrain_Desert_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Terrain_Desert_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Root_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Root_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Root_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Root_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Root_01c.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Root_01c.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Root_01d.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Root_01d.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01c.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01c.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01d.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01d.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01e.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01e.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01f.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Env_Tree_Trunk_01f.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Barrel_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Barrel_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Fireplace_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Fireplace_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Flag_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Flag_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Oar_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Oar_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Pole_01a.001.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Pole_01a.001.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Skull_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_Skull_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_cauldron_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_cauldron_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_cover_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_cover_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_washing_Comp.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Prop_washing_Comp.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wehicule_Raft_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wehicule_Raft_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01c.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01c.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01d.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01d.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01e.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01e.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01f.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01f.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01g.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01g.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01h.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01h.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01i.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01i.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01j.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_01j.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01c.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01c.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01d.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01d.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01e.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01e.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01f.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01f.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01g.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01g.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01h.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01h.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01i.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Desk_Color_01i.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Pole_Color_01a.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Pole_Color_01a.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Pole_Color_01b.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Pole_Color_01b.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Pole_Color_01c.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Pole_Color_01c.fbx.meta
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Pole_Color_01d.fbx
+Assets/EmaceArt - raft on the desert/Meshes/EA04_Wooden_Pole_Color_01d.fbx.meta
+Assets/EmaceArt - raft on the desert/PostProcessing.meta
+Assets/EmaceArt - raft on the desert/PostProcessing/Desert_Post_Profile.asset
+Assets/EmaceArt - raft on the desert/PostProcessing/Desert_Post_Profile.asset.meta
+Assets/EmaceArt - raft on the desert/Prefabs.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Animal.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Animal/Bird.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Animal/Bird/EA04_Animal_Bird_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Animal/Bird/EA04_Animal_Bird_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Cloud.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Cloud/EA04_Env_Cloud_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Cloud/EA04_Env_Cloud_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Cloud/EA04_Env_Cloud_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Cloud/EA04_Env_Cloud_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Cloud/EA04_Env_Cloud_Ring_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Cloud/EA04_Env_Cloud_Ring_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Ground.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Ground/EA04_Env_Terrain_Desert_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Ground/EA04_Env_Terrain_Desert_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Cactus_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Cactus_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Cactus_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Cactus_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Cactus_01c_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Cactus_01c_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Grass_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Grass_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Grass_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Grass_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Grass_Dry_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Grass_Dry_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Grass_Dry_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Plants/EA04_Env_Plants_Grass_Dry_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Gray_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Gray_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Gray_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Gray_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Gray_01c_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Gray_01c_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Gray_01d_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Gray_01d_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Sand_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Sand_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Sand_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Sand_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Sand_01c_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Sand_01c_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Sand_01d_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Rocks/EA04_Env_Rocks_Sand_01d_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Roots.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Roots/EA04_Env_Tree_Root_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Roots/EA04_Env_Tree_Root_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Roots/EA04_Env_Tree_Root_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Roots/EA04_Env_Tree_Root_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Roots/EA04_Env_Tree_Root_01c_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Roots/EA04_Env_Tree_Root_01c_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Roots/EA04_Env_Tree_Root_01d_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Roots/EA04_Env_Tree_Root_01d_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Stone.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Stone/EA04_Env_Stone_Gray_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Stone/EA04_Env_Stone_Gray_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Stone/EA04_Env_Stone_Gray_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Stone/EA04_Env_Stone_Gray_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Stone/EA04_Env_Stone_Sand_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Stone/EA04_Env_Stone_Sand_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Stone/EA04_Env_Stone_Sand_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Stone/EA04_Env_Stone_Sand_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01c_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01c_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01d_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01d_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01e_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01e_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01f_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA04_Env_Tree_Trunk_01f_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA_04_Trunk_and_stone_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Env/Trunk/EA_04_Trunk_and_stone_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Barrel.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Barrel/EA04_Prop_Barrel_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Barrel/EA04_Prop_Barrel_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/EA04_Prop_Fireplace_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/EA04_Prop_Fireplace_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Flag.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Flag/EA04_Prop_Flag_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Flag/EA04_Prop_Flag_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Oar.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Oar/EA04_Prop_Oar_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Oar/EA04_Prop_Oar_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Pole.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Pole/EA04_Prop_Pole_01a.001_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Pole/EA04_Prop_Pole_01a.001_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Skull.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Skull/EA04_Prop_Skull_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Skull/EA04_Prop_Skull_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01c_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01c_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01d_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01d_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01e_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01e_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01f_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01f_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01g_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01g_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01h_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01h_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01i_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01i_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01j_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_01j_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01c_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01c_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01d_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01d_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01e_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01e_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01f_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01f_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01g_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01g_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01h_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01h_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01i_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Desk/EA04_Wooden_Desk_Color_01i_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Pole.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Pole/EA04_Wooden_Pole_Color_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Pole/EA04_Wooden_Pole_Color_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Pole/EA04_Wooden_Pole_Color_01b_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Pole/EA04_Wooden_Pole_Color_01b_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Pole/EA04_Wooden_Pole_Color_01c_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Pole/EA04_Wooden_Pole_Color_01c_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Pole/EA04_Wooden_Pole_Color_01d_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/Wooden/Pole/EA04_Wooden_Pole_Color_01d_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/cauldron.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/cauldron/EA04_Prop_cauldron_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/cauldron/EA04_Prop_cauldron_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/cover.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/cover/EA04_Prop_cover_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Prop/cover/EA04_Prop_cover_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Wehicule.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Wehicule/Raft.meta
+Assets/EmaceArt - raft on the desert/Prefabs/Wehicule/Raft/EA04_Wehicule_Raft_01a_PRE.prefab
+Assets/EmaceArt - raft on the desert/Prefabs/Wehicule/Raft/EA04_Wehicule_Raft_01a_PRE.prefab.meta
+Assets/EmaceArt - raft on the desert/Scenes.meta
+Assets/EmaceArt - raft on the desert/Scenes/Assets_preview.unity
+Assets/EmaceArt - raft on the desert/Scenes/Assets_preview.unity.meta
+Assets/EmaceArt - raft on the desert/Scenes/Desert_demoscene.meta
+Assets/EmaceArt - raft on the desert/Scenes/Desert_demoscene.unity
+Assets/EmaceArt - raft on the desert/Scenes/Desert_demoscene.unity.meta
+Assets/EmaceArt - raft on the desert/Skybox.meta
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun.meta
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Cartoon_Airbrush_Day_NoSun.mat
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Cartoon_Airbrush_Day_NoSun.mat.meta
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Cartoon_Airbrush_Day_NoSun.meta
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Cartoon_Airbrush_Day_NoSun/ReflectionProbe-0.exr
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Cartoon_Airbrush_Day_NoSun/ReflectionProbe-0.exr.meta
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_0_Front+Z.png
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_0_Front+Z.png.meta
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_1_Back-Z.png
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_1_Back-Z.png.meta
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_2_Left+X.png
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_2_Left+X.png.meta
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_3_Right-X.png
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_3_Right-X.png.meta
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_4_Up+Y.png
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_4_Up+Y.png.meta
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_5_Down-Y.png
+Assets/EmaceArt - raft on the desert/Skybox/Cartoon Airbrush Day NoSun/Sky_Cartoon_Airbrush_Day_NoSun_Cam_5_Down-Y.png.meta
+Assets/EmaceArt - raft on the desert/Skybox/Materials.meta
+Assets/EmaceArt - raft on the desert/Skybox/Materials/desert_skybox.mat
+Assets/EmaceArt - raft on the desert/Skybox/Materials/desert_skybox.mat.meta
+Assets/EmaceArt - raft on the desert/Skybox/Textures.meta
+Assets/EmaceArt - raft on the desert/Skybox/Textures/desert_skybox.png
+Assets/EmaceArt - raft on the desert/Skybox/Textures/desert_skybox.png.meta
+Assets/EmaceArt - raft on the desert/Textures.meta
+Assets/EmaceArt - raft on the desert/Textures/decals.png
+Assets/EmaceArt - raft on the desert/Textures/decals.png.meta
+Assets/EmaceArt - raft on the desert/Textures/texture.png
+Assets/EmaceArt - raft on the desert/Textures/texture.png.meta
+Assets/Free Low Poly Desert Pack.meta
+Assets/Free Low Poly Desert Pack/DemoScene.meta
+Assets/Free Low Poly Desert Pack/DemoScene/Desert.unity
+Assets/Free Low Poly Desert Pack/DemoScene/Desert.unity.meta
+Assets/Free Low Poly Desert Pack/Documentation - free sample.pdf
+Assets/Free Low Poly Desert Pack/Documentation - free sample.pdf.meta
+Assets/Free Low Poly Desert Pack/FBX Files.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Bone_02.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Bone_02.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Cactus_01.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Cactus_01.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Cactus_02.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Cactus_02.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Ground_01.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Ground_01.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Palm_tree_01.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Palm_tree_01.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Plant_02.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Plant_02.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Rock_01.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Rock_01.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Tree_02.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Tree_02.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Well_01.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Flat Colors/Flat_Well_01.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Bone_02.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Bone_02.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Cactus_01.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Cactus_01.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Cactus_02.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Cactus_02.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Ground_01.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Ground_01.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Palm_tree_01.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Palm_tree_01.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Plant_02.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Plant_02.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Rock_01.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Rock_01.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Tree_02.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Tree_02.fbx.meta
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Well_01.fbx
+Assets/Free Low Poly Desert Pack/FBX Files/Mixed Colors/Mixed_Well_01.fbx.meta
+Assets/Free Low Poly Desert Pack/Materials.meta
+Assets/Free Low Poly Desert Pack/Materials/Base Color.mat
+Assets/Free Low Poly Desert Pack/Materials/Base Color.mat.meta
+Assets/Free Low Poly Desert Pack/Materials/Base Desert Sand.mat
+Assets/Free Low Poly Desert Pack/Materials/Base Desert Sand.mat.meta
+Assets/Free Low Poly Desert Pack/Materials/Shaders.meta
+Assets/Free Low Poly Desert Pack/Materials/Shaders/Vertex_Color_Basic.shader
+Assets/Free Low Poly Desert Pack/Materials/Shaders/Vertex_Color_Basic.shader.meta
+Assets/Free Low Poly Desert Pack/Materials/Shaders/Vertex_Color_Unlit.shader
+Assets/Free Low Poly Desert Pack/Materials/Shaders/Vertex_Color_Unlit.shader.meta
+Assets/Free Low Poly Desert Pack/Materials/Shaders/Water_Low_Poly_Basic.shader
+Assets/Free Low Poly Desert Pack/Materials/Shaders/Water_Low_Poly_Basic.shader.meta
+Assets/Free Low Poly Desert Pack/Materials/Texture.meta
+Assets/Free Low Poly Desert Pack/Materials/Texture/Colors.png
+Assets/Free Low Poly Desert Pack/Materials/Texture/Colors.png.meta
+Assets/Free Low Poly Desert Pack/Materials/Texture/Desert Sand.png
+Assets/Free Low Poly Desert Pack/Materials/Texture/Desert Sand.png.meta
+Assets/Free Low Poly Desert Pack/Materials/Texture/Materials.meta
+Assets/Free Low Poly Desert Pack/Materials/Texture/Materials/Colors.mat
+Assets/Free Low Poly Desert Pack/Materials/Texture/Materials/Colors.mat.meta
+Assets/Free Low Poly Desert Pack/Materials/Vertex Color Unlit.mat
+Assets/Free Low Poly Desert Pack/Materials/Vertex Color Unlit.mat.meta
+Assets/Free Low Poly Desert Pack/Materials/Vertex Color.mat
+Assets/Free Low Poly Desert Pack/Materials/Vertex Color.mat.meta
+Assets/Free Low Poly Desert Pack/Materials/Water Low Poly.mat
+Assets/Free Low Poly Desert Pack/Materials/Water Low Poly.mat.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Bones.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Bones/Flat_Bone_02.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Bones/Flat_Bone_02.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Bones/Mixed_Bone_02.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Bones/Mixed_Bone_02.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Constructions.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Constructions/Flat_Well_01.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Constructions/Flat_Well_01.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Constructions/Mixed_Well_01.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Constructions/Mixed_Well_01.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Flat_Cactus_01.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Flat_Cactus_01.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Flat_Cactus_02.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Flat_Cactus_02.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Flat_Plant_02.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Flat_Plant_02.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Mixed_Cactus_01.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Mixed_Cactus_01.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Mixed_Cactus_02.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Mixed_Cactus_02.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Mixed_Plant_02.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Plants/Mixed_Plant_02.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Rocks.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Rocks/Flat_Rock_01.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Rocks/Flat_Rock_01.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Rocks/Mixed_Rock_01.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Rocks/Mixed_Rock_01.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Terrain.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Terrain/Flat_Ground_01.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Terrain/Flat_Ground_01.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Terrain/Mixed_Ground_01.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Terrain/Mixed_Ground_01.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Trees.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Trees/Flat_Palm_tree_01.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Trees/Flat_Palm_tree_01.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Trees/Flat_Tree_02.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Trees/Flat_Tree_02.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Trees/Mixed_Palm_tree_01.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Trees/Mixed_Palm_tree_01.prefab.meta
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Trees/Mixed_Tree_02.prefab
+Assets/Free Low Poly Desert Pack/Unity Prefabs/Trees/Mixed_Tree_02.prefab.meta
+Assets/Scenes/Night Desert scene.unity
+Assets/SineVFX.meta
+Assets/SineVFX/PostProcessingV2.meta
+Assets/SineVFX/PostProcessingV2/New Post-processing Profile.asset
+Assets/SineVFX/PostProcessingV2/New Post-processing Profile.asset.meta
+Assets/SineVFX/TranslucentCrystals.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv01.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv01.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv02.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv02.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv03.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv03.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv04.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv04.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv05.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv05.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv06.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv06.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv07.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv07.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv08.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv08.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv09.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv09.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv10.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Crystalsv10.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv01.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv01.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv02.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv02.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv03.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv03.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv04.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv04.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv05.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv05.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv06.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv06.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv07.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv07.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv08.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv08.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv09.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv09.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv10.prefab
+Assets/SineVFX/TranslucentCrystals/Prefabs/Gamma/Crystalsv10.prefab.meta
+Assets/SineVFX/TranslucentCrystals/Readme.txt
+Assets/SineVFX/TranslucentCrystals/Readme.txt.meta
+Assets/SineVFX/TranslucentCrystals/Resources.meta
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials.meta
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/GlowingSphere.mat
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/GlowingSphere.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/PrototypeGrid_Albedo.png
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/PrototypeGrid_Albedo.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/PrototypeGrid_Emission.png
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/PrototypeGrid_Emission.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/PrototypeGridv01.mat
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/PrototypeGridv01.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/PrototypeGridv02.mat
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/PrototypeGridv02.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/Skybox_Day.mat
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/Skybox_Day.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/Skybox_Day_Desaturated.mat
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/Skybox_Day_Desaturated.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/Skybox_Night.mat
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/Skybox_Night.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/Skybox_Night_Desaturated.mat
+Assets/SineVFX/TranslucentCrystals/Resources/EnvironmentMaterials/Skybox_Night_Desaturated.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv01.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv01.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv01Gamma.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv01Gamma.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv02.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv02.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv02Gamma.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv02Gamma.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv03.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv03.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv03Gamma.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv03Gamma.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv04.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv04.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv04Gamma.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv04Gamma.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv05.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv05.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv05Gamma.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv05Gamma.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv06.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv06.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv06Gamma.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv06Gamma.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv07.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv07.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv07Gamma.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv07Gamma.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv08.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv08.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv08Gamma.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv08Gamma.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv09.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv09.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv09Gamma.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv09Gamma.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv10.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv10.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv10Gamma.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Materials/TranslucentCrystalv10Gamma.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Meshes.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Meshes/Materials.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Meshes/Materials/TranslucentCrystal.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Meshes/Materials/TranslucentCrystal.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Meshes/Materials/TranslucentCrystal01.mat
+Assets/SineVFX/TranslucentCrystals/Resources/Meshes/Materials/TranslucentCrystal01.mat.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Meshes/TranslucentCrystal01.mtl
+Assets/SineVFX/TranslucentCrystals/Resources/Meshes/TranslucentCrystal01.mtl.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Meshes/TranslucentCrystal01.obj
+Assets/SineVFX/TranslucentCrystals/Resources/Meshes/TranslucentCrystal01.obj.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Shaders.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Shaders/Crystal.shader
+Assets/SineVFX/TranslucentCrystals/Resources/Shaders/Crystal.shader.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Shaders/SkyboxProceduralDesaturated.shader
+Assets/SineVFX/TranslucentCrystals/Resources/Shaders/SkyboxProceduralDesaturated.shader.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/CrystalMaps.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/CrystalMaps/TranslucentCrystal01_Emission.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/CrystalMaps/TranslucentCrystal01_Emission.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/CrystalMaps/TranslucentCrystal01_Mask.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/CrystalMaps/TranslucentCrystal01_Mask.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/CrystalMaps/TranslucentCrystal01_MetallicSmoothness.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/CrystalMaps/TranslucentCrystal01_MetallicSmoothness.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/CrystalMaps/TranslucentCrystal01_Normal.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/CrystalMaps/TranslucentCrystal01_Normal.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp01.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp01.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp02.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp02.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp03.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp03.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp04.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp04.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp05.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp05.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp06.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp06.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp07.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp07.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp07v2.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp07v2.png.meta
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp08.png
+Assets/SineVFX/TranslucentCrystals/Resources/Textures/Ramps/Ramp08.png.meta
+Assets/SineVFX/TranslucentCrystals/Scenes.meta
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoScene.meta
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoScene.unity
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoScene.unity.meta
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoScene/LightingData.asset
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoScene/LightingData.asset.meta
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoScene/ReflectionProbe-0.exr
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoScene/ReflectionProbe-0.exr.meta
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoScene/ReflectionProbe-1.exr
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoScene/ReflectionProbe-1.exr.meta
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoSceneGamma.meta
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoSceneGamma.unity
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoSceneGamma.unity.meta
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoSceneGamma/LightingData.asset
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoSceneGamma/LightingData.asset.meta
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoSceneGamma/ReflectionProbe-0.exr
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoSceneGamma/ReflectionProbe-0.exr.meta
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoSceneGamma/ReflectionProbe-1.exr
+Assets/SineVFX/TranslucentCrystals/Scenes/DemoSceneGamma/ReflectionProbe-1.exr.meta
+Assets/SineVFX/TranslucentCrystals/_SRP.meta
+Assets/SineVFX/TranslucentCrystals/_SRP/!!!_HDRP_Setup_!!!.txt
+Assets/SineVFX/TranslucentCrystals/_SRP/!!!_HDRP_Setup_!!!.txt.meta
+Assets/SineVFX/TranslucentCrystals/_SRP/!!!_ReadBeforeImport_!!!.txt
+Assets/SineVFX/TranslucentCrystals/_SRP/!!!_ReadBeforeImport_!!!.txt.meta
+Assets/SineVFX/TranslucentCrystals/_SRP/TranslucentCrystals_HDRP_Patch.unitypackage.meta
+Assets/SineVFX/TranslucentCrystals/_SRP/TranslucentCrystals_HDRP_Patch_Unity6.unitypackage.meta
+Assets/SineVFX/TranslucentCrystals/_SRP/TranslucentCrystals_URP_Patch.unitypackage.meta
+Assets/SineVFX/TranslucentCrystals/_SRP/TranslucentCrystals_URP_Patch_Unity6.unitypackage.meta
+Assets/Terrain/Desert terrain.asset
+Packages/manifest.json
+Packages/packages-lock.json
+ProjectSettings/ProjectSettings.asset
