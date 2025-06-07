@@ -174,14 +174,12 @@ public class Resonator : MonoBehaviour
         {
            StartPlayingSequenceLoop();
         }
-    }
-
-    void Update()
+    }    void Update()
     {
-        // Stop playback if Focus is not held or Hush is nearby
+        // Stop playback if Focus is not held or Hush is nearby AND player is inside hush
         if (!isActivated && sequencePlaybackCoroutine != null)
         {
-            bool shouldPlay = (focusAction != null && focusAction.IsPressed() && !IsHushNearby());
+            bool shouldPlay = (focusAction != null && focusAction.IsPressed() && !ShouldBlockResonatorSound());
             if (!shouldPlay)
             {
                 StopSequencePlayback();
@@ -192,7 +190,7 @@ public class Resonator : MonoBehaviour
             }
         }
         // Optionally, restart playback if focus is pressed again and coroutine is null
-        if (!isActivated && sequencePlaybackCoroutine == null && focusAction != null && focusAction.IsPressed() && !IsHushNearby())
+        if (!isActivated && sequencePlaybackCoroutine == null && focusAction != null && focusAction.IsPressed() && !ShouldBlockResonatorSound())
         {
             StartPlayingSequenceLoop();
         }
@@ -201,7 +199,7 @@ public class Resonator : MonoBehaviour
         if (!isActivated && locatorAudioSource != null)
         {
             bool shouldPlayLocator = false;
-            if (focusAction != null && focusAction.IsPressed() && !IsHushNearby())
+            if (focusAction != null && focusAction.IsPressed() && !ShouldBlockResonatorSound())
             {
                 // Find player GameObject by tag
                 GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -266,22 +264,20 @@ public class Resonator : MonoBehaviour
         // No longer stop locator sound here (independent)
         if (sequencePlaybackCoroutine != null) StopCoroutine(sequencePlaybackCoroutine);
         sequencePlaybackCoroutine = StartCoroutine(PlaySequenceLoopRoutine());
-    }
-
-    IEnumerator PlaySequenceLoopRoutine()
+    }    IEnumerator PlaySequenceLoopRoutine()
     {
         yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
         while (!isActivated)
         {
-            // Only play sequence if Focus is held and no Hush is near
-            if (focusAction != null && focusAction.IsPressed() && !IsHushNearby())
+            // Only play sequence if Focus is held and not blocked by hush
+            if (focusAction != null && focusAction.IsPressed() && !ShouldBlockResonatorSound())
             {
                 for(int i = 0; i < actualSequenceLength; i++)
                 {
                     if(isActivated) yield break;
 
                     // Check again before each sound in case focus/hush changed
-                    if (!(focusAction != null && focusAction.IsPressed() && !IsHushNearby()))
+                    if (!(focusAction != null && focusAction.IsPressed() && !ShouldBlockResonatorSound()))
                     {
                         yield break;
                     }
@@ -305,14 +301,12 @@ public class Resonator : MonoBehaviour
             }
             else
             {
-                // If focus is lost or hush appears, stop playback
+                // If focus is lost or sound is blocked, stop playback
                 yield break;
             }
             yield return new WaitForSeconds(sequenceRepeatDelay);
         }
-    }
-
-    private bool IsHushNearby()
+    }private bool IsHushNearby()
     {
         Collider[] hushNearby = Physics.OverlapSphere(transform.position, hushCheckRadius);
         foreach (var hushCol in hushNearby)
@@ -323,6 +317,32 @@ public class Resonator : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private bool IsPlayerInsideHush()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj == null) return false;
+
+        Collider[] hushNearby = Physics.OverlapSphere(transform.position, hushCheckRadius);
+        foreach (var hushCol in hushNearby)
+        {
+            if (hushCol.CompareTag(hushTag) && hushCol.gameObject.activeInHierarchy)
+            {
+                // Check if player is inside this hush collider
+                if (hushCol.bounds.Contains(playerObj.transform.position))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private bool ShouldBlockResonatorSound()
+    {
+        // Block sound only if hush is near resonator AND player is inside the hush
+        return IsHushNearby() && IsPlayerInsideHush();
     }
 
     AudioClip GetClipForSoundType(SoundType sound)
