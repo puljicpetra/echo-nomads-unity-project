@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic; // Potrebno za List<>
+using System; // For Action delegate
 
 public class ResonancePuzzle : MonoBehaviour
 {
@@ -11,6 +12,12 @@ public class ResonancePuzzle : MonoBehaviour
     private int requiredActivations;
     private int currentActivations = 0;
     private bool isSolved = false;
+
+    // Public property to check if puzzle is solved
+    public bool IsSolved => isSolved;
+
+    // Event that fires when this puzzle is solved
+    public event Action<ResonancePuzzle> OnPuzzleSolved;
 
     void Start()
     {
@@ -59,12 +66,13 @@ public class ResonancePuzzle : MonoBehaviour
         {
             SolvePuzzle();
         }
-    }
-
-    void SolvePuzzle()
+    }    void SolvePuzzle()
     {
         isSolved = true;
         Debug.LogWarning("PUZZLE SOLVED: " + gameObject.name + "!"); // Upozorenje da se lakše vidi u konzoli
+
+        // Fire the puzzle solved event
+        OnPuzzleSolved?.Invoke(this);
 
         // --- OVDJE IDE LOGIKA NAKON RJEŠAVANJA ZAGONETKE ---
         // Npr. Otvori vrata, pokreni animaciju, pusti posebnu melodiju,

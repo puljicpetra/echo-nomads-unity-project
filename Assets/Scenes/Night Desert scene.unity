@@ -27014,6 +27014,14 @@ MonoBehaviour:
     playOnStart: 0
     mixerGroup: {fileID: 6619906624191966263, guid: a4caca720abdf9f488e5043510660a3e, type: 2}
     source: {fileID: 0}
+  - name: CheatActivated
+    clip: {fileID: 8300000, guid: 3dabbb6cf17e33845b9e84f08e0d4f2f, type: 3}
+    volume: 0.945
+    pitch: 1
+    loop: 0
+    playOnStart: 0
+    mixerGroup: {fileID: 6619906624191966263, guid: a4caca720abdf9f488e5043510660a3e, type: 2}
+    source: {fileID: 0}
   backgroundSoundsMixerGroup: {fileID: 8444465260743735844, guid: 59b8381d85b5506458dcda1d1510b7d1, type: 2}
 --- !u!4 &1364338475
 Transform:

@@ -422,4 +422,27 @@ public class Resonator : MonoBehaviour
                 locatorAudioSource.Stop();
         }
     }
+
+    // Visualize radii in the Unity Editor
+    void OnDrawGizmosSelected()
+    {
+        // Draw activation radius (green)
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, activationRadius);
+
+        // Draw hush check radius (red)
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, hushCheckRadius);
+
+        // Draw locator sound range (cyan)
+        if (locatorMaxDistance > 0)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, locatorMaxDistance);
+            
+            // Draw minimum distance for locator (blue)
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, locatorMinDistance);
+        }
+    }
 }

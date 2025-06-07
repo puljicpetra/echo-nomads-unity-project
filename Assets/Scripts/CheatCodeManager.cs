@@ -3,6 +3,9 @@ using Invector.vCharacterController; // Make sure you have this using statement
 
 public class CheatCodeManager : MonoBehaviour
 {
+    // Singleton instance
+    public static CheatCodeManager Instance { get; private set; }
+
     // Add more cheats as needed
     private string[] cheatCodes = { "superspeed", "normalspeed" };
     private int maxCheatLength = 15; // Longest cheat code length ("normalspeed" is 15)
@@ -11,13 +14,38 @@ public class CheatCodeManager : MonoBehaviour
     // Reference to the player controller
     private vThirdPersonController playerController;
     private float normalSprintSpeed = 6f;
-    private float cheatSprintSpeed = 60f;
-    private bool superSpeedActive = false;
+    private float cheatSprintSpeed = 60f;    private bool superSpeedActive = false;
 
     // Add a reference to the AudioManager
     private AudioManager audioManager;
 
+    void Awake()
+    {
+        // Singleton pattern implementation
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
     void Start()
+    {
+        InitializeReferences();
+    }
+
+    void OnEnable()
+    {
+        // Re-initialize references when the scene changes
+        InitializeReferences();
+    }
+
+    void InitializeReferences()
     {
         // Find the player controller in the scene
         var playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -25,7 +53,10 @@ public class CheatCodeManager : MonoBehaviour
         {
             playerController = playerObj.GetComponent<vThirdPersonController>();
             // Assign normal sprint speed
-            normalSprintSpeed = playerController.freeSpeed.sprintSpeed;
+            if (playerController != null)
+            {
+                normalSprintSpeed = playerController.freeSpeed.sprintSpeed;
+            }
         }
 
         // Find the AudioManager in the scene

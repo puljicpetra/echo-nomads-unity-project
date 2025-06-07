@@ -6243,15 +6243,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 184.4
+      value: 45.20056
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -20.1
+      value: 27.02
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 120.9
+      value: 108.562256
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6873,6 +6873,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5461320835613783329, guid: fc9f792a1e4346f44ba6c4dcb1676791, type: 3}
+--- !u!1 &388523740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 388523741}
+  - component: {fileID: 388523742}
+  m_Layer: 0
+  m_Name: PuzzleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &388523741
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388523740}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1476215868}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &388523742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388523740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6220b3f59cc43004bbeb79312bfeb7ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puzzlesInLevel:
+  - {fileID: 1395918896}
+  rewardObject: {fileID: 468972460}
+  completionSoundName: AllPuzzlesComplete
 --- !u!4 &389590825 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 746fb1b47f0d03e4686730233ae85c01, type: 3}
@@ -7714,7 +7762,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &468972461
 Transform:
   m_ObjectHideFlags: 0
@@ -8796,6 +8844,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2054720873}
     - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
+      propertyPath: hushCheckRadius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: spatialClueClip
       value: 
       objectReference: {fileID: 8300000, guid: 1871c34b9bb66c74c8ce432ba8a9c90b, type: 3}
@@ -8837,7 +8889,15 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: b266e68d5f6d1ed4292ddabc7ff2ed85, type: 3}
     - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: requiredSequence.Array.size
-      value: 5
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
+      propertyPath: 'requiredSequence.Array.data[1]'
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
+      propertyPath: 'requiredSequence.Array.data[2]'
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: 'requiredSequence.Array.data[3]'
@@ -10473,6 +10533,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1395918896}
     - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
+      propertyPath: hushCheckRadius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: spatialClueClip
       value: 
       objectReference: {fileID: 8300000, guid: 1871c34b9bb66c74c8ce432ba8a9c90b, type: 3}
@@ -10510,11 +10574,15 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 809ba2295d29ce04e964878636ecd25f, type: 3}
     - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: requiredSequence.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: 'requiredSequence.Array.data[1]'
-      value: 4
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
+      propertyPath: 'requiredSequence.Array.data[2]'
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1298090355419885560, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12862,6 +12930,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1395918896}
     - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
+      propertyPath: hushCheckRadius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: spatialClueClip
       value: 
       objectReference: {fileID: 8300000, guid: 1871c34b9bb66c74c8ce432ba8a9c90b, type: 3}
@@ -12897,6 +12969,18 @@ PrefabInstance:
       propertyPath: 'soundClips.Array.data[3]'
       value: 
       objectReference: {fileID: 8300000, guid: 809ba2295d29ce04e964878636ecd25f, type: 3}
+    - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
+      propertyPath: requiredSequence.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
+      propertyPath: 'requiredSequence.Array.data[1]'
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1311952872616942227, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
+      propertyPath: 'requiredSequence.Array.data[2]'
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1298090355419885560, guid: c51cf236be8c3b34b9f6d1245c3473a8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -22893,6 +22977,14 @@ MonoBehaviour:
     playOnStart: 0
     mixerGroup: {fileID: 6619906624191966263, guid: a4caca720abdf9f488e5043510660a3e, type: 2}
     source: {fileID: 0}
+  - name: AllPuzzlesComplete
+    clip: {fileID: 8300000, guid: 3dabbb6cf17e33845b9e84f08e0d4f2f, type: 3}
+    volume: 0.945
+    pitch: 1
+    loop: 0
+    playOnStart: 0
+    mixerGroup: {fileID: 6619906624191966263, guid: a4caca720abdf9f488e5043510660a3e, type: 2}
+    source: {fileID: 0}
   backgroundSoundsMixerGroup: {fileID: 8444465260743735844, guid: 59b8381d85b5506458dcda1d1510b7d1, type: 2}
 --- !u!4 &1364338475
 Transform:
@@ -23033,11 +23125,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.4655151
+      value: -185.71
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.51
+      value: 14.24
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -23726,7 +23818,7 @@ Transform:
   m_GameObject: {fileID: 1395918895}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 399.6101, y: 180.2, z: 1916.6619}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -24935,6 +25027,7 @@ Transform:
   - {fileID: 1395918897}
   - {fileID: 2083996809}
   - {fileID: 778768334}
+  - {fileID: 388523741}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1482610808
@@ -35112,15 +35205,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10
+      value: -20.22
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.88
+      value: 4.31
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.7
+      value: -97.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea4ec16997b423143871c98ab7cb5ef9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -35545,7 +35638,7 @@ Transform:
   m_GameObject: {fileID: 2083996803}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70643646, y: 0.030781869, z: 0.030781869, w: 0.70643646}
-  m_LocalPosition: {x: 567.6496, y: 167, z: 1547.2278}
+  m_LocalPosition: {x: 205.9563, y: 196.97, z: 1938.1912}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
