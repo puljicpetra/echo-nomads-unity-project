@@ -27,16 +27,30 @@ public class LevelPuzzleManager : MonoBehaviour
     [Header("Audio Settings")]
     [Tooltip("Name of the sound to play when ALL puzzles are completed (must exist in AudioManager)")]
     public string levelCompletionSoundName = "AllPuzzlesComplete";
+    
+    [Header("Persistence Settings")]
+    [SerializeField] private string levelId;
+    [SerializeField] private bool enablePersistence = true;
 
     // Internal state
     private int totalPuzzles;
     private int solvedPuzzles = 0;
-    private bool levelCompleted = false;
-
-    void Start()
+    private bool levelCompleted = false;    void Start()
     {
+        // Generate unique ID if not set
+        if (string.IsNullOrEmpty(levelId))
+        {
+            levelId = $"level_{transform.GetInstanceID()}";
+        }
+
         InitializePuzzleTracking();
-    }    void InitializePuzzleTracking()
+        
+        // Load saved state if persistence is enabled
+        if (enablePersistence)
+        {
+            LoadLevelState();
+        }
+    }void InitializePuzzleTracking()
     {
         // Set total number of puzzles
         totalPuzzles = puzzleRewardPairs.Count;
@@ -136,6 +150,12 @@ public class LevelPuzzleManager : MonoBehaviour
         levelCompleted = true;
         Debug.LogWarning($"ALL PUZZLES COMPLETED IN LEVEL: {gameObject.name}!");
 
+        // Save level completion state if persistence is enabled
+        if (enablePersistence)
+        {
+            SaveLevelState();
+        }
+
         // Play level completion sound
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(levelCompletionSoundName))
         {
@@ -183,5 +203,131 @@ public class LevelPuzzleManager : MonoBehaviour
             }
         }
         Debug.Log($"Current puzzle states: {currentSolved}/{totalPuzzles} solved");
+    }
+
+    // === PERSISTENCE METHODS ===
+    
+    void SaveLevelState()
+    {
+        if (!enablePersistence) return;
+
+        try
+        {
+            string savePrefix = CheckpointManager.Instance != null ? 
+                CheckpointManager.Instance.GetComponent<CheckpointManager>().gameObject.name + "_" : 
+                "EchoNomads_";
+
+            PlayerPrefs.SetInt($"{savePrefix}Level_{levelId}_Completed", levelCompleted ? 1 : 0);
+            PlayerPrefs.SetInt($"{savePrefix}Level_{levelId}_SolvedPuzzles", solvedPuzzles);
+            PlayerPrefs.SetString($"{savePrefix}Level_{levelId}_SaveTime", System.DateTime.Now.ToBinary().ToString());
+            PlayerPrefs.Save();
+
+            Debug.Log($"LevelPuzzleManager: Saved state for level '{levelId}' - Completed: {levelCompleted}, Solved: {solvedPuzzles}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"LevelPuzzleManager: Failed to save level state - {e.Message}");
+        }
+    }
+
+    void LoadLevelState()
+    {
+        if (!enablePersistence) return;
+
+        try
+        {
+            string savePrefix = CheckpointManager.Instance != null ? 
+                CheckpointManager.Instance.GetComponent<CheckpointManager>().gameObject.name + "_" : 
+                "EchoNomads_";
+
+            if (PlayerPrefs.HasKey($"{savePrefix}Level_{levelId}_Completed"))
+            {
+                bool wasCompleted = PlayerPrefs.GetInt($"{savePrefix}Level_{levelId}_Completed") == 1;
+                int savedSolvedCount = PlayerPrefs.GetInt($"{savePrefix}Level_{levelId}_SolvedPuzzles", 0);
+
+                if (wasCompleted)
+                {
+                    levelCompleted = true;
+                    solvedPuzzles = savedSolvedCount;
+
+                    // Activate level completion reward object
+                    if (levelCompletionRewardObject != null)
+                    {
+                        levelCompletionRewardObject.SetActive(true);
+                    }
+
+                    // Activate all individual puzzle rewards
+                    foreach (PuzzleRewardPair pair in puzzleRewardPairs)
+                    {
+                        if (pair.puzzle != null && pair.puzzle.IsSolved)
+                        {
+                            if (pair.rewardObjects != null && pair.rewardObjects.Count > 0)
+                            {
+                                foreach (GameObject rewardObj in pair.rewardObjects)
+                                {
+                                    if (rewardObj != null)
+                                    {
+                                        rewardObj.SetActive(true);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Debug.Log($"LevelPuzzleManager: Loaded completed level state for '{levelId}'");
+                }
+                else if (savedSolvedCount > 0)
+                {
+                    solvedPuzzles = savedSolvedCount;
+                    
+                    // Activate rewards for individual solved puzzles
+                    foreach (PuzzleRewardPair pair in puzzleRewardPairs)
+                    {
+                        if (pair.puzzle != null && pair.puzzle.IsSolved)
+                        {
+                            if (pair.rewardObjects != null && pair.rewardObjects.Count > 0)
+                            {
+                                foreach (GameObject rewardObj in pair.rewardObjects)
+                                {
+                                    if (rewardObj != null)
+                                    {
+                                        rewardObj.SetActive(true);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Debug.Log($"LevelPuzzleManager: Loaded partial level state for '{levelId}' - Solved: {solvedPuzzles}/{totalPuzzles}");
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"LevelPuzzleManager: Failed to load level state - {e.Message}");
+        }
+    }
+
+    public void ClearSaveData()
+    {
+        if (!enablePersistence) return;
+
+        try
+        {
+            string savePrefix = CheckpointManager.Instance != null ? 
+                CheckpointManager.Instance.GetComponent<CheckpointManager>().gameObject.name + "_" : 
+                "EchoNomads_";
+
+            PlayerPrefs.DeleteKey($"{savePrefix}Level_{levelId}_Completed");
+            PlayerPrefs.DeleteKey($"{savePrefix}Level_{levelId}_SolvedPuzzles");
+            PlayerPrefs.DeleteKey($"{savePrefix}Level_{levelId}_SaveTime");
+            PlayerPrefs.Save();
+
+            Debug.Log($"LevelPuzzleManager: Cleared save data for level '{levelId}'");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"LevelPuzzleManager: Failed to clear save data - {e.Message}");
+        }
     }
 }

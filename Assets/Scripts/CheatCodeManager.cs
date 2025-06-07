@@ -4,12 +4,10 @@ using Invector.vCharacterController; // Make sure you have this using statement
 public class CheatCodeManager : MonoBehaviour
 {
     // Singleton instance
-    public static CheatCodeManager Instance { get; private set; }
-
-    // Add more cheats as needed
-    private string[] cheatCodes = { "superspeed", "normalspeed" };
+    public static CheatCodeManager Instance { get; private set; }    // Add more cheats as needed
+    private string[] cheatCodes = { "superspeed", "normalspeed", "reset", "clearsave" };
     private int maxCheatLength = 15; // Longest cheat code length ("normalspeed" is 15)
-    private string inputBuffer = "";    // Reference to the player controller
+    private string inputBuffer = "";// Reference to the player controller
     private vThirdPersonController playerController;
     private float normalSprintSpeed = 6f;
     private float cheatSprintSpeed = 60f;
@@ -85,9 +83,7 @@ public class CheatCodeManager : MonoBehaviour
         {
             ApplySuperSpeedGrounding();
         }
-    }
-
-    void CheckCheatCodes()
+    }    void CheckCheatCodes()
     {
         if (inputBuffer.EndsWith("superspeed") && !superSpeedActive)
         {
@@ -97,8 +93,16 @@ public class CheatCodeManager : MonoBehaviour
         {
             ActivateNormalSpeed();
         }
+        else if (inputBuffer.EndsWith("reset"))
+        {
+            ActivateResetCheat();
+        }
+        else if (inputBuffer.EndsWith("clearsave"))
+        {
+            ActivateClearSaveCheat();
+        }
         // Add more cheats here
-    }    void ActivateSuperSpeed()
+    }void ActivateSuperSpeed()
     {
         if (playerController != null)
         {
@@ -120,9 +124,7 @@ public class CheatCodeManager : MonoBehaviour
                 audioManager.Play("CheatActivated");
             }
         }
-    }
-
-    void ActivateNormalSpeed()
+    }    void ActivateNormalSpeed()
     {
         if (playerController != null)
         {
@@ -143,6 +145,111 @@ public class CheatCodeManager : MonoBehaviour
             {
                 audioManager.Play("CheatActivated");
             }
+        }
+    }
+
+    void ActivateResetCheat()
+    {
+        Debug.Log("Reset Cheat Activated - Teleporting to nearest checkpoint!");
+        
+        // Use CheckpointManager to teleport to nearest checkpoint
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.TeleportToNearestCheckpoint();
+            
+            // Play cheat activated sound
+            if (audioManager != null)
+            {
+                audioManager.Play("CheatActivated");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Reset Cheat: CheckpointManager not found! Make sure CheckpointManager is in the scene.");
+            
+            // Fallback: Try to find and use any checkpoint directly
+            Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
+            if (checkpoints.Length > 0)
+            {
+                // Find nearest checkpoint manually
+                var playerObj = GameObject.FindGameObjectWithTag("Player");
+                if (playerObj != null)
+                {
+                    Checkpoint nearest = null;
+                    float shortestDistance = float.MaxValue;
+                    
+                    foreach (var checkpoint in checkpoints)
+                    {
+                        float distance = Vector3.Distance(playerObj.transform.position, checkpoint.transform.position);
+                        if (distance < shortestDistance)
+                        {
+                            shortestDistance = distance;
+                            nearest = checkpoint;
+                        }
+                    }
+                    
+                    if (nearest != null)
+                    {
+                        nearest.RespawnPlayerHere();
+                        Debug.Log($"Reset Cheat: Teleported to checkpoint '{nearest.CheckpointId}' (fallback method)");
+                        
+                        // Play sound
+                        if (audioManager != null)
+                        {
+                            audioManager.Play("CheatActivated");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Reset Cheat: No checkpoints found in scene!");            }
+        }
+    }
+
+    void ActivateClearSaveCheat()
+    {
+        Debug.Log("Clear Save Cheat Activated - Clearing all save data!");
+        
+        // Clear checkpoint save data
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.ClearSaveData();
+        }
+        
+        // Clear player position save data
+        var playerPersistence = FindObjectOfType<PlayerPersistence>();
+        if (playerPersistence != null)
+        {
+            playerPersistence.ClearSaveData();
+        }
+        
+        // Clear puzzle save data
+        var puzzles = FindObjectsOfType<ResonancePuzzle>();
+        foreach (var puzzle in puzzles)
+        {
+            if (puzzle != null)
+            {
+                puzzle.ClearSaveData();
+            }
+        }
+        
+        // Clear level save data
+        var levelManagers = FindObjectsOfType<LevelPuzzleManager>();
+        foreach (var levelManager in levelManagers)
+        {
+            if (levelManager != null)
+            {
+                levelManager.ClearSaveData();
+            }
+        }
+        
+        Debug.Log("Clear Save Cheat: All save data cleared! Game will restart fresh on next load.");
+        
+        // Play cheat activated sound
+        if (audioManager != null)
+        {
+            audioManager.Play("CheatActivated");
         }
     }
 
