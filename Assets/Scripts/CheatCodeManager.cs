@@ -5,7 +5,7 @@ public class CheatCodeManager : MonoBehaviour
 {
     // Singleton instance
     public static CheatCodeManager Instance { get; private set; }    // Add more cheats as needed
-    private string[] cheatCodes = { "superspeed", "normalspeed", "reset", "clearsave" };
+    private string[] cheatCodes = { "superspeed", "normalspeed", "reset", "clearsave", "autosolve" };
     private int maxCheatLength = 15; // Longest cheat code length ("normalspeed" is 15)
     private string inputBuffer = "";// Reference to the player controller
     private vThirdPersonController playerController;
@@ -61,11 +61,30 @@ public class CheatCodeManager : MonoBehaviour
                 originalExtraGravity = playerController.extraGravity;
                 originalGroundMaxDistance = playerController.groundMaxDistance;
             }
-        }
-
-        // Find the AudioManager in the scene
+        }        // Find the AudioManager in the scene
         audioManager = FindObjectOfType<AudioManager>();
-    }    void Update()
+        
+        // Enhanced AudioManager debugging
+        if (audioManager != null)
+        {
+            Debug.Log("CheatCodeManager: AudioManager found successfully");
+            if (AudioManager.Instance == null)
+            {
+                Debug.LogWarning("CheatCodeManager: AudioManager found but Instance is null!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("CheatCodeManager: AudioManager not found in scene!");
+            // Try to find it by name as fallback
+            var audioManagerObj = GameObject.Find("AudioManager");
+            if (audioManagerObj != null)
+            {
+                audioManager = audioManagerObj.GetComponent<AudioManager>();
+                Debug.Log($"CheatCodeManager: Found AudioManager by name, component: {audioManager != null}");
+            }
+        }
+    }void Update()
     {
         foreach (char c in Input.inputString)
         {
@@ -100,6 +119,10 @@ public class CheatCodeManager : MonoBehaviour
         else if (inputBuffer.EndsWith("clearsave"))
         {
             ActivateClearSaveCheat();
+        }
+        else if (inputBuffer.EndsWith("autosolve"))
+        {
+            ActivateAutoSolveCheat();
         }
         // Add more cheats here
     }void ActivateSuperSpeed()
@@ -250,6 +273,131 @@ public class CheatCodeManager : MonoBehaviour
         if (audioManager != null)
         {
             audioManager.Play("CheatActivated");
+        }
+    }    void ActivateAutoSolveCheat()
+    {
+        Debug.Log("AutoSolve Cheat Activated - Checking for resonators in player range!");
+        
+        // Find the player
+        var playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj == null)
+        {
+            Debug.LogWarning("AutoSolve Cheat: Player not found!");
+            return;
+        }
+        
+        Debug.Log($"AutoSolve Cheat: Player found at position {playerObj.transform.position}");
+        
+        // Find all resonators in the scene
+        Resonator[] allResonators = FindObjectsOfType<Resonator>();
+        Debug.Log($"AutoSolve Cheat: Found {allResonators.Length} resonators in scene");
+        
+        if (allResonators.Length == 0)
+        {
+            Debug.LogWarning("AutoSolve Cheat: No resonators found in scene!");
+            return;
+        }
+        
+        bool foundResonatorInRange = false;
+        int activatedCount = 0;
+          foreach (Resonator resonator in allResonators)
+        {
+            if (resonator == null) continue;
+              // Check if player is within this resonator's activation radius
+            float distance = Vector3.Distance(playerObj.transform.position, resonator.transform.position);
+            
+            // Get the activation radius from the resonator and account for scale
+            float baseActivationRadius = resonator.activationRadius;
+            
+            // Get the maximum scale component to account for scaling
+            Vector3 scale = resonator.transform.lossyScale;
+            float maxScale = Mathf.Max(scale.x, scale.y, scale.z);
+            float scaledActivationRadius = baseActivationRadius * maxScale;
+            
+            Debug.Log($"AutoSolve Cheat: Resonator '{resonator.gameObject.name}' at distance {distance:F2}, base radius {baseActivationRadius:F2}, scale {maxScale:F2}, scaled radius {scaledActivationRadius:F2}");
+            
+            if (distance <= scaledActivationRadius)
+            {
+                foundResonatorInRange = true;
+                Debug.Log($"AutoSolve Cheat: Resonator '{resonator.gameObject.name}' is in range!");
+                
+                // Check if this resonator is already activated
+                // Use reflection to access the private isActivated field
+                var isActivatedField = resonator.GetType().GetField("isActivated", 
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                
+                if (isActivatedField != null)
+                {
+                    bool isActivated = (bool)isActivatedField.GetValue(resonator);
+                    
+                    if (!isActivated)
+                    {
+                        Debug.Log($"AutoSolve Cheat: Attempting to activate resonator '{resonator.gameObject.name}'");
+                        // Use reflection to call the private ActivateResonator method
+                        var activateMethod = resonator.GetType().GetMethod("ActivateResonator",
+                            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                        
+                        if (activateMethod != null)
+                        {
+                            activateMethod.Invoke(resonator, null);
+                            activatedCount++;
+                            Debug.Log($"AutoSolve Cheat: Activated resonator '{resonator.gameObject.name}'");
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"AutoSolve Cheat: Could not find ActivateResonator method on '{resonator.gameObject.name}'");
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log($"AutoSolve Cheat: Resonator '{resonator.gameObject.name}' is already activated");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"AutoSolve Cheat: Could not access isActivated field on '{resonator.gameObject.name}'");
+                }
+            }
+        }
+        
+        if (!foundResonatorInRange)
+        {
+            Debug.LogWarning("AutoSolve Cheat: Player is not within range of any resonators!");
+        }        else if (activatedCount > 0)
+        {
+            Debug.Log($"AutoSolve Cheat: Successfully activated {activatedCount} resonator(s)!");
+              // Play cheat activated sound
+            if (audioManager != null)
+            {
+                try
+                {
+                    // Additional validation for debugging
+                    if (AudioManager.Instance == null)
+                    {
+                        Debug.LogWarning("AutoSolve Cheat: AudioManager.Instance is null!");
+                    }
+                    else
+                    {
+                        // Call validation method to diagnose issues
+                        AudioManager.Instance.ValidateAudioManager();
+                    }
+                    
+                    audioManager.Play("CheatActivated");
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogWarning($"AutoSolve Cheat: Could not play audio - {e.Message}");
+                    Debug.LogWarning($"AudioManager state: audioManager={audioManager != null}, Instance={AudioManager.Instance != null}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("AutoSolve Cheat: AudioManager not found, skipping sound effect");
+            }
+        }
+        else
+        {
+            Debug.Log("AutoSolve Cheat: All resonators in range are already activated!");
         }
     }
 

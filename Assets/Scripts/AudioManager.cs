@@ -33,23 +33,41 @@ public class AudioManager : MonoBehaviour
         }
 
         // Initialize the dictionary
-        soundDictionary = new Dictionary<string, Sound>();
-
-        // Set up AudioSource components for each sound
+        soundDictionary = new Dictionary<string, Sound>();        // Set up AudioSource components for each sound
         foreach (Sound sound in sounds)
         {
-            sound.source = gameObject.AddComponent<AudioSource>();
-            sound.source.clip = sound.clip;
-            sound.source.volume = sound.volume;
-            sound.source.pitch = sound.pitch;
-            sound.source.loop = sound.loop;
+            if (sound == null)
+            {
+                Debug.LogError("AudioManager: Found null sound in sounds array!");
+                continue;
+            }
+            
+            if (sound.clip == null)
+            {
+                Debug.LogError($"AudioManager: Sound '{sound.name}' has no AudioClip assigned!");
+                continue;
+            }
+            
+            try
+            {
+                sound.source = gameObject.AddComponent<AudioSource>();
+                sound.source.clip = sound.clip;
+                sound.source.volume = sound.volume;
+                sound.source.pitch = sound.pitch;
+                sound.source.loop = sound.loop;
 
-            // Only assign mixerGroup, fallback to background if null
-            sound.source.outputAudioMixerGroup = sound.mixerGroup != null
-                ? sound.mixerGroup
-                : backgroundSoundsMixerGroup;
+                // Only assign mixerGroup, fallback to background if null
+                sound.source.outputAudioMixerGroup = sound.mixerGroup != null
+                    ? sound.mixerGroup
+                    : backgroundSoundsMixerGroup;
 
-            soundDictionary.Add(sound.name, sound);
+                soundDictionary.Add(sound.name, sound);
+                Debug.Log($"AudioManager: Successfully initialized sound '{sound.name}'");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"AudioManager: Failed to initialize sound '{sound.name}': {e.Message}");
+            }
         }
     }
 
@@ -63,15 +81,20 @@ public class AudioManager : MonoBehaviour
                 Play(sound.name);
             }
         }
-    }
-
-    // Play a sound by name
+    }    // Play a sound by name
     public void Play(string soundName)
     {
         if (soundDictionary.TryGetValue(soundName, out Sound sound))
         {
-            sound.source.Play();
-            Debug.Log($"Playing sound: {soundName}");
+            if (sound != null && sound.source != null)
+            {
+                sound.source.Play();
+                Debug.Log($"Playing sound: {soundName}");
+            }
+            else
+            {
+                Debug.LogError($"Sound '{soundName}' or its AudioSource is null! AudioManager may not be properly initialized.");
+            }
         }
         else
         {
@@ -127,6 +150,26 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogWarning($"Sound {soundName} not found!");
             return false;
+        }
+    }
+
+    // Validation method to check AudioManager state
+    public void ValidateAudioManager()
+    {
+        Debug.Log($"AudioManager Validation:");
+        Debug.Log($"- Instance: {(Instance != null ? "OK" : "NULL")}");
+        Debug.Log($"- Sounds array: {(sounds != null ? sounds.Length.ToString() : "NULL")} sounds");
+        Debug.Log($"- Sound dictionary: {(soundDictionary != null ? soundDictionary.Count.ToString() : "NULL")} entries");
+        
+        if (sounds != null)
+        {
+            foreach (Sound sound in sounds)
+            {
+                if (sound != null)
+                {
+                    Debug.Log($"- Sound '{sound.name}': Source={sound.source != null}, Clip={sound.clip != null}");
+                }
+            }
         }
     }
 }

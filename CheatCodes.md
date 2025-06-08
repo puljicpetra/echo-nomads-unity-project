@@ -50,7 +50,22 @@ Simply type the cheat code while playing the game. The system will automatically
 **Usage**: Type `clearsave` during gameplay
 **Audio**: Plays "CheatActivated" sound effect
 
+### 5. `autosolve`
+**Effect**: Automatically activates resonators within the player's range
+
+- Finds all resonators in the current scene
+- Checks if the player is within each resonator's activation radius
+- Automatically activates any resonators that are in range and not already activated
+- Uses advanced reflection techniques to access private resonator methods
+- Useful for quickly solving puzzles or testing puzzle completion
+
+**Usage**: Type `autosolve` during gameplay when near resonators
+**Audio**: Plays "CheatActivated" sound effect
+**Note**: Only works on resonators within their activation radius from the player
+
 ## Game Systems Documentation
+
+### Scene Transition System
 
 ### Scene Transition System
 
@@ -164,6 +179,14 @@ When super speed is active, the system applies special physics modifications:
 - Debug warnings for missing managers or components
 - Multiple fallback systems for critical functions like checkpoint teleportation
 - Automatic player re-finding if references are lost
+
+### AutoSolve Cheat Implementation
+
+- **Range Detection**: Uses each resonator's individual `activationRadius` property
+- **Reflection System**: Accesses private `isActivated` field and `ActivateResonator()` method
+- **Safety Checks**: Validates resonator components and methods before attempting activation
+- **Smart Activation**: Only activates resonators that are not already activated
+- **Debug Logging**: Comprehensive logging for troubleshooting and feedback
 
 ## Notes
 
