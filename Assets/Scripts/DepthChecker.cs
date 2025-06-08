@@ -2,16 +2,20 @@ using UnityEngine;
 using Invector.vCharacterController;
 using System.Collections.Generic;
 
+/// <summary>
+/// Zone-based depth checker that manages fall death triggers instead of global depth monitoring.
+/// This provides better performance and more flexible placement of death zones.
+/// </summary>
 public class DepthChecker : MonoBehaviour
 {
-    [Header("Depth Monitoring Settings")]
-    [SerializeField] private float deathDepth = -50f;
-    [SerializeField] private bool enableDepthChecking = true;
-    [SerializeField] private float checkInterval = 0.5f; // Check every 0.5 seconds for performance
+    [Header("Fall Death Management")]
+    [SerializeField] private bool autoFindTriggers = true;
+    [SerializeField] private List<FallDeathTrigger> fallDeathTriggers = new List<FallDeathTrigger>();
     
-    [Header("Zone-Based Disable Settings")]
-    [SerializeField] private bool useZoneBasedDisabling = true;
-    [SerializeField] private List<DepthCheckDisableZone> disableZones = new List<DepthCheckDisableZone>();
+    [Header("Legacy Support (Deprecated)")]
+    [SerializeField] private bool enableLegacyDepthChecking = false;
+    [SerializeField] private float legacyDeathDepth = -50f;
+    [SerializeField] private float checkInterval = 2f; // Reduced frequency since it's deprecated
     
     [Header("Audio Settings")]
     [SerializeField] private string fallDeathSoundName = "PlayerFallDeath";
@@ -25,28 +29,38 @@ public class DepthChecker : MonoBehaviour
     private vThirdPersonController playerController;
     private float lastCheckTime;
     private bool isRespawning = false;
-    private bool isInDisableZone = false;
-    private int activeDisableZones = 0; // Counter for overlapping zones
+    private int activeFallTriggers = 0;
 
     // Events
     public System.Action OnPlayerFellTooDeep;
-    public System.Action OnPlayerRespawned;
-
-    void Start()
+    public System.Action OnPlayerRespawned;    void Start()
     {
         FindPlayer();
+        
+        if (autoFindTriggers)
+        {
+            FindAllFallDeathTriggers();
+        }
+        
+        RegisterTriggerEvents();
         lastCheckTime = Time.time;
+        
+        if (debugMode)
+        {
+            Debug.Log($"DepthChecker: Initialized with {fallDeathTriggers.Count} fall death triggers");
+        }
     }
 
     void Update()
     {
-        if (!enableDepthChecking || isRespawning) return;
-
-        // Check depth at intervals for better performance
-        if (Time.time - lastCheckTime >= checkInterval)
+        // Legacy depth checking (deprecated but kept for compatibility)
+        if (enableLegacyDepthChecking && !isRespawning)
         {
-            CheckPlayerDepth();
-            lastCheckTime = Time.time;
+            if (Time.time - lastCheckTime >= checkInterval)
+            {
+                CheckLegacyPlayerDepth();
+                lastCheckTime = Time.time;
+            }
         }
     }
 
@@ -68,7 +82,89 @@ public class DepthChecker : MonoBehaviour
         }
     }
 
-    void CheckPlayerDepth()
+    void FindAllFallDeathTriggers()
+    {
+        FallDeathTrigger[] sceneTriggers = FindObjectsOfType<FallDeathTrigger>();
+        
+        foreach (var trigger in sceneTriggers)
+        {
+            if (!fallDeathTriggers.Contains(trigger))
+            {
+                fallDeathTriggers.Add(trigger);
+            }
+        }
+        
+        if (debugMode)
+        {
+            Debug.Log($"DepthChecker: Found {sceneTriggers.Length} FallDeathTrigger components in scene");
+        }
+    }
+
+    void RegisterTriggerEvents()
+    {
+        foreach (var trigger in fallDeathTriggers)
+        {
+            if (trigger != null)
+            {
+                // Subscribe to trigger events
+                trigger.OnPlayerFellIntoTrigger += OnPlayerFellIntoTrigger;
+                trigger.OnPlayerRespawned += OnPlayerRespawnedFromTrigger;
+                
+                if (debugMode)
+                {
+                    Debug.Log($"DepthChecker: Registered events for trigger '{trigger.GetTriggerName()}'");
+                }
+            }
+        }
+    }
+
+    void UnregisterTriggerEvents()
+    {
+        foreach (var trigger in fallDeathTriggers)
+        {
+            if (trigger != null)
+            {
+                // Unsubscribe from trigger events
+                trigger.OnPlayerFellIntoTrigger -= OnPlayerFellIntoTrigger;
+                trigger.OnPlayerRespawned -= OnPlayerRespawnedFromTrigger;
+            }
+        }
+    }
+
+    // Event handlers for fall death triggers
+    void OnPlayerFellIntoTrigger(GameObject player)
+    {
+        activeFallTriggers++;
+        isRespawning = true;
+        
+        // Trigger our event
+        OnPlayerFellTooDeep?.Invoke();
+        
+        if (debugMode)
+        {
+            Debug.Log($"DepthChecker: Player fell into trigger (active triggers: {activeFallTriggers})");
+        }
+    }
+
+    void OnPlayerRespawnedFromTrigger(GameObject player)
+    {
+        activeFallTriggers = Mathf.Max(0, activeFallTriggers - 1);
+        
+        // Only mark as not respawning if no other triggers are active
+        if (activeFallTriggers == 0)
+        {
+            isRespawning = false;
+        }
+        
+        // Trigger our event
+        OnPlayerRespawned?.Invoke();
+        
+        if (debugMode)
+        {
+            Debug.Log($"DepthChecker: Player respawned from trigger (active triggers: {activeFallTriggers})");
+        }
+    }    // Legacy depth checking (deprecated but kept for backwards compatibility)
+    void CheckLegacyPlayerDepth()
     {
         if (playerObject == null)
         {
@@ -76,47 +172,26 @@ public class DepthChecker : MonoBehaviour
             return;
         }
 
-        // Check if player is in a disable zone
-        if (useZoneBasedDisabling && IsPlayerInDisableZone())
+        // Skip depth checking if in a disable zone
+        if (IsDepthCheckingDisabled())
         {
-            if (debugMode)
-            {
-                Debug.Log("DepthChecker: Player is in disable zone, skipping depth check");
-            }
             return;
         }
 
         float currentY = playerObject.transform.position.y;
         
-        if (currentY <= deathDepth)
+        if (currentY <= legacyDeathDepth)
         {
             if (debugMode)
             {
-                Debug.Log($"DepthChecker: Player fell below death depth ({currentY} <= {deathDepth}). Initiating respawn...");
+                Debug.Log($"DepthChecker: Player fell below legacy death depth ({currentY} <= {legacyDeathDepth}). Initiating respawn...");
             }
             
-            HandlePlayerFallDeath();
+            HandleLegacyPlayerFallDeath();
         }
     }
 
-    bool IsPlayerInDisableZone()
-    {
-        if (playerObject == null) return false;
-        
-        Vector3 playerPos = playerObject.transform.position;
-        
-        foreach (var zone in disableZones)
-        {
-            if (zone != null && zone.IsPointInZone(playerPos))
-            {
-                return true;
-            }
-        }
-        
-        return activeDisableZones > 0; // Also check trigger-based zones
-    }
-
-    void HandlePlayerFallDeath()
+    void HandleLegacyPlayerFallDeath()
     {
         if (isRespawning) return; // Prevent multiple respawn calls
         
@@ -153,7 +228,7 @@ public class DepthChecker : MonoBehaviour
             
             if (debugMode)
             {
-                Debug.Log("DepthChecker: Player respawned at checkpoint");
+                Debug.Log("DepthChecker: Player respawned at checkpoint (legacy method)");
             }
         }
         else
@@ -176,24 +251,22 @@ public class DepthChecker : MonoBehaviour
     void ReenableDepthChecking()
     {
         isRespawning = false;
-    }
-
-    // Public methods for external control
+    }    // Public methods for external control and backwards compatibility
     public void SetDeathDepth(float newDepth)
     {
-        deathDepth = newDepth;
+        legacyDeathDepth = newDepth;
         if (debugMode)
         {
-            Debug.Log($"DepthChecker: Death depth set to {deathDepth}");
+            Debug.Log($"DepthChecker: Legacy death depth set to {legacyDeathDepth}");
         }
     }
 
     public void EnableDepthChecking(bool enable)
     {
-        enableDepthChecking = enable;
+        enableLegacyDepthChecking = enable;
         if (debugMode)
         {
-            Debug.Log($"DepthChecker: Depth checking {(enable ? "enabled" : "disabled")}");
+            Debug.Log($"DepthChecker: Legacy depth checking {(enable ? "enabled" : "disabled")}");
         }
     }
 
@@ -214,73 +287,39 @@ public class DepthChecker : MonoBehaviour
             Debug.Log("DepthChecker: Force respawn triggered");
         }
         
-        HandlePlayerFallDeath();
+        HandleLegacyPlayerFallDeath();
     }
 
-    // Zone management methods
-    public void RegisterDisableZone(DepthCheckDisableZone zone)
+    // Fall Death Trigger management methods
+    public void RegisterFallDeathTrigger(FallDeathTrigger trigger)
     {
-        if (!disableZones.Contains(zone))
+        if (trigger != null && !fallDeathTriggers.Contains(trigger))
         {
-            disableZones.Add(zone);
+            fallDeathTriggers.Add(trigger);
+            
+            // Register events
+            trigger.OnPlayerFellIntoTrigger += OnPlayerFellIntoTrigger;
+            trigger.OnPlayerRespawned += OnPlayerRespawnedFromTrigger;
+            
             if (debugMode)
             {
-                Debug.Log($"DepthChecker: Registered disable zone '{zone.name}'");
+                Debug.Log($"DepthChecker: Registered fall death trigger '{trigger.GetTriggerName()}'");
             }
         }
     }
 
-    public void UnregisterDisableZone(DepthCheckDisableZone zone)
+    public void UnregisterFallDeathTrigger(FallDeathTrigger trigger)
     {
-        if (disableZones.Remove(zone))
+        if (trigger != null && fallDeathTriggers.Remove(trigger))
         {
+            // Unregister events
+            trigger.OnPlayerFellIntoTrigger -= OnPlayerFellIntoTrigger;
+            trigger.OnPlayerRespawned -= OnPlayerRespawnedFromTrigger;
+            
             if (debugMode)
             {
-                Debug.Log($"DepthChecker: Unregistered disable zone '{zone.name}'");
+                Debug.Log($"DepthChecker: Unregistered fall death trigger '{trigger.GetTriggerName()}'");
             }
-        }
-    }
-
-    // Called by trigger zones
-    public void OnPlayerEnterDisableZone(string zoneName = "")
-    {
-        activeDisableZones++;
-        isInDisableZone = true;
-        
-        if (debugMode)
-        {
-            Debug.Log($"DepthChecker: Player entered disable zone {zoneName}. Active zones: {activeDisableZones}");
-        }
-    }
-
-    public void OnPlayerExitDisableZone(string zoneName = "")
-    {
-        activeDisableZones = Mathf.Max(0, activeDisableZones - 1);
-        isInDisableZone = activeDisableZones > 0;
-        
-        if (debugMode)
-        {
-            Debug.Log($"DepthChecker: Player exited disable zone {zoneName}. Active zones: {activeDisableZones}");
-        }
-    }
-
-    // Manual zone control methods
-    public void DisableDepthCheckingInArea(bool disable = true)
-    {
-        if (disable)
-        {
-            activeDisableZones++;
-            isInDisableZone = true;
-        }
-        else
-        {
-            activeDisableZones = Mathf.Max(0, activeDisableZones - 1);
-            isInDisableZone = activeDisableZones > 0;
-        }
-        
-        if (debugMode)
-        {
-            Debug.Log($"DepthChecker: Manual zone control - Depth checking {(isInDisableZone ? "disabled" : "enabled")}");
         }
     }
 
@@ -290,33 +329,37 @@ public class DepthChecker : MonoBehaviour
         return playerObject != null ? playerObject.transform.position.y : float.MinValue;
     }
 
-    public float GetDeathDepth() => deathDepth;
-    public bool IsDepthCheckingEnabled() => enableDepthChecking && !isInDisableZone;
+    public float GetLegacyDeathDepth() => legacyDeathDepth;
+    public bool IsLegacyDepthCheckingEnabled() => enableLegacyDepthChecking;
     public bool IsRespawning() => isRespawning;
-    public bool IsInDisableZone() => isInDisableZone;
-    public int GetActiveDisableZoneCount() => activeDisableZones;
+    public int GetActiveFallTriggerCount() => activeFallTriggers;
+    public int GetRegisteredTriggerCount() => fallDeathTriggers.Count;
+    public List<FallDeathTrigger> GetAllFallDeathTriggers() => new List<FallDeathTrigger>(fallDeathTriggers);
 
     void OnDrawGizmos()
     {
         if (debugMode)
         {
-            // Draw death depth line across the scene
-            Gizmos.color = Color.red;
-            Vector3 center = Vector3.zero;
-            
-            if (playerObject != null)
+            // Draw legacy death depth line if enabled
+            if (enableLegacyDepthChecking)
             {
-                center = playerObject.transform.position;
+                Gizmos.color = Color.red;
+                Vector3 center = Vector3.zero;
+                
+                if (playerObject != null)
+                {
+                    center = playerObject.transform.position;
+                }
+                
+                // Draw a large horizontal plane at death depth
+                Vector3 depthPosition = new Vector3(center.x, legacyDeathDepth, center.z);
+                Gizmos.DrawWireCube(depthPosition, new Vector3(100f, 0.1f, 100f));
+                
+                // Draw warning zone (5 units above death depth)
+                Gizmos.color = Color.yellow;
+                Vector3 warningPosition = new Vector3(center.x, legacyDeathDepth + 5f, center.z);
+                Gizmos.DrawWireCube(warningPosition, new Vector3(100f, 0.1f, 100f));
             }
-            
-            // Draw a large horizontal plane at death depth
-            Vector3 depthPosition = new Vector3(center.x, deathDepth, center.z);
-            Gizmos.DrawWireCube(depthPosition, new Vector3(100f, 0.1f, 100f));
-            
-            // Draw warning zone (5 units above death depth)
-            Gizmos.color = Color.yellow;
-            Vector3 warningPosition = new Vector3(center.x, deathDepth + 5f, center.z);
-            Gizmos.DrawWireCube(warningPosition, new Vector3(100f, 0.1f, 100f));
             
             // Draw current player position if available
             if (playerObject != null)
@@ -324,115 +367,93 @@ public class DepthChecker : MonoBehaviour
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireSphere(playerObject.transform.position, 1f);
                 
-                // Change color if in disable zone
-                if (isInDisableZone)
+                // Change color if respawning
+                if (isRespawning)
                 {
                     Gizmos.color = Color.blue;
                     Gizmos.DrawWireSphere(playerObject.transform.position, 1.5f);
                 }
                 
-                // Draw line from player to death depth
-                Gizmos.color = Color.white;
-                Gizmos.DrawLine(
-                    playerObject.transform.position,
-                    new Vector3(playerObject.transform.position.x, deathDepth, playerObject.transform.position.z)
-                );
+                // Draw line from player to legacy death depth if enabled
+                if (enableLegacyDepthChecking)
+                {
+                    Gizmos.color = Color.white;
+                    Gizmos.DrawLine(
+                        playerObject.transform.position,
+                        new Vector3(playerObject.transform.position.x, legacyDeathDepth, playerObject.transform.position.z)
+                    );
+                }
             }
             
-            // Draw disable zones
-            if (useZoneBasedDisabling)
+            // Draw connections to registered fall death triggers
+            Gizmos.color = Color.cyan;
+            foreach (var trigger in fallDeathTriggers)
             {
-                Gizmos.color = Color.cyan;
-                foreach (var zone in disableZones)
+                if (trigger != null && playerObject != null)
                 {
-                    if (zone != null)
-                    {
-                        zone.DrawGizmos();
-                    }
+                    Gizmos.DrawLine(transform.position, trigger.transform.position);
                 }
             }
         }
-    }
-
-    void OnDrawGizmosSelected()
+    }    void OnDrawGizmosSelected()
     {
         // Always show gizmos when selected, even if debug mode is off
         OnDrawGizmos();
     }
-
-    void OnTriggerEnter(Collider other)
+    
+    void OnDestroy()
     {
-        if (useZoneBasedDisabling && other.CompareTag("DepthCheckDisableZone"))
+        // Clean up event subscriptions
+        UnregisterTriggerEvents();
+    }
+    
+    // Legacy disable zone support (for backwards compatibility)
+    private List<string> activeDisableZones = new List<string>();
+    
+    public void OnPlayerEnterDisableZone(string zoneName)
+    {
+        if (!activeDisableZones.Contains(zoneName))
         {
-            // Entering a disable zone
-            activeDisableZones++;
+            activeDisableZones.Add(zoneName);
+            
             if (debugMode)
             {
-                Debug.Log($"DepthChecker: Entered disable zone ({activeDisableZones} active zones)");
-            }
-            
-            // Check if we need to disable depth checking
-            if (activeDisableZones > 0)
-            {
-                EnableDepthChecking(false);
-                isInDisableZone = true;
+                Debug.Log($"DepthChecker: Player entered disable zone '{zoneName}' - Legacy depth checking disabled");
             }
         }
     }
-
-    void OnTriggerExit(Collider other)
+    
+    public void OnPlayerExitDisableZone(string zoneName)
     {
-        if (useZoneBasedDisabling && other.CompareTag("DepthCheckDisableZone"))
+        if (activeDisableZones.Remove(zoneName))
         {
-            // Exiting a disable zone
-            activeDisableZones--;
             if (debugMode)
             {
-                Debug.Log($"DepthChecker: Exited disable zone ({activeDisableZones} active zones)");
-            }
-            
-            // Check if we need to re-enable depth checking
-            if (activeDisableZones <= 0)
-            {
-                EnableDepthChecking(true);
-                isInDisableZone = false;
+                Debug.Log($"DepthChecker: Player exited disable zone '{zoneName}' - Active disable zones: {activeDisableZones.Count}");
             }
         }
     }
-
-    // Manual control for entering/exiting disable zones (useful for other scripts or events)
-    public void EnterDisableZone()
+    
+    public void RegisterDisableZone(object zone)
     {
-        if (!isInDisableZone)
+        // Legacy support - zones register themselves automatically
+        if (debugMode)
         {
-            activeDisableZones++;
-            isInDisableZone = true;
-            
-            if (debugMode)
-            {
-                Debug.Log($"DepthChecker: Manually entered disable zone ({activeDisableZones} active zones)");
-            }
-            
-            EnableDepthChecking(false);
+            Debug.Log($"DepthChecker: Registered disable zone '{zone.GetType().Name}'");
         }
     }
-
-    public void ExitDisableZone()
+    
+    public void UnregisterDisableZone(object zone)
     {
-        if (isInDisableZone)
+        // Legacy support - zones unregister themselves automatically
+        if (debugMode)
         {
-            activeDisableZones--;
-            isInDisableZone = false;
-            
-            if (debugMode)
-            {
-                Debug.Log($"DepthChecker: Manually exited disable zone ({activeDisableZones} active zones)");
-            }
-            
-            if (activeDisableZones <= 0)
-            {
-                EnableDepthChecking(true);
-            }
+            Debug.Log($"DepthChecker: Unregistered disable zone '{zone.GetType().Name}'");
         }
+    }
+    
+    private bool IsDepthCheckingDisabled()
+    {
+        return activeDisableZones.Count > 0;
     }
 }
