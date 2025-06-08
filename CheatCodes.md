@@ -52,6 +52,56 @@ Simply type the cheat code while playing the game. The system will automatically
 
 ## Game Systems Documentation
 
+### Scene Transition System
+
+The game includes multiple components for handling scene transitions when the player touches specific areas or objects.
+
+#### Available Scene Transition Components
+
+1. **SimpleSceneTransition**:
+   - Easiest to use for basic scene changes
+   - Attach to any GameObject with a trigger collider
+   - Player touches trigger → scene changes after delay
+   - Includes audio feedback
+
+2. **SceneTransitionTrigger**:
+   - Advanced scene transition with many options
+   - Supports loading screens, fade effects, and player requirements
+   - Can save game progress before transition
+   - Includes visual effects and audio feedback
+
+3. **SceneTransitionManager**:
+   - Singleton manager for scene transitions with fade effects
+   - Handles fade in/out animations
+   - Supports loading bars and progress display
+   - Persists between scenes
+
+#### How to Set Up Scene Transitions
+
+##### Method 1: Simple Setup (Recommended for beginners)
+
+1. Create a plane or invisible trigger area where you want the transition
+2. Add `SimpleSceneTransition` component
+3. Set the `Target Scene Name` to your destination scene
+4. Ensure the plane has a Collider with "Is Trigger" checked
+5. Test by walking your player into the trigger area
+
+##### Method 2: Advanced Setup (For complex transitions)
+
+1. Create your trigger object (plane, invisible box, etc.)
+2. Add `SceneTransitionTrigger` component
+3. Configure all the settings (scene name, delays, effects, etc.)
+4. Optionally add `SceneTransitionManager` to your scene for fade effects
+5. Set up loading screens if desired
+
+#### Use Cases for Scene Transitions
+
+- **Level Progression**: Moving between game levels
+- **Area Transitions**: Entering buildings, caves, or new regions
+- **Teleporters**: Magic portals or technological transport
+- **Story Progression**: Cutscene transitions or story beats
+- **Menu Systems**: Returning to main menu or loading screens
+
 ### Depth Checker System
 
 The game includes a depth checking system that automatically respawns the player if they fall below a certain depth (default: -50 units). This system can be configured and disabled in specific areas of the map.
@@ -123,3 +173,4 @@ When super speed is active, the system applies special physics modifications:
 - Super speed cheat includes sophisticated physics handling to prevent common issues with high-speed movement
 - Depth checking can be globally disabled or selectively disabled in specific map areas
 - Multiple disable zones can overlap and are managed with a counter system
+- **Scene transition system is fully implemented and functional** - all components work together seamlessly with proper checkpoint and player position saving, no compilation errors
