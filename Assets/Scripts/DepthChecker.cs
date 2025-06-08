@@ -1,5 +1,6 @@
 using UnityEngine;
 using Invector.vCharacterController;
+using System.Collections.Generic;
 
 public class DepthChecker : MonoBehaviour
 {
@@ -7,6 +8,10 @@ public class DepthChecker : MonoBehaviour
     [SerializeField] private float deathDepth = -50f;
     [SerializeField] private bool enableDepthChecking = true;
     [SerializeField] private float checkInterval = 0.5f; // Check every 0.5 seconds for performance
+    
+    [Header("Zone-Based Disable Settings")]
+    [SerializeField] private bool useZoneBasedDisabling = true;
+    [SerializeField] private List<DepthCheckDisableZone> disableZones = new List<DepthCheckDisableZone>();
     
     [Header("Audio Settings")]
     [SerializeField] private string fallDeathSoundName = "PlayerFallDeath";
@@ -20,6 +25,8 @@ public class DepthChecker : MonoBehaviour
     private vThirdPersonController playerController;
     private float lastCheckTime;
     private bool isRespawning = false;
+    private bool isInDisableZone = false;
+    private int activeDisableZones = 0; // Counter for overlapping zones
 
     // Events
     public System.Action OnPlayerFellTooDeep;
@@ -69,6 +76,16 @@ public class DepthChecker : MonoBehaviour
             return;
         }
 
+        // Check if player is in a disable zone
+        if (useZoneBasedDisabling && IsPlayerInDisableZone())
+        {
+            if (debugMode)
+            {
+                Debug.Log("DepthChecker: Player is in disable zone, skipping depth check");
+            }
+            return;
+        }
+
         float currentY = playerObject.transform.position.y;
         
         if (currentY <= deathDepth)
@@ -80,6 +97,23 @@ public class DepthChecker : MonoBehaviour
             
             HandlePlayerFallDeath();
         }
+    }
+
+    bool IsPlayerInDisableZone()
+    {
+        if (playerObject == null) return false;
+        
+        Vector3 playerPos = playerObject.transform.position;
+        
+        foreach (var zone in disableZones)
+        {
+            if (zone != null && zone.IsPointInZone(playerPos))
+            {
+                return true;
+            }
+        }
+        
+        return activeDisableZones > 0; // Also check trigger-based zones
     }
 
     void HandlePlayerFallDeath()
@@ -183,6 +217,73 @@ public class DepthChecker : MonoBehaviour
         HandlePlayerFallDeath();
     }
 
+    // Zone management methods
+    public void RegisterDisableZone(DepthCheckDisableZone zone)
+    {
+        if (!disableZones.Contains(zone))
+        {
+            disableZones.Add(zone);
+            if (debugMode)
+            {
+                Debug.Log($"DepthChecker: Registered disable zone '{zone.name}'");
+            }
+        }
+    }
+
+    public void UnregisterDisableZone(DepthCheckDisableZone zone)
+    {
+        if (disableZones.Remove(zone))
+        {
+            if (debugMode)
+            {
+                Debug.Log($"DepthChecker: Unregistered disable zone '{zone.name}'");
+            }
+        }
+    }
+
+    // Called by trigger zones
+    public void OnPlayerEnterDisableZone(string zoneName = "")
+    {
+        activeDisableZones++;
+        isInDisableZone = true;
+        
+        if (debugMode)
+        {
+            Debug.Log($"DepthChecker: Player entered disable zone {zoneName}. Active zones: {activeDisableZones}");
+        }
+    }
+
+    public void OnPlayerExitDisableZone(string zoneName = "")
+    {
+        activeDisableZones = Mathf.Max(0, activeDisableZones - 1);
+        isInDisableZone = activeDisableZones > 0;
+        
+        if (debugMode)
+        {
+            Debug.Log($"DepthChecker: Player exited disable zone {zoneName}. Active zones: {activeDisableZones}");
+        }
+    }
+
+    // Manual zone control methods
+    public void DisableDepthCheckingInArea(bool disable = true)
+    {
+        if (disable)
+        {
+            activeDisableZones++;
+            isInDisableZone = true;
+        }
+        else
+        {
+            activeDisableZones = Mathf.Max(0, activeDisableZones - 1);
+            isInDisableZone = activeDisableZones > 0;
+        }
+        
+        if (debugMode)
+        {
+            Debug.Log($"DepthChecker: Manual zone control - Depth checking {(isInDisableZone ? "disabled" : "enabled")}");
+        }
+    }
+
     // Getters for external systems
     public float GetCurrentPlayerDepth()
     {
@@ -190,8 +291,10 @@ public class DepthChecker : MonoBehaviour
     }
 
     public float GetDeathDepth() => deathDepth;
-    public bool IsDepthCheckingEnabled() => enableDepthChecking;
+    public bool IsDepthCheckingEnabled() => enableDepthChecking && !isInDisableZone;
     public bool IsRespawning() => isRespawning;
+    public bool IsInDisableZone() => isInDisableZone;
+    public int GetActiveDisableZoneCount() => activeDisableZones;
 
     void OnDrawGizmos()
     {
@@ -221,12 +324,32 @@ public class DepthChecker : MonoBehaviour
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireSphere(playerObject.transform.position, 1f);
                 
+                // Change color if in disable zone
+                if (isInDisableZone)
+                {
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawWireSphere(playerObject.transform.position, 1.5f);
+                }
+                
                 // Draw line from player to death depth
                 Gizmos.color = Color.white;
                 Gizmos.DrawLine(
                     playerObject.transform.position,
                     new Vector3(playerObject.transform.position.x, deathDepth, playerObject.transform.position.z)
                 );
+            }
+            
+            // Draw disable zones
+            if (useZoneBasedDisabling)
+            {
+                Gizmos.color = Color.cyan;
+                foreach (var zone in disableZones)
+                {
+                    if (zone != null)
+                    {
+                        zone.DrawGizmos();
+                    }
+                }
             }
         }
     }
@@ -235,5 +358,81 @@ public class DepthChecker : MonoBehaviour
     {
         // Always show gizmos when selected, even if debug mode is off
         OnDrawGizmos();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (useZoneBasedDisabling && other.CompareTag("DepthCheckDisableZone"))
+        {
+            // Entering a disable zone
+            activeDisableZones++;
+            if (debugMode)
+            {
+                Debug.Log($"DepthChecker: Entered disable zone ({activeDisableZones} active zones)");
+            }
+            
+            // Check if we need to disable depth checking
+            if (activeDisableZones > 0)
+            {
+                EnableDepthChecking(false);
+                isInDisableZone = true;
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (useZoneBasedDisabling && other.CompareTag("DepthCheckDisableZone"))
+        {
+            // Exiting a disable zone
+            activeDisableZones--;
+            if (debugMode)
+            {
+                Debug.Log($"DepthChecker: Exited disable zone ({activeDisableZones} active zones)");
+            }
+            
+            // Check if we need to re-enable depth checking
+            if (activeDisableZones <= 0)
+            {
+                EnableDepthChecking(true);
+                isInDisableZone = false;
+            }
+        }
+    }
+
+    // Manual control for entering/exiting disable zones (useful for other scripts or events)
+    public void EnterDisableZone()
+    {
+        if (!isInDisableZone)
+        {
+            activeDisableZones++;
+            isInDisableZone = true;
+            
+            if (debugMode)
+            {
+                Debug.Log($"DepthChecker: Manually entered disable zone ({activeDisableZones} active zones)");
+            }
+            
+            EnableDepthChecking(false);
+        }
+    }
+
+    public void ExitDisableZone()
+    {
+        if (isInDisableZone)
+        {
+            activeDisableZones--;
+            isInDisableZone = false;
+            
+            if (debugMode)
+            {
+                Debug.Log($"DepthChecker: Manually exited disable zone ({activeDisableZones} active zones)");
+            }
+            
+            if (activeDisableZones <= 0)
+            {
+                EnableDepthChecking(true);
+            }
+        }
     }
 }
