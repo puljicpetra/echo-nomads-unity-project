@@ -102,6 +102,77 @@ public class CheckpointSystemSetup : MonoBehaviour
         }
     }
 
+    [ContextMenu("Setup Persistence System")]
+    public void SetupPersistenceSystem()
+    {
+        Debug.Log("=== Setting up Persistence System ===");
+        
+        // Setup CheckpointManager persistence
+        CheckpointManager manager = FindObjectOfType<CheckpointManager>();
+        if (manager != null)
+        {
+            // Enable persistence through reflection since it might be private
+            var persistenceField = manager.GetType().GetField("enablePersistence", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (persistenceField != null)
+            {
+                persistenceField.SetValue(manager, true);
+                Debug.Log("✓ Enabled CheckpointManager persistence");
+            }
+        }
+        
+        // Setup PlayerPersistence
+        PlayerPersistence playerPersistence = FindObjectOfType<PlayerPersistence>();
+        if (playerPersistence == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                playerPersistence = player.AddComponent<PlayerPersistence>();
+                Debug.Log("✓ Added PlayerPersistence component to Player");
+            }
+            else
+            {
+                Debug.LogWarning("⚠ Player not found - cannot add PlayerPersistence");
+            }
+        }
+        else
+        {
+            Debug.Log("✓ PlayerPersistence already exists");
+        }
+        
+        // Setup puzzle persistence
+        ResonancePuzzle[] puzzles = FindObjectsOfType<ResonancePuzzle>();
+        foreach (var puzzle in puzzles)
+        {
+            // Enable persistence through reflection
+            var persistenceField = puzzle.GetType().GetField("enablePersistence", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (persistenceField != null)
+            {
+                persistenceField.SetValue(puzzle, true);
+            }
+        }
+        Debug.Log($"✓ Enabled persistence for {puzzles.Length} puzzles");
+        
+        // Setup level persistence
+        LevelPuzzleManager[] levelManagers = FindObjectsOfType<LevelPuzzleManager>();
+        foreach (var levelManager in levelManagers)
+        {
+            // Enable persistence through reflection
+            var persistenceField = levelManager.GetType().GetField("enablePersistence", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (persistenceField != null)
+            {
+                persistenceField.SetValue(levelManager, true);
+            }
+        }
+        Debug.Log($"✓ Enabled persistence for {levelManagers.Length} level managers");
+        
+        Debug.Log("=== Persistence System Setup Complete ===");
+        Debug.Log("Your game progress should now be saved automatically!");
+    }
+
     [ContextMenu("Validate Checkpoint System")]
     public void ValidateCheckpointSystem()
     {
@@ -216,6 +287,113 @@ public class CheckpointSystemSetup : MonoBehaviour
         Selection.activeGameObject = checkpointObj;
 #endif
     }
+
+    [ContextMenu("Test Save System")]
+    public void TestSaveSystem()
+    {
+        Debug.Log("=== Testing Save System ===");
+        
+        // Test checkpoint system
+        CheckpointManager manager = FindObjectOfType<CheckpointManager>();
+        if (manager != null)
+        {
+            var currentCheckpoint = manager.GetCurrentCheckpoint();
+            if (currentCheckpoint != null)
+            {
+                Debug.Log($"Current checkpoint: {currentCheckpoint.CheckpointId}");
+                
+                // Force save checkpoint data
+                var saveMethod = manager.GetType().GetMethod("SaveCheckpointData", 
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (saveMethod != null)
+                {
+                    saveMethod.Invoke(manager, null);
+                    Debug.Log("✓ Forced checkpoint save");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("⚠ No active checkpoint found");
+            }
+        }
+        
+        // Test player persistence
+        PlayerPersistence playerPersistence = FindObjectOfType<PlayerPersistence>();
+        if (playerPersistence != null)
+        {
+            playerPersistence.SavePlayerPosition();
+            Debug.Log("✓ Saved player position");
+        }
+        else
+        {
+            Debug.LogWarning("⚠ PlayerPersistence component not found");
+        }
+        
+        // Check PlayerPrefs
+        string[] keys = {
+            "EchoNomads_ActiveCheckpoint",
+            "EchoNomads_Player_PosX",
+            "EchoNomads_Player_PosY", 
+            "EchoNomads_Player_PosZ"
+        };
+        
+        foreach (string key in keys)
+        {
+            if (PlayerPrefs.HasKey(key))
+            {
+                Debug.Log($"✓ Found saved data: {key}");
+            }
+            else
+            {
+                Debug.Log($"⚠ Missing save data: {key}");
+            }
+        }
+        
+        Debug.Log("=== Save System Test Complete ===");
+    }
+
+    [ContextMenu("Force Save Game State")]
+    public void ForceSaveGameState()
+    {
+        Debug.Log("=== Force Saving Game State ===");
+        
+        // Save checkpoint data
+        CheckpointManager manager = FindObjectOfType<CheckpointManager>();
+        if (manager != null)
+        {
+            var saveMethod = manager.GetType().GetMethod("SaveCheckpointData", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            saveMethod?.Invoke(manager, null);
+        }
+        
+        // Save player position
+        PlayerPersistence playerPersistence = FindObjectOfType<PlayerPersistence>();
+        if (playerPersistence != null)
+        {
+            playerPersistence.SavePlayerPosition();
+        }
+        
+        // Save all puzzles
+        ResonancePuzzle[] puzzles = FindObjectsOfType<ResonancePuzzle>();
+        foreach (var puzzle in puzzles)
+        {
+            var saveMethod = puzzle.GetType().GetMethod("SavePuzzleState", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            saveMethod?.Invoke(puzzle, null);
+        }
+        
+        // Save all level managers
+        LevelPuzzleManager[] levelManagers = FindObjectsOfType<LevelPuzzleManager>();
+        foreach (var levelManager in levelManagers)
+        {
+            var saveMethod = levelManager.GetType().GetMethod("SaveLevelState", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            saveMethod?.Invoke(levelManager, null);
+        }
+        
+        PlayerPrefs.Save();
+        Debug.Log("✓ Forced save complete - Game state should now be saved!");
+    }
 }
 
 #if UNITY_EDITOR
@@ -239,20 +417,35 @@ public class CheckpointSystemSetupEditor : Editor
         {
             setup.ValidateCheckpointSystem();
         }
-        
-        if (GUILayout.Button("Create Sample Checkpoint", GUILayout.Height(25)))
+          if (GUILayout.Button("Create Sample Checkpoint", GUILayout.Height(25)))
         {
             setup.CreateSampleCheckpoint();
         }
         
-        GUILayout.Space(10);
+        GUILayout.Space(5);
+          if (GUILayout.Button("Setup Persistence System", GUILayout.Height(30)))
+        {
+            setup.SetupPersistenceSystem();
+        }
+          if (GUILayout.Button("Test Save System", GUILayout.Height(25)))
+        {
+            setup.TestSaveSystem();
+        }
         
-        GUILayout.Label("Instructions:", EditorStyles.boldLabel);
+        if (GUILayout.Button("Force Save Game State", GUILayout.Height(25)))
+        {
+            setup.ForceSaveGameState();
+        }
+        
+        GUILayout.Space(10);
+          GUILayout.Label("Instructions:", EditorStyles.boldLabel);
         GUILayout.Label("1. Add this script to any GameObject in your scene", EditorStyles.wordWrappedLabel);
         GUILayout.Label("2. Click 'Setup Checkpoint System' to auto-create managers", EditorStyles.wordWrappedLabel);
-        GUILayout.Label("3. Create checkpoints by adding Checkpoint components to GameObjects", EditorStyles.wordWrappedLabel);
-        GUILayout.Label("4. Mark one checkpoint as 'Starting Checkpoint'", EditorStyles.wordWrappedLabel);
-        GUILayout.Label("5. Use 'Validate System' to check everything is set up correctly", EditorStyles.wordWrappedLabel);
+        GUILayout.Label("3. Click 'Setup Persistence System' to enable save/load", EditorStyles.wordWrappedLabel);
+        GUILayout.Label("4. Create checkpoints by adding Checkpoint components to GameObjects", EditorStyles.wordWrappedLabel);
+        GUILayout.Label("5. Mark one checkpoint as 'Starting Checkpoint'", EditorStyles.wordWrappedLabel);
+        GUILayout.Label("6. Use 'Test Save System' to verify persistence is working", EditorStyles.wordWrappedLabel);
+        GUILayout.Label("7. Use 'Force Save Game State' to manually save progress", EditorStyles.wordWrappedLabel);
     }
 }
 #endif
