@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ac5c5edd7d7c45f4f903a686a8a465c2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202812
+  packageName: Desert plants
+  packageVersion: 1.0
+  assetPath: Assets/_DesertPlants/_SeamlessTextures/Ground3.mat
+  uploadId: 452381

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 97c540e40f684bf4781c9759998cd16f
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202812
+  packageName: Desert plants
+  packageVersion: 1.0
+  assetPath: Assets/_DesertPlants/__CubemapsShaders/ASE_StandartSSS.shader
+  uploadId: 452381

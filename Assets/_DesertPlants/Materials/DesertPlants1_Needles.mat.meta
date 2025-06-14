@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b35f5e026f33b5c43b5da1ebcaefccf9
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202812
+  packageName: Desert plants
+  packageVersion: 1.0
+  assetPath: Assets/_DesertPlants/Materials/DesertPlants1_Needles.mat
+  uploadId: 452381

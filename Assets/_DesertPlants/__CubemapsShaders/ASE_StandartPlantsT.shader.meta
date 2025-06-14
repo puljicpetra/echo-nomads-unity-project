@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: c52272204101b2948b168475583a1ed0
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202812
+  packageName: Desert plants
+  packageVersion: 1.0
+  assetPath: Assets/_DesertPlants/__CubemapsShaders/ASE_StandartPlantsT.shader
+  uploadId: 452381
