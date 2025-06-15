@@ -394,20 +394,18 @@ public class Resonator : MonoBehaviour
         if (match)
         {
             ActivateResonator();
-        }
-        else
+        }        else
         {
-            Debug.Log("Incorrect sequence for " + gameObject.name + ". Resetting input.");
+            Debug.Log("Incorrect sequence for " + gameObject.name + ". Continuing with sliding window.");
             // Play the incorrect sequence sound if assigned
             if (incorrectSequenceClip != null)
             {
                 audioSource.PlayOneShot(incorrectSequenceClip);
             }
-            // Kada igrač pogriješi, ne mora nužno resetirati cijeli unos.
-            // Možda je bolje samo čekati da unese sljedeći zvuk, pa će se
-            // najstariji unos automatski ukloniti ako prekorači dužinu.
-            // Ostavljam Clear() za sada radi jednostavnosti, ali ovo je točka za razmatranje.
-            playerInputSequence.Clear();
+            // Implementirana bolja logika: ne resetiramo unos, već omogućavamo
+            // sliding window pristup. Najstariji unos će se automatski ukloniti
+            // kad igrač unese sljedeći zvuk (logika na liniji 368-370).
+            // Ovo omogućava igraču da kontinuirano unosi zvukove bez potrebe za restariranjem.
         }
     }
 

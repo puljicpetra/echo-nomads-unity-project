@@ -1,0 +1,30 @@
+fileFormatVersion: 2
+guid: 626bc169dd1354130a697094492ee6fd
+AudioImporter:
+  externalObjects: {}
+  serializedVersion: 8
+  defaultSettings:
+    serializedVersion: 2
+    loadType: 1
+    sampleRateSetting: 0
+    sampleRateOverride: 0
+    compressionFormat: 1
+    quality: 1
+    conversionMode: 0
+    preloadAudioData: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  loadInBackground: 0
+  ambisonic: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 3777
+  packageName: Dark Future Music
+  packageVersion: 1.0
+  assetPath: Assets/Dark Future/Extras/Jazz_Blazer_Loop.ogg
+  uploadId: 26599
