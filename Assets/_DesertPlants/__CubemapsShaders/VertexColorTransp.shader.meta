@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 30106bfa8dcc1764ab1fc16f772cde8c
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202812
+  packageName: Desert plants
+  packageVersion: 1.0
+  assetPath: Assets/_DesertPlants/__CubemapsShaders/VertexColorTransp.shader
+  uploadId: 452381
