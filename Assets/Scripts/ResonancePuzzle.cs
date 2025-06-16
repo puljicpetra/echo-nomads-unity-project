@@ -147,23 +147,25 @@ public class ResonancePuzzle : MonoBehaviour
             if (PlayerPrefs.HasKey($"{savePrefix}Puzzle_{puzzleId}_Solved"))
             {
                 bool wasSolved = PlayerPrefs.GetInt($"{savePrefix}Puzzle_{puzzleId}_Solved") == 1;
-                int savedActivations = PlayerPrefs.GetInt($"{savePrefix}Puzzle_{puzzleId}_Activations", 0);
-
-                if (wasSolved)
+                int savedActivations = PlayerPrefs.GetInt($"{savePrefix}Puzzle_{puzzleId}_Activations", 0);                if (wasSolved)
                 {
                     isSolved = true;
                     currentActivations = savedActivations;
                     
-                    // Disable resonators since puzzle is already solved
+                    // Activate all resonators and turn on their lights since puzzle is solved
                     foreach (var res in resonatorsInPuzzle)
                     {
                         if (res != null)
                         {
+                            // Set resonator as activated from save
+                            res.SetActivatedFromSave();
+                            
+                            // Disable the resonator script since puzzle is solved
                             res.enabled = false;
                         }
                     }
 
-                    Debug.Log($"ResonancePuzzle: Loaded saved state for puzzle '{puzzleId}' - Already solved");
+                    Debug.Log($"ResonancePuzzle: Loaded saved state for puzzle '{puzzleId}' - Already solved, lights activated");
                 }
                 else if (savedActivations > 0)
                 {

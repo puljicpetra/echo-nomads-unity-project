@@ -441,6 +441,43 @@ public class Resonator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the resonator to activated state without playing activation logic.
+    /// Used when loading saved puzzles that are already solved.
+    /// </summary>
+    public void SetActivatedFromSave()
+    {
+        if (!isActivated)
+        {
+            isActivated = true;
+            playerIsInRange = false;
+            
+            // Stop any ongoing sequences
+            if (sequencePlaybackCoroutine != null) 
+            {
+                StopCoroutine(sequencePlaybackCoroutine);
+                sequencePlaybackCoroutine = null;
+            }
+            audioSource.Stop();
+
+            // Activate the light
+            if (resonatorLight != null)
+            {
+                resonatorLight.enabled = true;
+                Debug.Log("ResonatorLight activated from save for " + gameObject.name);
+            }
+
+            // Disable collider since it's activated
+            GetComponent<SphereCollider>().enabled = false;
+
+            // Stop locator sound
+            if (locatorAudioSource != null && locatorAudioSource.isPlaying)
+                locatorAudioSource.Stop();
+
+            Debug.Log("Resonator " + gameObject.name + " set to activated state from save");
+        }
+    }
+
     // Visualize radii in the Unity Editor
     void OnDrawGizmosSelected()
     {
