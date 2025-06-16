@@ -11,8 +11,7 @@ public class PlayerPersistence : MonoBehaviour
     [Header("Player Components")]
     [SerializeField] private vThirdPersonController playerController;
     [SerializeField] private Transform playerTransform;
-    
-    private void Start()
+      private void Start()
     {
         // Auto-find player components if not assigned
         if (playerController == null)
@@ -25,17 +24,42 @@ public class PlayerPersistence : MonoBehaviour
             playerTransform = transform;
         }
         
-        // Subscribe to checkpoint events if we want to save on checkpoint activation
+        // Try to subscribe to checkpoint events - may need to wait for CheckpointManager
+        StartCoroutine(SubscribeToCheckpointEvents());
+        
+        // Load saved position if persistence is enabled (with a small delay to ensure CheckpointManager is ready)
+        if (enablePersistence)
+        {
+            StartCoroutine(DelayedLoadPlayerPosition());
+        }
+    }
+    
+    private System.Collections.IEnumerator SubscribeToCheckpointEvents()
+    {
+        // Wait for CheckpointManager to be available
+        int attempts = 0;
+        while (CheckpointManager.Instance == null && attempts < 100) // Wait up to ~5 seconds
+        {
+            yield return new WaitForSeconds(0.05f);
+            attempts++;
+        }
+        
         if (saveOnCheckpointActivation && CheckpointManager.Instance != null)
         {
             CheckpointManager.Instance.OnCheckpointActivated += OnCheckpointActivated;
+            Debug.Log("PlayerPersistence: Successfully subscribed to checkpoint events");
         }
-        
-        // Load saved position if persistence is enabled
-        if (enablePersistence)
+        else
         {
-            LoadPlayerPosition();
+            Debug.LogWarning("PlayerPersistence: Failed to subscribe to checkpoint events - CheckpointManager not found");
         }
+    }
+    
+    private System.Collections.IEnumerator DelayedLoadPlayerPosition()
+    {
+        // Wait a frame to ensure all managers are initialized
+        yield return new WaitForEndOfFrame();
+        LoadPlayerPosition();
     }
     
     private void OnDestroy()
@@ -45,23 +69,59 @@ public class PlayerPersistence : MonoBehaviour
         {
             CheckpointManager.Instance.OnCheckpointActivated -= OnCheckpointActivated;
         }
-    }
-    
-    private void OnCheckpointActivated(Checkpoint checkpoint)
+    }    private void OnCheckpointActivated(Checkpoint checkpoint)
     {
-        if (enablePersistence)
+        if (enablePersistence && checkpoint != null)
         {
-            SavePlayerPosition();
+            Debug.Log($"PlayerPersistence: Checkpoint activated - {checkpoint.CheckpointId}, saving checkpoint position");
+            SaveCheckpointPosition(checkpoint);
         }
     }
     
-    public void SavePlayerPosition()
+    public void SaveCheckpointPosition(Checkpoint checkpoint)
     {
+        if (!enablePersistence || checkpoint == null) return;
+        
+        try
+        {
+            // Save checkpoint position (where player should spawn) instead of current player position
+            Vector3 checkpointPosition = checkpoint.transform.position;
+            // Add slight offset above checkpoint to avoid spawning inside ground
+            Vector3 spawnPosition = checkpointPosition + Vector3.up * 0.5f;
+            
+            PlayerPrefs.SetFloat($"{saveDataPrefix}Player_PosX", spawnPosition.x);
+            PlayerPrefs.SetFloat($"{saveDataPrefix}Player_PosY", spawnPosition.y);
+            PlayerPrefs.SetFloat($"{saveDataPrefix}Player_PosZ", spawnPosition.z);
+            
+            // Save checkpoint rotation
+            Vector3 rotation = checkpoint.transform.eulerAngles;
+            PlayerPrefs.SetFloat($"{saveDataPrefix}Player_RotX", rotation.x);
+            PlayerPrefs.SetFloat($"{saveDataPrefix}Player_RotY", rotation.y);
+            PlayerPrefs.SetFloat($"{saveDataPrefix}Player_RotZ", rotation.z);
+            
+            // Save scene name for validation
+            PlayerPrefs.SetString($"{saveDataPrefix}Player_Scene", checkpoint.gameObject.scene.name);
+            
+            // Save timestamp
+            PlayerPrefs.SetString($"{saveDataPrefix}Player_SaveTime", System.DateTime.Now.ToBinary().ToString());
+            
+            PlayerPrefs.Save();
+            
+            Debug.Log($"PlayerPersistence: Saved checkpoint spawn position - {spawnPosition} (checkpoint: {checkpoint.CheckpointId}) in scene {checkpoint.gameObject.scene.name}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"PlayerPersistence: Failed to save checkpoint position - {e.Message}");
+        }
+    }
+      public void SavePlayerPosition()
+    {
+        // This method saves the player's current position - use for manual saves or emergency saves
         if (!enablePersistence || playerTransform == null) return;
         
         try
         {
-            // Save position
+            // Save current player position
             Vector3 position = playerTransform.position;
             PlayerPrefs.SetFloat($"{saveDataPrefix}Player_PosX", position.x);
             PlayerPrefs.SetFloat($"{saveDataPrefix}Player_PosY", position.y);
@@ -81,7 +141,7 @@ public class PlayerPersistence : MonoBehaviour
             
             PlayerPrefs.Save();
             
-            Debug.Log($"PlayerPersistence: Saved player position - {position} in scene {gameObject.scene.name}");
+            Debug.Log($"PlayerPersistence: Saved current player position - {position} in scene {gameObject.scene.name}");
         }
         catch (System.Exception e)
         {
@@ -92,13 +152,12 @@ public class PlayerPersistence : MonoBehaviour
     public void LoadPlayerPosition()
     {
         if (!enablePersistence || playerTransform == null) return;
-        
-        try
+          try
         {
             // Check if save data exists
             if (!PlayerPrefs.HasKey($"{saveDataPrefix}Player_SaveTime"))
             {
-                Debug.Log("PlayerPersistence: No saved player position found");
+                Debug.Log("PlayerPersistence: No saved player position found - no save time key");
                 return;
             }
             

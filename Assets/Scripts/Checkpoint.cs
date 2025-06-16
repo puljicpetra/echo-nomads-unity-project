@@ -21,12 +21,12 @@ public class CheckpointData
 }
 
 public class Checkpoint : MonoBehaviour
-{
-    [Header("Checkpoint Settings")]
+{    [Header("Checkpoint Settings")]
     [SerializeField] private string checkpointId;
     [SerializeField] private bool isStartingCheckpoint = false;
     [SerializeField] private float activationRadius = 2f;
     [SerializeField] private LayerMask playerLayer = 1 << 0; // Default layer
+    [SerializeField] private bool useProximityActivation = false; // New setting to control proximity activation
     
     [Header("Visual Feedback")]
     [SerializeField] private GameObject activeIndicator;
@@ -62,17 +62,14 @@ public class Checkpoint : MonoBehaviour
         {
             ActivateCheckpoint(silent: true);
         }
-    }
-
-    private void Update()
+    }    private void Update()
     {
-        if (!hasBeenTriggered)
+        // Only check for proximity activation if enabled
+        if (!hasBeenTriggered && useProximityActivation)
         {
             CheckForPlayerActivation();
         }
-    }
-
-    private void CheckForPlayerActivation()
+    }private void CheckForPlayerActivation()
     {
         // Check for player within activation radius
         Collider[] colliders = Physics.OverlapSphere(transform.position, activationRadius, playerLayer);
@@ -81,11 +78,12 @@ public class Checkpoint : MonoBehaviour
         {
             if (collider.CompareTag("Player"))
             {
+                Debug.Log($"Checkpoint '{checkpointId}': Player detected, activating checkpoint!");
                 ActivateCheckpoint();
                 break;
             }
         }
-    }    public void ActivateCheckpoint(bool silent = false)
+    }public void ActivateCheckpoint(bool silent = false)
     {
         if (hasBeenTriggered) return;
 
@@ -112,9 +110,7 @@ public class Checkpoint : MonoBehaviour
         }
 
         Debug.Log($"Checkpoint '{checkpointId}' activated!");
-    }
-
-    public void SetAsCurrentCheckpoint()
+    }    public void SetAsCurrentCheckpoint()
     {
         isActivated = true;
         UpdateVisualState();
@@ -125,7 +121,38 @@ public class Checkpoint : MonoBehaviour
         // Keep it triggered but not the current active one
         // This allows visual distinction between triggered and current checkpoints
         UpdateVisualState();
-    }    public void MarkAsDiscovered()
+    }
+
+    public void MarkAsReached()
+    {
+        // Mark as reached without playing effects (used by nearest-active system)
+        if (!hasBeenTriggered)
+        {
+            hasBeenTriggered = true;
+            isDiscovered = true;
+            
+            // Play effects for first-time activation
+            UpdateVisualState();
+            
+            // Particle effect
+            if (activationEffect != null)
+            {
+                activationEffect.Play();
+            }
+
+            // Audio feedback
+            if (AudioManager.Instance != null && !string.IsNullOrEmpty(activationSoundName))
+            {
+                AudioManager.Instance.Play(activationSoundName);
+            }            if (CheckpointManager.Instance != null && CheckpointManager.Instance.IsDebugMode())
+            {
+                Debug.Log($"Checkpoint '{checkpointId}' reached (nearest checkpoint system)!");
+            }
+        }
+        
+        isActivated = true;
+        UpdateVisualState();
+    }public void MarkAsDiscovered()
     {
         // Mark as discovered without playing effects (used in nearest-active mode or loading from save)
         isDiscovered = true;

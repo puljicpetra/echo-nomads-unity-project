@@ -5,9 +5,7 @@ using System.Linq;
 public class CheckpointManager : MonoBehaviour
 {
     // Singleton instance
-    public static CheckpointManager Instance { get; private set; }
-
-    [Header("Checkpoint Settings")]
+    public static CheckpointManager Instance { get; private set; }    [Header("Checkpoint Settings")]
     [SerializeField] private bool debugMode = false;
     [SerializeField] private bool useNearestAsActive = true;
     [SerializeField] private float updateInterval = 1f;
@@ -148,6 +146,9 @@ public class CheckpointManager : MonoBehaviour
     {
         if (checkpoint != null)
         {
+            // Mark checkpoint as reached (handles first-time effects and state)
+            checkpoint.MarkAsReached();
+            
             SetActiveCheckpoint(checkpoint);
             lastActivatedCheckpoint = checkpoint;
             
@@ -162,7 +163,7 @@ public class CheckpointManager : MonoBehaviour
             
             if (debugMode)
             {
-                Debug.Log($"CheckpointManager: Saved checkpoint '{checkpoint.CheckpointId}'");
+                Debug.Log($"CheckpointManager: Saved checkpoint '{checkpoint.CheckpointId}' (auto-save from nearest system)");
             }
         }
     }
@@ -267,9 +268,7 @@ public class CheckpointManager : MonoBehaviour
         {
             currentActiveCheckpoint = null;
         }
-    }
-
-    void UpdateNearestActiveCheckpoint()
+    }    void UpdateNearestActiveCheckpoint()
     {
         var playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj == null || allCheckpoints.Count == 0) return;
@@ -278,22 +277,22 @@ public class CheckpointManager : MonoBehaviour
         
         if (nearestCheckpoint != null && nearestCheckpoint != currentActiveCheckpoint)
         {
-            SetActiveCheckpoint(nearestCheckpoint);
-            OnActiveCheckpointChanged?.Invoke(nearestCheckpoint);
+            // This is a checkpoint progression - save it automatically
+            SaveCheckpoint(nearestCheckpoint);
             
             if (debugMode)
             {
-                Debug.Log($"CheckpointManager: Active checkpoint changed to '{nearestCheckpoint.CheckpointId}' (nearest to player)");
+                Debug.Log($"CheckpointManager: Active checkpoint changed to '{nearestCheckpoint.CheckpointId}' (nearest to player) - Auto-saved!");
             }
         }
-    }
-
-    // Public getters for external systems
+    }    // Public getters for external systems
     public Checkpoint GetCurrentCheckpoint() => currentActiveCheckpoint;
     public Checkpoint GetLastActivatedCheckpoint() => lastActivatedCheckpoint;
     public List<Checkpoint> GetAllCheckpoints() => new List<Checkpoint>(allCheckpoints);
     public int GetCheckpointCount() => allCheckpoints.Count;
-    public bool IsUsingNearestAsActive() => useNearestAsActive;    // Method to toggle between manual and automatic modes
+    public bool IsUsingNearestAsActive() => useNearestAsActive;
+    public float GetUpdateInterval() => updateInterval;
+    public bool IsDebugMode() => debugMode;// Method to toggle between manual and automatic modes
     public void SetNearestAsActiveMode(bool enabled)
     {
         useNearestAsActive = enabled;
@@ -317,23 +316,24 @@ public class CheckpointManager : MonoBehaviour
     }
 
     // === PERSISTENCE SYSTEM ===
-    
-    void SaveCheckpointData()
+      void SaveCheckpointData()
     {
         if (!enablePersistence) return;
 
         try
         {
-            // Save current active checkpoint
+            // Save current active checkpoint with scene info
             if (currentActiveCheckpoint != null)
             {
                 PlayerPrefs.SetString($"{saveDataPrefix}ActiveCheckpoint", currentActiveCheckpoint.CheckpointId);
+                PlayerPrefs.SetString($"{saveDataPrefix}ActiveCheckpointScene", currentActiveCheckpoint.gameObject.scene.name);
             }
 
-            // Save last activated checkpoint
+            // Save last activated checkpoint with scene info
             if (lastActivatedCheckpoint != null)
             {
                 PlayerPrefs.SetString($"{saveDataPrefix}LastActivatedCheckpoint", lastActivatedCheckpoint.CheckpointId);
+                PlayerPrefs.SetString($"{saveDataPrefix}LastActivatedCheckpointScene", lastActivatedCheckpoint.gameObject.scene.name);
             }
 
             // Save discovered checkpoints
@@ -371,9 +371,7 @@ public class CheckpointManager : MonoBehaviour
         {
             Debug.LogError($"CheckpointManager: Failed to save checkpoint data - {e.Message}");
         }
-    }
-
-    void LoadCheckpointData()
+    }    void LoadCheckpointData()
     {
         if (!enablePersistence) return;
 
@@ -395,16 +393,22 @@ public class CheckpointManager : MonoBehaviour
                 useNearestAsActive = PlayerPrefs.GetInt($"{saveDataPrefix}UseNearestAsActive") == 1;
             }
 
-            // Get saved checkpoint IDs
+            // Get saved checkpoint IDs and scenes
             string savedActiveId = PlayerPrefs.GetString($"{saveDataPrefix}ActiveCheckpoint", "");
+            string savedActiveScene = PlayerPrefs.GetString($"{saveDataPrefix}ActiveCheckpointScene", "");
             string savedLastActivatedId = PlayerPrefs.GetString($"{saveDataPrefix}LastActivatedCheckpoint", "");
+            string savedLastActivatedScene = PlayerPrefs.GetString($"{saveDataPrefix}LastActivatedCheckpointScene", "");
             
-            // Store for later when checkpoints are registered
-            if (!string.IsNullOrEmpty(savedActiveId))
+            // Check if we're in the same scene as the saved checkpoint
+            string currentScene = gameObject.scene.name;
+            bool inSameSceneAsActive = string.IsNullOrEmpty(savedActiveScene) || savedActiveScene == currentScene;
+            bool inSameSceneAsLast = string.IsNullOrEmpty(savedLastActivatedScene) || savedLastActivatedScene == currentScene;            
+            // Store for later when checkpoints are registered, but only if we're in the right scene
+            if (!string.IsNullOrEmpty(savedActiveId) && inSameSceneAsActive)
             {
                 PlayerPrefs.SetString($"{saveDataPrefix}PendingActiveCheckpoint", savedActiveId);
             }
-            if (!string.IsNullOrEmpty(savedLastActivatedId))
+            if (!string.IsNullOrEmpty(savedLastActivatedId) && inSameSceneAsLast)
             {
                 PlayerPrefs.SetString($"{saveDataPrefix}PendingLastActivatedCheckpoint", savedLastActivatedId);
             }
@@ -415,6 +419,7 @@ public class CheckpointManager : MonoBehaviour
                 long timeBinary = System.Convert.ToInt64(saveTime);
                 System.DateTime saveDateTime = System.DateTime.FromBinary(timeBinary);
                 Debug.Log($"CheckpointManager: Loading checkpoint data from {saveDateTime}");
+                Debug.Log($"CheckpointManager: Current scene: {currentScene}, Saved active scene: {savedActiveScene}, In same scene: {inSameSceneAsActive}");
             }
         }
         catch (System.Exception e)
@@ -508,16 +513,16 @@ public class CheckpointManager : MonoBehaviour
         {
             Debug.LogError($"CheckpointManager: Failed to restore checkpoint states - {e.Message}");
         }
-    }
-
-    public void ClearSaveData()
+    }    public void ClearSaveData()
     {
         if (!enablePersistence) return;
 
         try
         {
             PlayerPrefs.DeleteKey($"{saveDataPrefix}ActiveCheckpoint");
+            PlayerPrefs.DeleteKey($"{saveDataPrefix}ActiveCheckpointScene");
             PlayerPrefs.DeleteKey($"{saveDataPrefix}LastActivatedCheckpoint");
+            PlayerPrefs.DeleteKey($"{saveDataPrefix}LastActivatedCheckpointScene");
             PlayerPrefs.DeleteKey($"{saveDataPrefix}DiscoveredCheckpoints");
             PlayerPrefs.DeleteKey($"{saveDataPrefix}ActivatedCheckpoints");
             PlayerPrefs.DeleteKey($"{saveDataPrefix}UseNearestAsActive");
@@ -535,18 +540,87 @@ public class CheckpointManager : MonoBehaviour
         {
             Debug.LogError($"CheckpointManager: Failed to clear save data - {e.Message}");
         }
-    }
-
-    // Call this after all checkpoints are registered to restore states
+    }// Call this after all checkpoints are registered to restore states
     void FinalizeCheckpointLoading()
     {
         if (enablePersistence && allCheckpoints.Count > 0)
         {
             RestoreSavedCheckpointStates();
+            
+            // If no checkpoint was restored from save data (cross-scene scenario), 
+            // check if we should spawn at the nearest checkpoint or use saved position
+            if (currentActiveCheckpoint == null)
+            {
+                HandleCrossSceneSpawn();
+            }
         }
     }
-
-    // Debug methods
+    
+    void HandleCrossSceneSpawn()
+    {        // Check if PlayerPersistence has a saved position for this scene
+        string currentScene = gameObject.scene.name;
+        string savedPlayerScene = PlayerPrefs.GetString($"{saveDataPrefix}Player_Scene", "");
+        
+        if (savedPlayerScene == currentScene && PlayerPrefs.HasKey($"{saveDataPrefix}Player_SaveTime"))
+        {
+            // PlayerPersistence will handle spawning - just set nearest checkpoint as active
+            if (useNearestAsActive)
+            {
+                var playerObj = GameObject.FindGameObjectWithTag("Player");
+                if (playerObj != null)
+                {
+                    // Wait a frame for PlayerPersistence to position the player, then find nearest checkpoint
+                    StartCoroutine(SetNearestCheckpointAfterPlayerSpawn());
+                }
+            }
+            
+            if (debugMode)
+            {
+                Debug.Log("CheckpointManager: Cross-scene scenario - PlayerPersistence will handle spawn position");
+            }
+        }
+        else
+        {
+            // No saved position for this scene, use starting checkpoint or first available
+            Checkpoint startingCheckpoint = allCheckpoints.Find(cp => cp.IsStartingCheckpoint);
+            if (startingCheckpoint != null)
+            {
+                SetActiveCheckpoint(startingCheckpoint);
+                if (debugMode)
+                {
+                    Debug.Log($"CheckpointManager: Cross-scene scenario - Using starting checkpoint '{startingCheckpoint.CheckpointId}'");
+                }
+            }
+            else if (allCheckpoints.Count > 0)
+            {
+                SetActiveCheckpoint(allCheckpoints[0]);
+                if (debugMode)
+                {
+                    Debug.Log($"CheckpointManager: Cross-scene scenario - Using first checkpoint '{allCheckpoints[0].CheckpointId}'");
+                }
+            }
+        }
+    }
+    
+    System.Collections.IEnumerator SetNearestCheckpointAfterPlayerSpawn()
+    {
+        yield return new WaitForEndOfFrame(); // Wait for PlayerPersistence to position player
+        yield return new WaitForFixedUpdate(); // Wait one more frame
+        
+        var playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null && allCheckpoints.Count > 0)
+        {
+            Checkpoint nearestCheckpoint = FindNearestCheckpoint(playerObj.transform.position);
+            if (nearestCheckpoint != null)
+            {
+                SetActiveCheckpoint(nearestCheckpoint);
+                if (debugMode)
+                {
+                    Debug.Log($"CheckpointManager: Set nearest checkpoint '{nearestCheckpoint.CheckpointId}' as active after cross-scene spawn");
+                }
+            }
+        }
+    }    // Debug methods
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
     public void DebugLogCheckpointInfo()
     {
@@ -554,6 +628,19 @@ public class CheckpointManager : MonoBehaviour
         Debug.Log($"Total Checkpoints: {allCheckpoints.Count}");
         Debug.Log($"Current Active: {(currentActiveCheckpoint != null ? currentActiveCheckpoint.CheckpointId : "None")}");
         Debug.Log($"Last Activated: {(lastActivatedCheckpoint != null ? lastActivatedCheckpoint.CheckpointId : "None")}");
+        Debug.Log($"Current Scene: {gameObject.scene.name}");
+        
+        // Show saved data
+        if (enablePersistence)
+        {
+            string savedActiveId = PlayerPrefs.GetString($"{saveDataPrefix}ActiveCheckpoint", "None");
+            string savedActiveScene = PlayerPrefs.GetString($"{saveDataPrefix}ActiveCheckpointScene", "None");
+            string savedLastId = PlayerPrefs.GetString($"{saveDataPrefix}LastActivatedCheckpoint", "None");
+            string savedLastScene = PlayerPrefs.GetString($"{saveDataPrefix}LastActivatedCheckpointScene", "None");
+            
+            Debug.Log($"Saved Active Checkpoint: {savedActiveId} (Scene: {savedActiveScene})");
+            Debug.Log($"Saved Last Checkpoint: {savedLastId} (Scene: {savedLastScene})");
+        }
         
         for (int i = 0; i < allCheckpoints.Count; i++)
         {
