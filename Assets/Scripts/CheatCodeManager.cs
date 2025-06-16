@@ -5,13 +5,20 @@ public class CheatCodeManager : MonoBehaviour
 {
     // Singleton instance
     public static CheatCodeManager Instance { get; private set; }    // Add more cheats as needed
-    private string[] cheatCodes = { "superspeed", "normalspeed", "reset", "clearsave", "autosolve" };
+    private string[] cheatCodes = { "superspeed", "normalspeed", "reset", "clearsave", "autosolve", "fly" };
     private int maxCheatLength = 15; // Longest cheat code length ("normalspeed" is 15)
     private string inputBuffer = "";// Reference to the player controller
-    private vThirdPersonController playerController;
-    private float normalSprintSpeed = 6f;
+    private vThirdPersonController playerController;    private float normalSprintSpeed = 6f;
     private float cheatSprintSpeed = 60f;
-    private bool superSpeedActive = false;
+    private bool superSpeedActive = false;    // Fly cheat variables
+    [Header("Fly Mode Settings")]
+    [SerializeField] private bool flyModeActive = false;
+    [SerializeField] private float flySpeed = 30f;
+    [SerializeField] private float flyAcceleration = 8f;
+    [SerializeField] private float flyDrag = 5f;
+    [SerializeField] private float flyRotationSpeed = 5f;
+    private float originalGravityScale;
+    private bool originalUseGravity;
 
     // Add references for grounding system
     private AudioManager audioManager;
@@ -53,13 +60,18 @@ public class CheatCodeManager : MonoBehaviour
         {
             playerController = playerObj.GetComponent<vThirdPersonController>();
             playerRigidbody = playerObj.GetComponent<Rigidbody>();
-            
-            // Assign normal sprint speed and store original physics values
+              // Assign normal sprint speed and store original physics values
             if (playerController != null)
             {
                 normalSprintSpeed = playerController.freeSpeed.sprintSpeed;
                 originalExtraGravity = playerController.extraGravity;
                 originalGroundMaxDistance = playerController.groundMaxDistance;
+            }
+            
+            // Store original rigidbody settings for fly mode
+            if (playerRigidbody != null)
+            {
+                originalUseGravity = playerRigidbody.useGravity;
             }
         }        // Find the AudioManager in the scene
         audioManager = FindObjectOfType<AudioManager>();
@@ -95,12 +107,16 @@ public class CheatCodeManager : MonoBehaviour
                     inputBuffer = inputBuffer.Substring(inputBuffer.Length - maxCheatLength);
                 CheckCheatCodes();
             }
-        }
-
-        // Apply additional grounding force when super speed is active
+        }// Apply additional grounding force when super speed is active
         if (superSpeedActive && playerController != null && playerRigidbody != null)
         {
             ApplySuperSpeedGrounding();
+        }
+
+        // Handle fly mode controls
+        if (flyModeActive && playerController != null && playerRigidbody != null)
+        {
+            HandleFlyMode();
         }
     }    void CheckCheatCodes()
     {
@@ -119,10 +135,13 @@ public class CheatCodeManager : MonoBehaviour
         else if (inputBuffer.EndsWith("clearsave"))
         {
             ActivateClearSaveCheat();
-        }
-        else if (inputBuffer.EndsWith("autosolve"))
+        }        else if (inputBuffer.EndsWith("autosolve"))
         {
             ActivateAutoSolveCheat();
+        }        else if (inputBuffer.EndsWith("fly"))
+        {
+            Debug.Log("Fly cheat detected in input buffer!");
+            ToggleFlyMode();
         }
         // Add more cheats here
     }void ActivateSuperSpeed()
@@ -424,8 +443,118 @@ public class CheatCodeManager : MonoBehaviour
                     Vector3 velocity = playerRigidbody.linearVelocity;
                     velocity.y = Mathf.Clamp(velocity.y, -50f, 2f);
                     playerRigidbody.linearVelocity = velocity;
-                }
-            }
+                }            }
+        }
+    }    void ToggleFlyMode()
+    {
+        if (playerController == null || playerRigidbody == null)
+        {
+            Debug.LogWarning("Fly Cheat: Player controller or rigidbody not found!");
+            return;
+        }
+
+        flyModeActive = !flyModeActive;
+
+        if (flyModeActive)
+        {
+            Debug.Log("Fly Mode Activated! Use WASD + Space/Shift to fly!");
+            
+            // Disable Invector's movement and gravity systems
+            playerController.enabled = false;
+              // Disable gravity and ground constraints
+            playerRigidbody.useGravity = false;
+            playerRigidbody.linearDamping = flyDrag; // Add some air resistance for better control
+            
+            // Store current velocity to prevent sudden stops
+            Vector3 currentVelocity = playerRigidbody.linearVelocity;
+            currentVelocity.y = 0f; // Remove any falling velocity
+            playerRigidbody.linearVelocity = currentVelocity;
+        }
+        else
+        {
+            Debug.Log("Fly Mode Deactivated!");
+            
+            // Re-enable Invector controller
+            playerController.enabled = true;
+            
+            // Restore normal physics
+            playerRigidbody.useGravity = originalUseGravity;
+            playerRigidbody.linearDamping = 0f; // Reset drag to default
+        }
+
+        // Play cheat activated sound
+        if (audioManager != null)
+        {
+            audioManager.Play("CheatActivated");
+        }
+    }    void HandleFlyMode()
+    {
+        // Get the main camera for movement direction
+        Camera mainCamera = Camera.main;
+        if (mainCamera == null)
+        {
+            Debug.LogWarning("Fly Mode: Main camera not found!");
+            return;
+        }
+
+        // Get input for movement
+        Vector3 moveDirection = Vector3.zero;
+        
+        // Get camera forward and right vectors (projected on horizontal plane for WASD)
+        Vector3 cameraForward = mainCamera.transform.forward;
+        Vector3 cameraRight = mainCamera.transform.right;
+        
+        // Remove Y component for horizontal movement
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+        
+        // WASD movement relative to camera
+        if (Input.GetKey(KeyCode.W))
+            moveDirection += cameraForward;
+        if (Input.GetKey(KeyCode.S))
+            moveDirection -= cameraForward;
+        if (Input.GetKey(KeyCode.A))
+            moveDirection -= cameraRight;
+        if (Input.GetKey(KeyCode.D))
+            moveDirection += cameraRight;
+            
+        // Up/down movement
+        if (Input.GetKey(KeyCode.Space))
+            moveDirection += Vector3.up;
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            moveDirection -= Vector3.up;
+
+        // Normalize movement direction to prevent faster diagonal movement
+        if (moveDirection.magnitude > 1f)
+            moveDirection.Normalize();
+
+        // Apply fly speed with some smoothing
+        Vector3 targetVelocity = moveDirection * flySpeed;
+          // Use lerp for smoother movement
+        Vector3 currentVelocity = playerRigidbody.linearVelocity;
+        Vector3 newVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.deltaTime * flyAcceleration);
+        
+        playerRigidbody.linearVelocity = newVelocity;
+        
+        // Rotate player to face movement direction (only horizontal rotation)
+        if (moveDirection.magnitude > 0.1f)
+        {
+            Vector3 horizontalMovement = new Vector3(moveDirection.x, 0f, moveDirection.z);
+            if (horizontalMovement.magnitude > 0.1f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(horizontalMovement);                playerController.transform.rotation = Quaternion.Slerp(
+                    playerController.transform.rotation, 
+                    targetRotation, 
+                    Time.deltaTime * flyRotationSpeed
+                );
+            }        }
+        
+        // Optional: Debug output only when first activating fly mode
+        if (Input.anyKey && Time.frameCount % 60 == 0) // Log once per second when keys are pressed
+        {
+            Debug.Log($"Fly Mode Active - Velocity: {newVelocity.magnitude:F1}");
         }
     }
 }
