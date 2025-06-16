@@ -1253,6 +1253,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1
+  useProximityActivation: 0
   activeIndicator: {fileID: 0}
   inactiveIndicator: {fileID: 0}
   activationEffect: {fileID: 0}
@@ -8628,6 +8629,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1
+  useProximityActivation: 0
   activeIndicator: {fileID: 0}
   inactiveIndicator: {fileID: 0}
   activationEffect: {fileID: 0}
@@ -10594,6 +10596,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1
+  useProximityActivation: 0
   activeIndicator: {fileID: 0}
   inactiveIndicator: {fileID: 0}
   activationEffect: {fileID: 0}
@@ -48005,6 +48008,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69f92c6615a4e7940b2236c7b2dcfbb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flyModeActive: 0
+  flySpeed: 100
+  flyAcceleration: 15
+  flyDrag: 5
+  flyRotationSpeed: 5
 --- !u!1001 &1639008875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55891,6 +55899,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1872339751}
   - component: {fileID: 1872339752}
+  - component: {fileID: 1872339753}
   m_Layer: 0
   m_Name: CheckpointManager
   m_TagString: Untagged
@@ -55930,6 +55939,23 @@ MonoBehaviour:
   updateInterval: 1
   enablePersistence: 1
   saveDataPrefix: EchoNomads_
+--- !u!114 &1872339753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872339750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e267db80b8ab8754fae3e9671c0a2341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugInfoKey: 282
+  clearSaveDataKey: 283
+  forceSaveKey: 284
+  testCheckpointKey: 285
+  showNearestKey: 286
 --- !u!4 &1873956961 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a0be5e7b1c3a77041859a0ae9593c139, type: 3}
@@ -63033,7 +63059,7 @@ Transform:
   m_GameObject: {fileID: 2083996803}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70643646, y: 0.030781869, z: 0.030781869, w: 0.70643646}
-  m_LocalPosition: {x: -202.39575, y: 161.68, z: 528.0529}
+  m_LocalPosition: {x: 444.04858, y: 20.562622, z: -41.642487}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -63425,6 +63451,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1
+  useProximityActivation: 0
   activeIndicator: {fileID: 0}
   inactiveIndicator: {fileID: 0}
   activationEffect: {fileID: 0}
