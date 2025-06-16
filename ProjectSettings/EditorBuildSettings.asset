@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Night Desert scene.unity
     guid: 37892d97778849e4f8074b8fbd1e9e7b
+  - enabled: 1
+    path: Assets/Scenes/Temple Path scene.unity
+    guid: ff78b69b34776f44eba8644db86492fd
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
