@@ -1,31 +1,52 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class TentInteraction : MonoBehaviour
 {
     public GameObject hintPanel; 
     public TextMeshProUGUI hintText;
-    public string missionText = "The sound holds the key to finding Hush. Seek out what amplifies the echoes.";
-
-    private bool isPanelActive = false;
+    
+    // Ovde smo formatirali tekst koristeći '\n' za novi red
+    public string missionText = "To move around, use the following keys:\n\n" + 
+                               "W - Move Forward\n" +
+                               "A - Move Left\n" +
+                               "S - Move Backward\n" +
+                               "D - Move Right\n\n" +
+                               "MOUSE - Control the camera\n" +
+                               "RIGHT CLICK - Listen to resonators\n" +
+                               "LEFT CLICK - Attack";
 
     private void Start()
     {
-        hintPanel.SetActive(false); 
+        if (hintPanel != null)
+        {
+            hintPanel.SetActive(false); 
+        }
     }
 
     private void OnMouseDown()
     {
-        isPanelActive = !isPanelActive;
+        ShowHint();
+    }
 
-        if (isPanelActive)
+    private void ShowHint()
+    {
+        if (hintPanel.activeSelf)
         {
-            hintPanel.SetActive(true);
-            hintText.text = missionText;
+            return;
         }
-        else
-        {
-            hintPanel.SetActive(false);
-        }
+
+        hintText.text = missionText;
+        hintPanel.SetActive(true);
+
+        // Tajmer od 4 sekunde ostaje isti
+        StartCoroutine(HideHintAfterDelay(4f));
+    }
+
+    private IEnumerator HideHintAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        hintPanel.SetActive(false);
     }
 }

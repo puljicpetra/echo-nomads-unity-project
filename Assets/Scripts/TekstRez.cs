@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections; // <-- OBAVEZNO dodajte ovu liniju!
 
 public class TekstRez : MonoBehaviour
 {
@@ -7,25 +8,47 @@ public class TekstRez : MonoBehaviour
     public TextMeshProUGUI hintText;
     public string missionText = "The sound holds the key to finding Hush. Seek out what amplifies the echoes.";
 
-    private bool isPanelActive = false;
+    // Nije nam više potrebna 'isPanelActive' promenljiva za ovu logiku
 
     private void Start()
     {
-        hintPanel.SetActive(false); 
+        // Dobra je praksa osigurati da je panel ugašen na početku
+        if (hintPanel != null)
+        {
+            hintPanel.SetActive(false); 
+        }
     }
 
     private void OnMouseDown()
     {
-        isPanelActive = !isPanelActive;
+        // Pozivamo našu novu metodu koja će prikazati panel
+        ShowHint();
+    }
 
-        if (isPanelActive)
+    // Ova metoda prikazuje hint i pokreće tajmer za gašenje
+    private void ShowHint()
+    {
+        // Ako je panel već aktivan, ne radimo ništa (sprečava višestruke klikove)
+        if (hintPanel.activeSelf)
         {
-            hintPanel.SetActive(true);
-            hintText.text = missionText;
+            return;
         }
-        else
-        {
-            hintPanel.SetActive(false);
-        }
+
+        // Podesimo tekst i aktiviramo panel
+        hintText.text = missionText;
+        hintPanel.SetActive(true);
+
+        // Pokrećemo korutinu koja će ugasiti panel nakon 5 sekundi
+        StartCoroutine(HideHintAfterDelay(4f));
+    }
+
+    // Ovo je Korutina - metoda koja čeka određeno vreme
+    private IEnumerator HideHintAfterDelay(float delay)
+    {
+        // Čekaj 'delay' sekundi
+        yield return new WaitForSeconds(delay);
+
+        // Nakon što je čekanje završeno, ugasi panel
+        hintPanel.SetActive(false);
     }
 }

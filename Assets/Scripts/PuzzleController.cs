@@ -2,28 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro; // Ova linija mora biti tu
 
 public class PuzzleController : MonoBehaviour
 {
     [Header("UI Elementi")]
     public GameObject puzzlePanel;
     public GameObject porukaUspjeh;
+    public TextMeshProUGUI instructionText; // Polje za vaš tekst 'igraupute'
 
     [Header("Gumbi - Poredaj ih ovdje redom od 0 do 4")]
     public List<GameObject> gumbi;
 
-    // Točan redoslijed rješenja.
     private readonly List<int> tocanRedoslijed = new List<int> { 0, 1, 2, 3, 4 };
-    
     private List<int> unosIgraca = new List<int>();
-
-    // --- Glavne Unity Funkcije ---
 
     void Start()
     {
         PromijesajGumbe();
+        // Na početku, ugasimo sve
         puzzlePanel.SetActive(false);
         porukaUspjeh.SetActive(false);
+        if (instructionText != null)
+        {
+            instructionText.gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -35,23 +38,22 @@ public class PuzzleController : MonoBehaviour
                 ZatvoriSve();
             }
         }
-    }
 
-    // --- Logika ---
-
-    // NOVO: OnMouseDown sada radi kao prekidač
-    private void OnMouseDown()
-    {
-        // Ako je puzzle panel aktivan...
-        if (puzzlePanel.activeInHierarchy)
+        // Proverava tipku 'X' za zatvaranje
+        if (puzzlePanel.activeInHierarchy && Input.GetKeyDown(KeyCode.X))
         {
-            // ...zatvori ga.
             ZatvoriSve();
         }
-        // Inače (ako nije aktivan)...
+    }
+    
+    private void OnMouseDown()
+    {
+        if (puzzlePanel.activeInHierarchy)
+        {
+            ZatvoriSve();
+        }
         else
         {
-            // ...otvori ga (ali samo ako ni poruka nije aktivna).
             if (!porukaUspjeh.activeInHierarchy)
             {
                 OtvoriPuzzle();
@@ -76,41 +78,53 @@ public class PuzzleController : MonoBehaviour
             unosIgraca.Clear();
         }
     }
-    
+
+    // --- KLJUČNA IZMENA JE OVDE ---
     public void ZatvoriSve()
     {
         puzzlePanel.SetActive(false);
         porukaUspjeh.SetActive(false);
+        // Kada se sve zatvara, gasimo i tekst sa uputstvima
+        if (instructionText != null)
+        {
+            instructionText.gameObject.SetActive(false);
+        }
         unosIgraca.Clear();
     }
 
-    // --- Pomoćne Funkcije ---
-
+    // --- I OVDE ---
     private void OtvoriPuzzle()
     {
         puzzlePanel.SetActive(true);
         porukaUspjeh.SetActive(false);
+        
+        if (instructionText != null) 
+        {
+            // Prvo upalimo tekstualni objekat
+            instructionText.gameObject.SetActive(true);
+            // Onda mu postavimo tekst
+            instructionText.text = "Match the resonator's color sequence.\n\nPress 'X' to close.";
+        }
+        
         unosIgraca.Clear();
     }
 
-    // NOVO: RijesenPuzzle sada pokreće korutinu
     private void RijesenPuzzle()
     {
         puzzlePanel.SetActive(false);
         unosIgraca.Clear();
-        StartCoroutine(PrikaziPorukuNaVrijeme()); // Pokreni korutinu umjesto da direktno pališ poruku
+        // Kada se reši, gasimo i tekst sa uputstvima
+        if (instructionText != null)
+        {
+            instructionText.gameObject.SetActive(false);
+        }
+        StartCoroutine(PrikaziPorukuNaVrijeme());
     }
 
-    // NOVO: Korutina koja prikazuje poruku na 4 sekunde
     private IEnumerator PrikaziPorukuNaVrijeme()
     {
-        // 1. Pokaži poruku
         porukaUspjeh.SetActive(true);
-
-        // 2. Čekaj 4 sekunde
         yield return new WaitForSeconds(4f);
-
-        // 3. Sakrij poruku (samo ako je igrač u međuvremenu nije ručno zatvorio)
         if (porukaUspjeh.activeInHierarchy)
         {
             porukaUspjeh.SetActive(false);
