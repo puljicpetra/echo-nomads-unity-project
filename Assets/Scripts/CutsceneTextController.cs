@@ -71,8 +71,14 @@ public class CutsceneTextController : MonoBehaviour
             textDisplay.text = "";
         }
 
-        Debug.Log("Intro scene finished. Loading next level...");
+
+        Debug.Log("Intro scene finished. Displaying loading text...");
+
+        textDisplay.text = "Loading...";
+
+        yield return null;
 
         SceneManager.LoadScene("Desert scene");
+
     }
 }
