@@ -1,10 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CutsceneTextController : MonoBehaviour
 {
     public TextMeshProUGUI textDisplay;
+    public AudioSource audioSource;
+    public AudioClip[] voiceoverClips;
 
     private string[] sentences = new string[]
     {
@@ -15,17 +18,23 @@ public class CutsceneTextController : MonoBehaviour
         "Make the world sing again."
     };
 
-    public float displayTime = 4.0f;
-    public float delayBetweenSentences = 1.5f;
-
     public float typingSpeed = 0.05f;
 
     void Start()
     {
         if (textDisplay == null)
         {
-            Debug.LogError("Text Display nije postavljen u Inspector prozoru!");
+            Debug.LogError("Text Display (TextMeshProUGUI) is not assigned in the Inspector!");
             return;
+        }
+        if (audioSource == null)
+        {
+            Debug.LogError("Audio Source is not assigned in the Inspector!");
+            return;
+        }
+        if (voiceoverClips.Length != sentences.Length)
+        {
+            Debug.LogWarning("WARNING: The number of sentences (" + sentences.Length + ") and the number of audio clips (" + voiceoverClips.Length + ") do not match!");
         }
 
         StartCoroutine(ShowSentences());
@@ -35,23 +44,35 @@ public class CutsceneTextController : MonoBehaviour
     {
         textDisplay.text = "";
 
-        foreach (string sentence in sentences)
+        for (int i = 0; i < sentences.Length; i++)
         {
-            textDisplay.text = sentence;
-            textDisplay.maxVisibleCharacters = 0;
-
-            while (textDisplay.maxVisibleCharacters < sentence.Length)
+            string sentence = sentences[i];
+            if (i < voiceoverClips.Length)
             {
-                textDisplay.maxVisibleCharacters++;
-                yield return new WaitForSeconds(typingSpeed);
+                AudioClip clip = voiceoverClips[i];
+                if (clip != null) { audioSource.PlayOneShot(clip); }
+
+                textDisplay.text = sentence;
+                textDisplay.maxVisibleCharacters = 0;
+                while (textDisplay.maxVisibleCharacters < sentence.Length)
+                {
+                    textDisplay.maxVisibleCharacters++;
+                    yield return new WaitForSeconds(typingSpeed);
+                }
+
+                if (clip != null)
+                {
+                    float waitTime = clip.length - (sentence.Length * typingSpeed) + 1.0f;
+                    if (waitTime > 0) { yield return new WaitForSeconds(waitTime); }
+                    else { yield return new WaitForSeconds(1.0f); }
+                }
+                else { yield return new WaitForSeconds(3.0f); }
             }
-
-            yield return new WaitForSeconds(displayTime);
-
             textDisplay.text = "";
-            yield return new WaitForSeconds(delayBetweenSentences);
         }
 
-        Debug.Log("End.");
+        Debug.Log("Intro scene finished. Loading next level...");
+
+        SceneManager.LoadScene("Desert scene");
     }
 }
