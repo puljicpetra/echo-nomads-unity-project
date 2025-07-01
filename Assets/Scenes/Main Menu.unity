@@ -1172,6 +1172,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34790ac0c198eb34480ecb2151111520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeDuration: 3
+  mainAudioMixer: {fileID: 24100000, guid: 59b8381d85b5506458dcda1d1510b7d1, type: 2}
+  masterVolumeParameter: BackgroundVolume
+  audioFadeDuration: 3
+  minVolumeDB: -80
+  continuingGameText: {fileID: 0}
 --- !u!1 &1869865145
 GameObject:
   m_ObjectHideFlags: 0

@@ -47073,8 +47073,8 @@ MonoBehaviour:
   targetSceneIndex: -1
   useSceneIndex: 0
   transitionDelay: 0
-  showLoadingScreen: 0
-  loadingScreenScene: LoadingScreen
+  showLoadingScreen: 1
+  loadingScreenScene: Loading scene
   transitionSoundName: SceneTransition
   playTransitionSound: 0
   requirePlayerGrounded: 0
@@ -63059,7 +63059,7 @@ Transform:
   m_GameObject: {fileID: 2083996803}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70643646, y: 0.030781869, z: 0.030781869, w: 0.70643646}
-  m_LocalPosition: {x: 48.13739, y: -14.223999, z: -269.91217}
+  m_LocalPosition: {x: 48.765, y: -14.196, z: -273.855}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
