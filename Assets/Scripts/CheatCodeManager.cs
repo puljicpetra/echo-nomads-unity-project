@@ -73,7 +73,9 @@ public class CheatCodeManager : MonoBehaviour
             {
                 originalUseGravity = playerRigidbody.useGravity;
             }
-        }        // Find the AudioManager in the scene
+        }
+        
+        // Find the AudioManager in the scene
         audioManager = FindObjectOfType<AudioManager>();
         
         // Enhanced AudioManager debugging
@@ -82,19 +84,22 @@ public class CheatCodeManager : MonoBehaviour
             Debug.Log("CheatCodeManager: AudioManager found successfully");
             if (AudioManager.Instance == null)
             {
-                Debug.LogWarning("CheatCodeManager: AudioManager found but Instance is null!");
+                Debug.LogWarning("CheatCodeManager: AudioManager.Instance is null but AudioManager component found");
             }
         }
         else
         {
-            Debug.LogWarning("CheatCodeManager: AudioManager not found in scene!");
-            // Try to find it by name as fallback
-            var audioManagerObj = GameObject.Find("AudioManager");
-            if (audioManagerObj != null)
-            {
-                audioManager = audioManagerObj.GetComponent<AudioManager>();
-                Debug.Log($"CheatCodeManager: Found AudioManager by name, component: {audioManager != null}");
-            }
+            Debug.LogWarning("CheatCodeManager: AudioManager not found in scene");
+        }
+        
+        // Ensure cursor is properly configured for gameplay
+        if (GameInitializer.Instance != null)
+        {
+            GameInitializer.Instance.EnsureGameplayCursor();
+        }
+        else if (CursorManager.Instance != null)
+        {
+            CursorManager.Instance.SetGameplayCursorState();
         }
     }void Update()
     {
@@ -251,8 +256,13 @@ public class CheatCodeManager : MonoBehaviour
 
     void ActivateClearSaveCheat()
     {
-        Debug.Log("Clear Save Cheat Activated - Clearing all save data!");
+        Debug.Log("Clear Save Cheat Activated - Clearing ALL PlayerPrefs and save data!");
         
+        // Clear ALL PlayerPrefs (this will delete everything stored in Unity's PlayerPrefs)
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save(); // Ensure changes are written to disk immediately
+        
+        // Also clear component-specific save data for completeness
         // Clear checkpoint save data
         if (CheckpointManager.Instance != null)
         {
@@ -286,7 +296,7 @@ public class CheatCodeManager : MonoBehaviour
             }
         }
         
-        Debug.Log("Clear Save Cheat: All save data cleared! Game will restart fresh on next load.");
+        Debug.Log("Clear Save Cheat: ALL PlayerPrefs and save data cleared! Game will restart completely fresh on next load.");
         
         // Play cheat activated sound
         if (audioManager != null)

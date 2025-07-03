@@ -38099,7 +38099,7 @@ MonoBehaviour:
   disablePlayerControlsDuringTransition: 1
   saveProgressBeforeTransition: 1
   transitionEffect: {fileID: 0}
-  fadeScreen: 1
+  fadeScreen: 0
   fadeTime: 1
   debugMode: 0
 --- !u!1 &1511043010 stripped
@@ -52296,6 +52296,7 @@ GameObject:
   - component: {fileID: 2083996812}
   - component: {fileID: 2083996813}
   - component: {fileID: 2083996814}
+  - component: {fileID: 2083996815}
   m_Layer: 0
   m_Name: Main character
   m_TagString: Player
@@ -52455,7 +52456,7 @@ Transform:
   m_GameObject: {fileID: 2083996803}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7318568, y: -0, z: -0, w: 0.68145853}
-  m_LocalPosition: {x: 400.1098, y: -53.626526, z: 583.21075}
+  m_LocalPosition: {x: -0.6806946, y: -7.917, z: 1.5805283}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -52578,6 +52579,21 @@ MonoBehaviour:
   saveOnCheckpointActivation: 1
   playerController: {fileID: 0}
   playerTransform: {fileID: 0}
+--- !u!114 &2083996815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083996803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97bd397879b933744a3e7b5d94bd3957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setupOnAwake: 1
+  preferredCursorMode: 1
+  showCursorDuringPlay: 0
 --- !u!1 &2086376671 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 110776, guid: 63ff2386a1262d64f99de6e3e1183874, type: 3}

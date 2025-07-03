@@ -1,10 +1,12 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEditor.Compilation;
+#endif
 
 // if you want to delete this file delete all Gentleland "Utils" folder 
 // you can then delete GentlelandSettings folder too
+#if UNITY_EDITOR
 namespace Gentleland.Utils.SteampunkUI
 {
     [InitializeOnLoad]
@@ -29,3 +31,4 @@ namespace Gentleland.Utils.SteampunkUI
         }
     }
 }
+#endif

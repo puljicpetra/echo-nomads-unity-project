@@ -38741,6 +38741,7 @@ GameObject:
   - component: {fileID: 2083996811}
   - component: {fileID: 2083996812}
   - component: {fileID: 2083996813}
+  - component: {fileID: 2083996814}
   m_Layer: 0
   m_Name: Main character
   m_TagString: Player
@@ -39006,6 +39007,21 @@ MonoBehaviour:
   focusVolumeDB: -20
   defaultVolumeDB: 0
   volumeTransitionSpeed: 10
+--- !u!114 &2083996814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083996803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97bd397879b933744a3e7b5d94bd3957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setupOnAwake: 1
+  preferredCursorMode: 1
+  showCursorDuringPlay: 0
 --- !u!4 &2084597959 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: b03a156a678c5aa42b3abd35f650bb53, type: 3}

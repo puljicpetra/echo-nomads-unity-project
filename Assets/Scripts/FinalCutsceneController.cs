@@ -40,6 +40,18 @@ public class FinalCutsceneController : MonoBehaviour
         if (finalDisplayText != null) finalDisplayText.gameObject.SetActive(false);
         if (studioLogoText != null) studioLogoText.gameObject.SetActive(false);
 
+        // Set cursor to free state for cutscene (player might want to skip or interact)
+        if (CursorManager.Instance != null)
+        {
+            CursorManager.Instance.SetFreeCursorState();
+        }
+        else
+        {
+            // Fallback if no CursorManager exists
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
         if (debugMode)
         {
             Debug.Log($"FinalCutsceneController: fadePanel assigned: {fadePanel != null}");
