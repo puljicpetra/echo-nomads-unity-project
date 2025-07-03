@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 
 public class SceneTransitionTrigger : MonoBehaviour
@@ -213,14 +214,76 @@ public class SceneTransitionTrigger : MonoBehaviour
     
     IEnumerator FadeScreen()
     {
-        // This is a simple fade implementation
-        // You might want to replace this with your own fade system
         if (debugMode)
         {
-            Debug.Log($"SceneTransitionTrigger '{name}': Fading screen for {fadeTime} seconds");
+            Debug.Log($"SceneTransitionTrigger '{name}': Fading screen to black for {fadeTime} seconds");
         }
         
-        yield return new WaitForSeconds(fadeTime);
+        // Use SceneTransitionManager if available for better fade effects
+        if (SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.FadeOutManual();
+            yield return new WaitForSeconds(fadeTime); // Wait for the fade duration
+        }
+        else
+        {
+            // Fallback: Create a simple fade overlay
+            yield return StartCoroutine(CreateSimpleFadeToBlack());
+        }
+    }
+    
+    private IEnumerator CreateSimpleFadeToBlack()
+    {
+        // Create a canvas for the fade overlay
+        GameObject canvasGO = new GameObject("FadeCanvas");
+        Canvas canvas = canvasGO.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = 9999; // Ensure it renders on top of everything
+        
+        CanvasScaler canvasScaler = canvasGO.AddComponent<CanvasScaler>();
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = new Vector2(1920, 1080);
+        
+        canvasGO.AddComponent<GraphicRaycaster>();
+        
+        // Create the fade overlay image
+        GameObject fadeOverlay = new GameObject("FadeOverlay");
+        fadeOverlay.transform.SetParent(canvasGO.transform, false);
+        
+        Image fadeImage = fadeOverlay.AddComponent<Image>();
+        fadeImage.color = new Color(0, 0, 0, 0); // Start transparent
+        
+        // Make it cover the entire screen
+        RectTransform rectTransform = fadeOverlay.GetComponent<RectTransform>();
+        rectTransform.anchorMin = Vector2.zero;
+        rectTransform.anchorMax = Vector2.one;
+        rectTransform.sizeDelta = Vector2.zero;
+        rectTransform.offsetMin = Vector2.zero;
+        rectTransform.offsetMax = Vector2.zero;
+        
+        // Make sure the canvas persists through scene changes
+        DontDestroyOnLoad(canvasGO);
+        
+        // Fade to black
+        float elapsedTime = 0f;
+        Color color = fadeImage.color;
+        
+        while (elapsedTime < fadeTime)
+        {
+            elapsedTime += Time.deltaTime;
+            color.a = Mathf.Clamp01(elapsedTime / fadeTime);
+            fadeImage.color = color;
+            yield return null;
+        }
+        
+        // Ensure it's fully black
+        color.a = 1f;
+        fadeImage.color = color;
+        
+        if (debugMode)
+        {
+            Debug.Log($"SceneTransitionTrigger '{name}': Fade to black completed");
+        }
     }
     
     IEnumerator LoadSceneDirectly()

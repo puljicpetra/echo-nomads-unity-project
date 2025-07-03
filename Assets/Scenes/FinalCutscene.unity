@@ -757,7 +757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadePanel: {fileID: 345878336}
   finalDisplayText: {fileID: 1132649256}
-  fadeToBlackDuration: 3
+  fadeToBlackDuration: 0
   pauseInBlack: 2
   typingSpeed: 0.1
   delayBetweenLines: 3
@@ -769,6 +769,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 80736e16e15915d439c99267c397e45e, type: 3}
   studioLogoText: {fileID: 2105843992}
   logoFadeInDuration: 2
+  debugMode: 1
 --- !u!4 &1294741962
 Transform:
   m_ObjectHideFlags: 0
