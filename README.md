@@ -20,6 +20,11 @@ Kao mladi pripadnik nomadskog plemena koje koristi rezonanciju za interakciju s 
 - **Istraživanje svijeta:** Putujte kroz tri jedinstvena okruženja: od prostrane dnevne pustinje, preko misterioznih noćnih klanaca, do zagonetnog drevnog hrama.
 - **Jedinstvena atmosfera:** Minimalističko sučelje (bez HUD-a) za potpuno uranjanje u svijet.
 
+### 📜 Koncept i Dizajn Igre
+Ključni dokumenti koji su definirali viziju i mehanike igre nalaze se u `docs` mapi:
+- **[Game Design Document (GDD)](docs/Game_Design_Document.pdf)** - Detaljan opis koncepta, priče, mehanika i dizajna razina.
+- **[Vizualni Koncept (Poster)](docs/Visual_Concept_Poster.pdf)** - Vizualni prikaz koncepta igre na jednoj stranici.
+
 ### 🎮 Gameplay Prikaz
 📺 [YouTube Gameplay Video](https://youtu.be/RA-mUEzCPck?si=kk_472JH-pWirzME)
 
@@ -80,6 +85,11 @@ As a young member of a nomadic tribe that uses resonance to interact with the en
 - **Mystical Story:** Uncover the fate of the Echo Nomads and the secret of "The Hush," the sound-devouring entities.
 - **World Exploration:** Journey through three unique environments: from a vast daytime desert, through mysterious night-time gorges, to an enigmatic ancient temple.
 - **Unique Atmosphere:** A minimalist interface (no HUD) for complete immersion into the world.
+
+### 📜 Game Concept & Design
+Key documents defining the game's vision and mechanics can be found in the `docs` folder:
+- **[Game Design Document (GDD)](docs/Game_Design_Document.pdf)** - A detailed description of the concept, story, mechanics, and level design.
+- **[Visual Concept (Poster)](docs/Visual_Concept_Poster.pdf)** - A one-page visual poster of the game concept.
 
 ### 🎮 Gameplay Showcase
 📺 [YouTube Gameplay Video](https://youtu.be/RA-mUEzCPck?si=kk_472JH-pWirzME)
