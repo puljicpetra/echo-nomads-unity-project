@@ -20,6 +20,9 @@ Kao mladi pripadnik nomadskog plemena koje koristi rezonanciju za interakciju s 
 - **Istraživanje svijeta:** Putujte kroz tri jedinstvena okruženja: od prostrane dnevne pustinje, preko misterioznih noćnih klanaca, do zagonetnog drevnog hrama.
 - **Jedinstvena atmosfera:** Minimalističko sučelje (bez HUD-a) za potpuno uranjanje u svijet.
 
+### 🎮 Gameplay Prikaz
+📺 [YouTube Gameplay Video]([https://youtu.be/FXybIxt0gk4](https://youtu.be/RA-mUEzCPck?si=kk_472JH-pWirzME))
+
 ### Akademski Kontekst
 - **Fakultet:** Fakultet informatike u Puli
 - **Kolegij:** Dizajn i programiranje računalnih igara
@@ -77,6 +80,9 @@ As a young member of a nomadic tribe that uses resonance to interact with the en
 - **Mystical Story:** Uncover the fate of the Echo Nomads and the secret of "The Hush," the sound-devouring entities.
 - **World Exploration:** Journey through three unique environments: from a vast daytime desert, through mysterious night-time gorges, to an enigmatic ancient temple.
 - **Unique Atmosphere:** A minimalist interface (no HUD) for complete immersion into the world.
+
+### 🎮 Gameplay Showcase
+📺 [YouTube Gameplay Video]([https://youtu.be/FXybIxt0gk4](https://youtu.be/RA-mUEzCPck?si=kk_472JH-pWirzME))
 
 ### Academic Context
 - **Faculty:** Faculty of Informatics in Pula
