@@ -21,7 +21,7 @@ Kao mladi pripadnik nomadskog plemena koje koristi rezonanciju za interakciju s 
 - **Jedinstvena atmosfera:** Minimalističko sučelje (bez HUD-a) za potpuno uranjanje u svijet.
 
 ### 🎮 Gameplay Prikaz
-📺 [YouTube Gameplay Video](https://youtu.be/FXybIxt0gk4)
+📺 [YouTube Gameplay Video](https://youtu.be/RA-mUEzCPck?si=kk_472JH-pWirzME)
 
 ### Akademski Kontekst
 - **Fakultet:** Fakultet informatike u Puli
@@ -82,7 +82,7 @@ As a young member of a nomadic tribe that uses resonance to interact with the en
 - **Unique Atmosphere:** A minimalist interface (no HUD) for complete immersion into the world.
 
 ### 🎮 Gameplay Showcase
-📺 [YouTube Gameplay Video](https://youtu.be/FXybIxt0gk4)
+📺 [YouTube Gameplay Video](https://youtu.be/RA-mUEzCPck?si=kk_472JH-pWirzME)
 
 ### Academic Context
 - **Faculty:** Faculty of Informatics in Pula
